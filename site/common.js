@@ -145,7 +145,7 @@ export function earlyBanner(summary, forVote = false) {
   return `<div class="box warn"><strong>Le vote est dans ${days} jours. À ce stade, ces chiffres sont encore très incertains et se regardent surtout par curiosité.</strong> ` +
     `À cette distance du vote, les sondages se sont trompés en moyenne de ${fmt1(now)} points par candidat ` +
     `et l'écart a parfois dépassé 10 points, à la hausse comme à la baisse, à gauche, au centre comme à droite. ` +
-    `Les prévisions deviennent vraiment utiles dans les deux dernières semaines, où l'erreur tombe à environ ${fmt1(late)} point. ` +
+    `Les sondages se précisent à mesure que la campagne avance : lors des présidentielles passées, l'écart n'était plus que de ${fmt1(late)} point environ dans les deux dernières semaines. ` +
     (forVote ? `<strong>Pour décider de votre vote, revenez à partir du ${frDate(comeBack)}.</strong> D'ici là, l'outil sert à comprendre le mécanisme, pas à choisir.`
              : `Revenez à partir du ${frDate(comeBack)}.`) + `</div>`;
 }
@@ -159,9 +159,12 @@ export function homeDisclaimer(summary) {
   const mae = summary.mae_by_horizon;
   const horizons = Object.keys(mae).map(Number).sort((a, b) => a - b);
   const now = mae[horizons.filter((h) => h <= days).at(-1) ?? horizons.at(-1)];
-  const comeBack = new Date(Date.parse(summary.r1_date) - RELIABLE_DAYS * 864e5).toISOString().slice(0, 10);
+  const lateH = horizons.filter((h) => h <= RELIABLE_DAYS);
+  const late = lateH.reduce((t, h) => t + mae[h], 0) / lateH.length;
+  const fmt = (x, d) => x.toLocaleString("fr-FR", { maximumFractionDigits: d });
   return `<div class="box warn small"><strong>Le vote est dans ${days} jours : ces chiffres se regardent surtout par curiosité.</strong> ` +
     `Ce ne sont pas des sondages, mais des chances calculées à partir des sondages et de leurs erreurs passées. ` +
-    `À cette distance du vote, ces erreurs atteignent en moyenne ${now.toLocaleString("fr-FR", { maximumFractionDigits: 0 })} points par candidat. ` +
-    `Revenez à partir du ${frDate(comeBack)} pour des prévisions fiables.</div>`;
+    `À cette distance du vote, les sondages se sont trompés en moyenne de ${fmt(now, 0)} points par candidat. ` +
+    `Ils se précisent à mesure que la campagne avance : lors des présidentielles passées, l'écart n'était plus que de ${fmt(late, 1)} point environ ` +
+    `dans les deux dernières semaines. Suivez l'évolution ici, jour après jour.</div>`;
 }
