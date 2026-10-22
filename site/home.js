@@ -4,6 +4,7 @@ const NEAR_CERTAIN = 0.85; // above this P(qualify), the headline is about who w
 const MIN_QUALIFY_ROW = 0.01; // duels table: both candidates must qualify at least this often
 const UNRELIABLE_QUALIFY = 0.05;
 const HISTORY_MAX = 5; // lines in the history chart: today's top candidates by chance of winning
+const MIN_POLLSTERS_SOLID = 3; // fewer pollsters behind a history point: drawn dashed
 
 const summary = await loadSummary();
 let scen = summary.scenarios[getScenario()] ? getScenario() : "lepen";
@@ -128,9 +129,9 @@ function sharesChart(cands) {
 
 function historyChart(cands) {
   const el = document.getElementById("history");
-  if (summary.scenarios[scen].kind === "lineup") { el.innerHTML = "<p class='muted small'>L'historique est disponible pour la liste de référence.</p>"; return; }
   const rows = history.filter((r) => r.scenario === scen);
-  const dates = [...new Set(rows.map((r) => r.date))].sort();
+  // the x axis spans the reference history, so a line-up tested only recently starts later instead of stretching
+  const dates = [...new Set(history.filter((r) => r.scenario === "lepen").map((r) => r.date))].sort();
   if (dates.length < 2) { el.innerHTML = "<p class='muted small'>L'historique s'affichera après quelques jours de mises à jour.</p>"; return; }
   // the HISTORY_MAX candidates with the best chance of winning today
   const ids = [...cands].sort((a, b) => b.p_win - a.p_win).slice(0, HISTORY_MAX).map((c) => c.id);
@@ -147,9 +148,21 @@ function historyChart(cands) {
   root.append(svg("text", { x: L, y: H - 6 }, frDate(dates[0])));
   root.append(svg("text", { x: W - R, y: H - 6, "text-anchor": "end" }, frDate(dates.at(-1))));
   const labels = [];
+  const thin = (r) => r.n_pollsters > 0 && r.n_pollsters < MIN_POLLSTERS_SOLID;
+  let anyThin = false, anyGap = false;
   ids.forEach((id, k) => {
     const pts = rows.filter((r) => r.candidate === id).sort((a, b) => a.date.localeCompare(b.date));
-    root.append(svg("polyline", { points: pts.map((r) => `${x(r.date)},${y(r.p_win)}`).join(" "), fill: "none", stroke: colors[k], "stroke-width": 2 }));
+    if (!pts.length) return;
+    // one segment per pair of consecutive history dates: dashed if either end rests on < 3 pollsters,
+    // absent if a date is missing (the line-up was not tested then)
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1], b = pts[i];
+      if (dates.indexOf(b.date) - dates.indexOf(a.date) > 1) { anyGap = true; continue; }
+      const dashed = thin(a) || thin(b);
+      anyThin ||= dashed;
+      root.append(svg("line", { x1: x(a.date), y1: y(a.p_win), x2: x(b.date), y2: y(b.p_win), stroke: colors[k], "stroke-width": 2,
+        "stroke-linecap": "round", ...(dashed ? { "stroke-dasharray": "4 5" } : {}) }));
+    }
     const last = pts.at(-1);
     labels.push({ y: y(last.p_win) + 4, text: `${nameOf(summary, scen, id)} ${pctShort(last.p_win)}`, color: colors[k] });
   });
@@ -162,7 +175,9 @@ function historyChart(cands) {
     root.append(svg("rect", { x: W - R + 8, y: l.y - 9, width: 10, height: 10, rx: 2, fill: l.color }));
     root.append(svg("text", { x: W - R + 22, y: l.y, class: "label" }, l.text));
   }
-  el.innerHTML = `<p class='small muted'>Chance de remporter l'élection, sur 100, pour les ${HISTORY_MAX} candidats qui ont aujourd'hui les meilleures chances.</p>`;
+  el.innerHTML = `<p class='small muted'>Chance de remporter l'élection, sur 100, pour les ${HISTORY_MAX} candidats qui ont aujourd'hui les meilleures chances.` +
+    (anyThin ? ` En pointillés, les dates où moins de ${MIN_POLLSTERS_SOLID} instituts avaient testé cette liste : le chiffre repose alors sur peu de sondages.` : "") +
+    (anyGap ? " Une interruption signifie qu'aucun institut n'avait testé cette liste à cette date." : "") + `</p>`;
   el.append(root);
 }
 

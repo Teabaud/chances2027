@@ -199,7 +199,22 @@ def lineup_label(lineup: list[str], reference: list[str], names: dict[str, str])
     return ", ".join(parts)
 
 
-def scenario_inputs(polls: pd.DataFrame, lineups: dict, asof: pd.Timestamp, names: dict[str, str]) -> dict:
+def lineup_key(lineup: list[str], reference: list[str]) -> str:
+    """Stable id of a line-up relative to the reference, e.g. 'lu-sans-attal' (same id every day)."""
+    out = sorted(f"sans-{c}" for c in reference if c not in lineup)
+    add = sorted(f"avec-{c}" for c in lineup if c not in reference)
+    return "lu-" + "-".join(add + out)
+
+
+def scenario_inputs(
+    polls: pd.DataFrame,
+    lineups: dict,
+    asof: pd.Timestamp,
+    names: dict[str, str],
+    only_lineups: list[list[str]] | None = None,
+) -> dict:
+    """All scenarios for one date. With `only_lineups` (history backfill), those line-ups are computed from
+    however many pollsters tested them (≥ 1) instead of the tested line-ups of the day (≥ MIN_LINEUP_POLLSTERS)."""
     d1 = (R1_DATE - asof).days
     r1, r2 = polls[polls["round"] == 1], polls[polls["round"] == 2]
     avg = r1_average(r1, lineups["lepen"]["candidates"], asof, d1)
@@ -224,11 +239,15 @@ def scenario_inputs(polls: pd.DataFrame, lineups: dict, asof: pd.Timestamp, name
         "substitute": {"le-pen": "bardella"},
         "shift": {"bardella": bardella_r2_delta(r2)},
     }
-    for n, lineup in enumerate(tested_lineups(r1, lineups["lepen"]["candidates"], asof)):
+    reference = lineups["lepen"]["candidates"]
+    candidates = only_lineups if only_lineups is not None else tested_lineups(r1, reference, asof)
+    min_pollsters = 1 if only_lineups is not None else MIN_LINEUP_POLLSTERS
+    for lineup in candidates:
         alt = r1_average(r1, lineup, asof, d1)
-        if alt.polls.pollster.nunique() < MIN_LINEUP_POLLSTERS:
+        if alt.polls.empty or alt.polls.pollster.nunique() < min_pollsters:
             continue
-        out[f"lineup{n + 1}"] = {
+        out[lineup_key(lineup, reference)] = {
+            "lineup": lineup,
             "avg": alt,
             "extra_sd": pd.Series(0.0, index=alt.shares.index),
             "substitute": {},
@@ -363,7 +382,7 @@ def polls_table(used: pd.DataFrame) -> list[dict]:
 def main(asof: pd.Timestamp | None = None) -> None:
     asof = asof or pd.Timestamp(date.today())
     OUT.mkdir(parents=True, exist_ok=True)
-    for stale in OUT.glob("r?_lineup*.bin"):  # line-ups change daily
+    for stale in [*OUT.glob("r?_lineup*.bin"), *OUT.glob("r?_lu-*.bin")]:  # the offered line-ups change
         stale.unlink()
     polls = pd.read_csv(POLLS)
     lineups = tomllib.loads(LINEUPS.read_text())
@@ -394,7 +413,8 @@ def main(asof: pd.Timestamp | None = None) -> None:
         sim = simulate_scenario(sc, inputs["polled_r2"], p1, p2, rn_bias, d2, rng)
         summary["scenarios"][scen] = {
             "label": sc.get("label") or lineups[scen]["label"],
-            "kind": "lineup" if scen.startswith("lineup") else "rn",
+            "kind": "lineup" if scen.startswith("lu-") else "rn",
+            "lineup": sc.get("lineup"),
             "n_pollsters": int(sc["avg"].polls.pollster.nunique()),
             "d_eff": sc["avg"].d_eff,
             **summarise(sim, sc["avg"], names),
@@ -427,17 +447,55 @@ def append_history(summary: dict) -> None:
             "poll_avg": round(c["poll_avg"], 2),
             "p_qualify": round(c["p_qualify"], 4),
             "p_win": round(c["p_win"], 4),
+            "n_pollsters": s["n_pollsters"],
         }
         for scen, s in summary["scenarios"].items()
-        if s["kind"] == "rn"  # line-up variants are re-numbered daily: no time series
         for c in s["candidates"]
     ]
     new = pd.DataFrame(rows)
     if path.exists():
         old = pd.read_csv(path)
-        new = pd.concat([old[old.date != summary["asof"]], new])
+        done = set(zip(new.date, new.scenario))
+        old = old[[(d, k) not in done for d, k in zip(old.date, old.scenario)]]
+        new = pd.concat([old, new]).sort_values(["date", "scenario"])
     new.to_csv(path, index=False)
 
 
+def backfill_history() -> None:
+    """Give every line-up offered today a past: compute it on each past history date where it is missing,
+    from however many pollsters tested it then (the site draws < 3 pollsters as a dashed line)."""
+    summary = json.loads((OUT / "summary.json").read_text())
+    offered = {k: s["lineup"] for k, s in summary["scenarios"].items() if s["kind"] == "lineup"}
+    hist = pd.read_csv(OUT / "history.csv")
+    dates = sorted(set(hist[hist.scenario == "lepen"].date) - {summary["asof"]})
+    have = set(zip(hist.date, hist.scenario))
+    polls = pd.read_csv(POLLS)
+    lineups = tomllib.loads(LINEUPS.read_text())
+    names = polls.dropna(subset=["name"]).drop_duplicates("candidate").set_index("candidate").name.to_dict()
+    p1, p2, rn_bias = load_params()
+    for d in dates:
+        todo = [lu for k, lu in offered.items() if (d, k) not in have]
+        if not todo:
+            continue
+        asof = pd.Timestamp(d)
+        inputs = scenario_inputs(polls, lineups, asof, names, only_lineups=todo)
+        rng = np.random.default_rng(int(asof.strftime("%Y%m%d")))
+        part = {"asof": d, "scenarios": {}}
+        for k in [k for k in inputs if k.startswith("lu-")]:
+            sim = simulate_scenario(
+                inputs[k], inputs["polled_r2"], p1, p2, rn_bias, (R2_DATE - asof).days, rng
+            )
+            part["scenarios"][k] = {
+                "n_pollsters": int(inputs[k]["avg"].polls.pollster.nunique()),
+                **summarise(sim, inputs[k]["avg"], names),
+            }
+        if part["scenarios"]:
+            append_history(part)
+            print(d, {k: v["n_pollsters"] for k, v in part["scenarios"].items()})
+
+
 if __name__ == "__main__":
-    main(pd.Timestamp(sys.argv[1]) if len(sys.argv) > 1 else None)
+    if sys.argv[1:] == ["--backfill"]:
+        backfill_history()
+    else:
+        main(pd.Timestamp(sys.argv[1]) if len(sys.argv) > 1 else None)
