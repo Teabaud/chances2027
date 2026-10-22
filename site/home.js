@@ -3,7 +3,7 @@ import { attachTip, chances, earlyBanner, frDate, getScenario, hbar, loadSummary
 const NEAR_CERTAIN = 0.85; // above this P(qualify), the headline is about who faces them
 const MIN_QUALIFY_ROW = 0.01;
 const UNRELIABLE_QUALIFY = 0.05;
-const HISTORY_MAX = 3; // lines in the history chart: today's top candidates by chance of winning
+const HISTORY_MAX = 5; // lines in the history chart: today's top candidates by chance of winning
 
 const summary = await loadSummary();
 let scen = summary.scenarios[getScenario()] ? getScenario() : "lepen";
@@ -138,8 +138,8 @@ function historyChart(cands) {
   if (dates.length < 2) { el.innerHTML = "<p class='muted small'>L'historique s'affichera après quelques jours de mises à jour.</p>"; return; }
   // the HISTORY_MAX candidates with the best chance of winning today
   const ids = [...cands].sort((a, b) => b.p_win - a.p_win).slice(0, HISTORY_MAX).map((c) => c.id);
-  const colors = ["var(--series-1)", "var(--series-2)", "var(--series-3)"];
-  const W = 700, H = 220, L = 34, R = 150, T = 10, B = 26;
+  const colors = ["var(--series-1)", "var(--series-2)", "var(--series-3)", "var(--series-4)", "var(--series-5)"];
+  const W = 700, H = 260, L = 34, R = 170, T = 10, B = 26;
   const t0 = Date.parse(dates[0]), t1 = Date.parse(dates.at(-1));
   const x = (d) => L + ((Date.parse(d) - t0) / (t1 - t0)) * (W - L - R);
   const y = (p) => T + (1 - p) * (H - T - B);
@@ -158,7 +158,10 @@ function historyChart(cands) {
     labels.push({ y: y(last.p_win) + 4, text: `${nameOf(summary, scen, id)} ${pctShort(last.p_win)}`, color: colors[k] });
   });
   // keep end labels at least 16px apart so close lines stay readable
+  // lines bunched near zero: spread labels downward, then shift the block back up if it overflows the plot
   labels.sort((a, b) => a.y - b.y).forEach((l, i, all) => { if (i && l.y - all[i - 1].y < 16) l.y = all[i - 1].y + 16; });
+  if (labels.length && labels.at(-1).y > H - B + 4) labels.at(-1).y = H - B + 4;
+  for (let i = labels.length - 2; i >= 0; i--) labels[i].y = Math.min(labels[i].y, labels[i + 1].y - 16);
   for (const l of labels) {
     root.append(svg("rect", { x: W - R + 8, y: l.y - 9, width: 10, height: 10, rx: 2, fill: l.color }));
     root.append(svg("text", { x: W - R + 22, y: l.y, class: "label" }, l.text));
