@@ -70,6 +70,8 @@ for (const [label, key, g, curId] of [
   ["RN", "lepen", { "le-pen": SUPPORT, melenchon: UNACCEPTABLE }, "le-pen"],
   ["Reconquête", "lepen", { zemmour: SUPPORT, melenchon: UNACCEPTABLE, glucksmann: UNACCEPTABLE }, "zemmour"],
   ["Arthaud fan voting Philippe", "lepen", { arthaud: SUPPORT }, "philippe"],
+  ["planning to vote for an unacceptable candidate (Le Pen)", "lepen", { glucksmann: SUPPORT, "le-pen": UNACCEPTABLE }, "le-pen"],
+  ["planning Le Pen, rejecting her, nothing supported", "lepen", { "le-pen": UNACCEPTABLE }, "le-pen"],
   ["reported 1: left voter planning Tondelier (sans Attal)", "lu-sans-attal",
     { arthaud: SUPPORT, melenchon: SUPPORT, glucksmann: SUPPORT, tondelier: SUPPORT, roussel: SUPPORT, "le-pen": UNACCEPTABLE, zemmour: UNACCEPTABLE }, "tondelier"],
   ["reported 2: left voter planning Tondelier", "lepen",
@@ -79,18 +81,22 @@ for (const [label, key, g, curId] of [
   for (const [o, k] of [[v.forAvoid, "unacc"], [v.forSupport, "support"]]) {
     if (o === null || o === cur) continue;
     if (o !== ABSTAIN) assert.notEqual(groups[o], UNACCEPTABLE, `${label}: advised an unacceptable candidate`);
-    if (v.sincere) { assert.equal(groups[o], SUPPORT, `${label}: sincere pick must be supported`); continue; }
+    if (v.sincere[k === "unacc" ? "avoid" : "support"]) { assert.equal(groups[o], SUPPORT, `${label}: sincere pick must be supported`); continue; }
     runs.forEach((res, n) => {
       const r = res.find((x) => x.option === o), gain = k === "unacc" ? -r[k].diff : r[k].diff;
       assert.ok(gain > 2 * r[k].se && gain * scales[n] >= CLEAR, `${label}: ${N(o)} not clearly better at size ${n}`);
     });
   }
+  if (groups[cur] === UNACCEPTABLE) for (const o of [v.forAvoid, v.forSupport])
+    assert.ok(o === null || o !== cur, `${label}: never « keep » an unacceptable candidate`);
   if (label.startsWith("abstainer")) assert.equal(v.forAvoid, ABSTAIN, "abstainer with no supported candidate: no arbitrary pick");
-  if (label.startsWith("Arthaud")) assert.deepEqual([v.forSupport, v.sincere], [I("arthaud"), true], "sincere fallback to Arthaud");
-  if (label.startsWith("reported")) {
-    assert.equal(N(v.forSupport), "glucksmann", `${label}: to make a supported candidate win, Glucksmann`);
-    assert.equal(N(v.forAvoid), "philippe", `${label}: to avoid an unacceptable candidate, Philippe`);
-  }
-  console.log(`  ${label}: éviter → ${N(v.forAvoid)}, faire gagner → ${N(v.forSupport)}${v.sincere ? " (vote sincère)" : ""}`);
+  if (label.startsWith("Arthaud")) assert.deepEqual([v.forSupport, v.sincere.support], [I("arthaud"), true], "sincere fallback to Arthaud");
+  if (label.startsWith("reported")) assert.equal(N(v.forSupport), "glucksmann", `${label}: to make a supported candidate win, Glucksmann`);
+  // Philippe beats Glucksmann at avoiding by a clear margin in the « sans Attal » list (≈ 2 pts per million voters),
+  // not in the reference list (≈ 0.7 pt): two sections in the first case, one merged block in the second.
+  if (label.startsWith("reported 1")) assert.equal(N(v.forAvoid), "philippe", `${label}: to avoid an unacceptable candidate, Philippe`);
+  if (label.startsWith("reported 2")) assert.equal(N(v.forAvoid), "glucksmann", `${label}: Philippe's edge is below the clear margin`);
+  if (label.startsWith("planning to vote for an unacceptable")) assert.equal(N(v.forAvoid), "glucksmann", `${label}: merged, no near-identical split`);
+  console.log(`  ${label}: éviter → ${N(v.forAvoid)}, faire gagner → ${N(v.forSupport)}${v.sincere.avoid || v.sincere.support ? " (vote sincère)" : ""}`);
 }
 console.log("vote-logic tests ok");

@@ -144,3 +144,5 @@ a.btn.big { font-size: 1.05rem; padding: 10px 22px; }
 .good { color: #0ca30c; }
 .bad { color: #d03b3b; }
 .advice-block.alt { border-left-color: var(--border); font-size: 0.95rem; }
+.notes { margin-top: 40px; padding-top: 8px; border-top: 1px solid var(--border); }
+.notes h2 { font-size: 1rem; color: var(--text-2); margin-top: 12px; }

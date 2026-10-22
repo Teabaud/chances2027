@@ -1,4 +1,4 @@
-import { caveat, getScenario, inBlackout, isEarly, loadSummary, scenarioTabs } from "./common.js";
+import { caveat, getScenario, help, inBlackout, isEarly, loadSummary, scenarioTabs } from "./common.js";
 import { ABSTAIN, ACCEPTABLE, SUPPORT, UNACCEPTABLE, advise, decisiveChange, evaluate, makeData } from "./vote-logic.js";
 
 const BLOC_SHARES = [0.01, 0.005, 0.02]; // of registered voters: computed on a group, checked at 3 sizes
@@ -155,24 +155,24 @@ function verdict(runs, groups, current, hasSupport, hasUnacc, data, delta) {
   const base = rows(current);
   const now = isEarly(summary) ? "D'après les sondages d'aujourd'hui. " : "";
   const sincereWhy = "Selon vos réponses, aucun vote ne change nettement les chances. Autant voter pour un candidat que vous soutenez.";
-  const why = (o, both) => (o === current
+  const why = (o, both, sincereFlag) => (o === current
     ? (current === ABSTAIN ? "Selon vos réponses, aucun vote ne change nettement les chances." : `Aucun autre vote ne fait nettement mieux${both ? "" : " pour cet objectif"}.`)
-    : v.sincere ? sincereWhy : both ? "C'est le meilleur choix pour vos deux objectifs." : "");
-  const why2 = (o) => {
-    if (o === current || v.sincere) return "";
+    : sincereFlag ? sincereWhy : "");
+  const why2 = (o, sincereFlag) => {
+    if (o === current || sincereFlag) return "";
     const ch = decisiveChange(data, current, o, delta);
-    return ch ? `<p class="small muted">Pourquoi ? Si un million d'électeurs comme vous faisaient ce choix, le second tour changerait dans ${fmt(ch.share)} simulations sur 100. ` +
-      `Le plus souvent, ${nameOfIdx(ch.entered)} y accéderait à la place de ${nameOfIdx(ch.left)}.</p>` : "";
+    return ch ? help(`<p>Si un million d'électeurs comme vous faisaient ce choix, le second tour changerait dans ${fmt(ch.share)} simulations sur 100. ` +
+      `Le plus souvent, ${nameOfIdx(ch.entered)} y accéderait à la place de ${nameOfIdx(ch.left)}.</p>`, "Pourquoi ?") : "";
   };
   // both objectives give the same answer: one block
   if (hasSupport && hasUnacc && v.forAvoid === v.forSupport)
-    return advice(v.forAvoid, current, now + why(v.forAvoid, true), rows, base, hasSupport, hasUnacc) + why2(v.forAvoid);
+    return advice(v.forAvoid, current, now + why(v.forAvoid, true, v.sincere.avoid), rows, base, hasSupport, hasUnacc) + why2(v.forAvoid, v.sincere.avoid);
   // otherwise one section per objective
   let html = now ? `<p class="small muted">${now}</p>` : "";
   if (hasUnacc) html += `<h3>Pour éviter un candidat que vous jugez inacceptable</h3>` +
-    advice(v.forAvoid, current, why(v.forAvoid, false), rows, base, hasSupport, hasUnacc) + why2(v.forAvoid);
+    advice(v.forAvoid, current, why(v.forAvoid, false, v.sincere.avoid), rows, base, hasSupport, hasUnacc) + why2(v.forAvoid, v.sincere.avoid);
   if (hasSupport) html += `<h3>Pour faire gagner un candidat que vous soutenez</h3>` +
-    advice(v.forSupport, current, why(v.forSupport, false), rows, base, hasSupport, hasUnacc) + why2(v.forSupport);
+    advice(v.forSupport, current, why(v.forSupport, false, v.sincere.support), rows, base, hasSupport, hasUnacc) + why2(v.forSupport, v.sincere.support);
   return html;
 }
 
