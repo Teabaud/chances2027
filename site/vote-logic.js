@@ -106,66 +106,27 @@ export function decisiveChange(data, from, to, delta) {
   return { share: changed / data.S, entered, left };
 }
 
-// Advice for each objective, compared with the planned vote `current`, stable across group sizes.
-// runs[n] = evaluate() for group size n (runs[0] is the reference size); scales[n] converts that size's effect
-// to « per 100 000 voters », so the « clearly better » threshold (clearEffect) means the same at every size.
-// For each objective: among the options that beat the current vote clearly at EVERY size, the one with the largest
-// gain at the reference size (then the most liked). If none does:
-// - and the current vote is not a supported candidate: the sincere vote, i.e. a supported candidate that does not
-//   meaningfully hurt either objective;
-// - and the current vote is an unacceptable candidate: never « keep » — the other objective's answer, else the best
-//   option for this objective at the reference size;
-// - otherwise « keep » (the current vote).
-// Returns { forAvoid, forSupport, sincere: { avoid, support } } (option indices; null for an objective not set).
-export function advise(runs, current, hasSupport, hasUnacc, scales, clearEffect, groups) {
-  const gain = (m, key) => (key === "unacc" ? -m.diff : m.diff);
-  const improves = (r, key, n) => gain(r[key], key) > 2 * r[key].se && gain(r[key], key) * scales[n] >= clearEffect;
-  const liking = (o) => (o === ABSTAIN ? 0.5 : groups[o]);
-  const ref = runs[0];
-  const row = (o) => ref.find((r) => r.option === o);
-  const others = ref.filter((r) => r.option !== current);
-  const bestFor = (key) => {
-    const sets = runs.map((res, n) => res.filter((r) => r.option !== current && improves(r, key, n)).map((r) => r.option));
-    const common = sets.reduce((a, b) => a.filter((x) => b.includes(x)));
-    if (!common.length) return current;
-    return [...common].sort((a, b) => gain(row(b)[key], key) - gain(row(a)[key], key) || liking(b) - liking(a))[0];
-  };
-  const out = { forAvoid: hasUnacc ? bestFor("unacc") : null, forSupport: hasSupport ? bestFor("support") : null,
-    sincere: { avoid: false, support: false } };
-  // Split into two answers only if one is better than the other by the same clear margin we require for leaving the
-  // planned vote (beyond noise and ≥ clearEffect per 100 000 voters, at every size). Otherwise use the answer that is
-  // also good for the other objective. Options are compared draw by draw on the same simulations.
+// Advice for each objective, from one simulated group of voters « like you » (res = evaluate(...)).
+// For each objective, the option with the best result. Options whose gap to that best result is within the simulation
+// noise (compared draw by draw on the same simulations) count as equally good; among them, the one the user likes
+// most: a supported candidate, then the planned vote, then an acceptable candidate, then blank/abstention.
+// The planned vote is never advised if the user marked it unacceptable. Size of the gap is for the wording, not here.
+// Returns { forAvoid, forSupport } (option indices; null for an objective the user did not set).
+export function advise(res, current, hasSupport, hasUnacc, groups) {
   const good = { unacc: Int8Array.from(groups, (g) => (g === UNACCEPTABLE ? 1 : 0)), support: Int8Array.from(groups, (g) => (g === SUPPORT ? 1 : 0)) };
-  const clearlyBeats = (a, b, key) => runs.every((res, n) => {
-    const ra = res.find((r) => r.option === a), rb = res.find((r) => r.option === b);
-    const d = paired(ra.winners, rb.winners, good[key]);
-    const g = key === "unacc" ? -d.diff : d.diff;
-    return g > 2 * d.se && g * scales[n] >= clearEffect;
-  });
-  if (out.forAvoid !== null && out.forSupport !== null && out.forAvoid !== out.forSupport && out.forAvoid !== current && out.forSupport !== current) {
-    if (!clearlyBeats(out.forAvoid, out.forSupport, "unacc")) out.forAvoid = out.forSupport;
-    else if (!clearlyBeats(out.forSupport, out.forAvoid, "support")) out.forSupport = out.forAvoid;
-  }
-  const fallback = current === ABSTAIN || groups[current] !== SUPPORT ? sincere(ref, current, hasSupport, hasUnacc, scales[0], clearEffect, groups) : null;
-  for (const [field, key, flag] of [["forAvoid", "unacc", "avoid"], ["forSupport", "support", "support"]]) {
-    if (out[field] !== current) continue;
-    if (fallback !== null) { out[field] = fallback; out.sincere[flag] = true; continue; }
-    if (current !== ABSTAIN && groups[current] === UNACCEPTABLE) {
-      const other = field === "forAvoid" ? out.forSupport : out.forAvoid;
-      out[field] = other !== null && other !== current ? other
-        : [...others].sort((a, b) => gain(b[key], key) - gain(a[key], key))[0].option;
-    }
-  }
-  return out;
-}
-
-// Sincere fallback: the most supported option (never an arbitrary acceptable one) that does not meaningfully hurt
-// either objective, if the current vote is liked less. Returns an option index or null.
-function sincere(res, current, hasSupport, hasUnacc, perScale, clearEffect, groups) {
-  const liking = (o) => (o === ABSTAIN ? 0.5 : groups[o]);
-  const meaningfulHurt = (m, badSign) => badSign * m.diff > 2 * m.se && Math.abs(m.diff) * perScale >= clearEffect;
-  const harmless = (r) => !(hasUnacc && meaningfulHurt(r.unacc, 1)) && !(hasSupport && meaningfulHurt(r.support, -1));
-  const better = res.filter((r) => r.option !== ABSTAIN && groups[r.option] === SUPPORT && liking(r.option) > liking(current) && harmless(r))
-    .sort((a, b) => b.support.p - a.support.p || a.unacc.p - b.unacc.p);
-  return better.length ? better[0].option : null;
+  const value = (r, key) => (key === "unacc" ? 1 - r.unacc.p : r.support.p); // higher is better for both
+  const rank = (o) => (o === current ? (o !== ABSTAIN && groups[o] === UNACCEPTABLE ? -1 : o !== ABSTAIN && groups[o] === SUPPORT ? 3 : 1.5)
+    : o === ABSTAIN ? 0.5 : groups[o] === SUPPORT ? 2 : groups[o]);
+  const allowed = res.filter((r) => rank(r.option) >= 0);
+  const bestFor = (key) => {
+    const top = allowed.reduce((a, b) => (value(b, key) > value(a, key) ? b : a));
+    const sign = key === "unacc" ? -1 : 1; // paired() counts « good » outcomes; for unacc, fewer is better
+    const equal = allowed.filter((r) => {
+      if (r === top) return true;
+      const d = paired(top.winners, r.winners, good[key]);
+      return Math.abs(sign * d.diff) <= 2 * d.se;
+    });
+    return equal.sort((a, b) => rank(b.option) - rank(a.option) || value(b, key) - value(a, key))[0].option;
+  };
+  return { forAvoid: hasUnacc ? bestFor("unacc") : null, forSupport: hasSupport ? bestFor("support") : null };
 }

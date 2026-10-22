@@ -3,8 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { ABSTAIN, ACCEPTABLE, SUPPORT, UNACCEPTABLE, advise, decisiveChange, evaluate, makeData } from "../site/vote-logic.js";
 
-const SHARES = [0.01, 0.005, 0.02]; // group sizes, as in site/vote.js
-const CLEAR = 0.002; // « clearly better » threshold per 100 000 voters, as in site/vote.js
+const SHARE = 0.02; // group of voters « like you », as in site/vote.js
 
 // Toy: A=0 leads; B=1 and C=2 tie for 2nd. B beats A in R2, C loses to A. Moving to B helps both objectives.
 {
@@ -17,15 +16,15 @@ const CLEAR = 0.002; // « clearly better » threshold per 100 000 voters, as in
   }
   const d = makeData(r1, r2, K, 3, pairs);
   const groups = [UNACCEPTABLE, SUPPORT, ACCEPTABLE];
-  const runs = [0.02, 0.01, 0.04].map((dl) => evaluate(d, groups, 2, dl, [1, 2, ABSTAIN]));
-  const v = advise(runs, 2, true, true, [1, 1, 1], CLEAR, groups);
+  const res = evaluate(d, groups, 2, 0.02, [1, 2, ABSTAIN]);
+  const v = advise(res, 2, true, true, groups);
   assert.equal(v.forAvoid, 1);
   assert.equal(v.forSupport, 1);
-  assert.equal(runs[0].find((r) => r.option === 2).support.diff, 0, "zero move is the identity");
+  assert.equal(res.find((r) => r.option === 2).support.diff, 0, "zero move is the identity");
   const ch = decisiveChange(d, 2, 1, 0.02);
   assert.equal(ch.entered, 1); assert.equal(ch.left, 2); assert.ok(Math.abs(ch.share - 0.5) < 1e-9);
   // indifferent voter: everything acceptable → no objective set, nothing to advise
-  const flat = advise(runs, 2, false, false, [1, 1, 1], CLEAR, [1, 1, 1]);
+  const flat = advise(res, 2, false, false, [1, 1, 1]);
   assert.equal(flat.forAvoid, null); assert.equal(flat.forSupport, null);
 }
 
@@ -44,17 +43,16 @@ function run(key, g, curId) {
   const groups = ids.map((id) => g[id] ?? ACCEPTABLE);
   const cur = curId === "abstain" ? ABSTAIN : I(curId);
   const opts = [...ids.keys()].filter((i) => i === cur || groups[i] === SUPPORT || (sc.candidates[i].p_qualify >= 0.005 && groups[i] !== UNACCEPTABLE)).concat(ABSTAIN);
-  const runs = SHARES.map((f) => evaluate(d, groups, cur, f / summary.electorate.expressed_r1, opts));
-  const scales = SHARES.map((f) => 100000 / (f * summary.electorate.registered));
-  const v = advise(runs, cur, groups.includes(SUPPORT), groups.includes(UNACCEPTABLE), scales, CLEAR, groups);
+  const res = evaluate(d, groups, cur, SHARE / summary.electorate.expressed_r1, opts);
+  const v = advise(res, cur, groups.includes(SUPPORT), groups.includes(UNACCEPTABLE), groups);
   const N = (o) => (o === null ? "—" : o === ABSTAIN ? "blanc" : ids[o]);
-  return { v, runs, groups, cur, scales, ids, I, N, sc };
+  return { v, res, groups, cur, ids, I, N, sc };
 }
 
 // Real simulations: the unperturbed baseline matches the published P(win).
 {
-  const { v, runs, I, sc } = run("lepen", { "le-pen": UNACCEPTABLE }, "glucksmann");
-  const base = runs[0].find((r) => r.option === I("glucksmann"));
+  const { v, res, I, sc } = run("lepen", { "le-pen": UNACCEPTABLE }, "glucksmann");
+  const base = res.find((r) => r.option === I("glucksmann"));
   assert.ok(Math.abs(base.unacc.p - sc.candidates[I("le-pen")].p_win) < 0.01, "baseline matches published P(win)");
   assert.equal(v.forSupport, null);
 }
@@ -77,26 +75,25 @@ for (const [label, key, g, curId] of [
   ["reported 2: left voter planning Tondelier", "lepen",
     { glucksmann: SUPPORT, melenchon: SUPPORT, roussel: SUPPORT, tondelier: SUPPORT, "dupont-aignan": UNACCEPTABLE, "le-pen": UNACCEPTABLE, retailleau: UNACCEPTABLE, zemmour: UNACCEPTABLE }, "tondelier"],
 ]) {
-  const { v, runs, groups, cur, scales, N, I } = run(key, g, curId);
+  const { v, res, groups, cur, N, I } = run(key, g, curId);
+  const row = (o) => res.find((r) => r.option === o);
   for (const [o, k] of [[v.forAvoid, "unacc"], [v.forSupport, "support"]]) {
-    if (o === null || o === cur) continue;
-    if (o !== ABSTAIN) assert.notEqual(groups[o], UNACCEPTABLE, `${label}: advised an unacceptable candidate`);
-    if (v.sincere[k === "unacc" ? "avoid" : "support"]) { assert.equal(groups[o], SUPPORT, `${label}: sincere pick must be supported`); continue; }
-    runs.forEach((res, n) => {
-      const r = res.find((x) => x.option === o), gain = k === "unacc" ? -r[k].diff : r[k].diff;
-      assert.ok(gain > 2 * r[k].se && gain * scales[n] >= CLEAR, `${label}: ${N(o)} not clearly better at size ${n}`);
-    });
+    if (o === null) continue;
+    if (o !== ABSTAIN) assert.notEqual(groups[o], UNACCEPTABLE, `${label}: advised an unacceptable candidate (or kept one)`);
+    // the answer is the best result, or equal to it within noise
+    const value = (r) => (k === "unacc" ? 1 - r.unacc.p : r.support.p);
+    const best = Math.max(...res.filter((r) => r.option === ABSTAIN || groups[r.option] !== UNACCEPTABLE || r.option !== cur).map(value));
+    assert.ok(best - value(row(o)) < 0.02, `${label}: ${N(o)} is far from the best result`);
   }
-  if (groups[cur] === UNACCEPTABLE) for (const o of [v.forAvoid, v.forSupport])
-    assert.ok(o === null || o !== cur, `${label}: never « keep » an unacceptable candidate`);
-  if (label.startsWith("abstainer")) assert.equal(v.forAvoid, ABSTAIN, "abstainer with no supported candidate: no arbitrary pick");
-  if (label.startsWith("Arthaud")) assert.deepEqual([v.forSupport, v.sincere.support], [I("arthaud"), true], "sincere fallback to Arthaud");
+  // leaving the planned vote only when the result is measurably better (otherwise the planned vote wins the tie)
+  for (const o of [v.forAvoid, v.forSupport]) if (o !== null && o !== cur && groups[cur] !== UNACCEPTABLE && groups[o] !== SUPPORT) {
+    const r = row(o);
+    assert.ok((v.forAvoid === o && -r.unacc.diff > 2 * r.unacc.se) || (v.forSupport === o && r.support.diff > 2 * r.support.se), `${label}: left the planned vote within noise`);
+  }
+  if (label.startsWith("Arthaud")) assert.equal(v.forSupport, I("arthaud"), "supported candidate preferred when results are equal");
   if (label.startsWith("reported")) assert.equal(N(v.forSupport), "glucksmann", `${label}: to make a supported candidate win, Glucksmann`);
-  // Philippe beats Glucksmann at avoiding by a clear margin in the « sans Attal » list (≈ 2 pts per million voters),
-  // not in the reference list (≈ 0.7 pt): two sections in the first case, one merged block in the second.
   if (label.startsWith("reported 1")) assert.equal(N(v.forAvoid), "philippe", `${label}: to avoid an unacceptable candidate, Philippe`);
-  if (label.startsWith("reported 2")) assert.equal(N(v.forAvoid), "glucksmann", `${label}: Philippe's edge is below the clear margin`);
-  if (label.startsWith("planning to vote for an unacceptable")) assert.equal(N(v.forAvoid), "glucksmann", `${label}: merged, no near-identical split`);
-  console.log(`  ${label}: éviter → ${N(v.forAvoid)}, faire gagner → ${N(v.forSupport)}${v.sincere.avoid || v.sincere.support ? " (vote sincère)" : ""}`);
+  if (label.startsWith("planning to vote for an unacceptable")) assert.equal(N(v.forAvoid), "glucksmann", `${label}: Philippe and Glucksmann equal within noise → supported one`);
+  console.log(`  ${label}: éviter → ${N(v.forAvoid)}, faire gagner → ${N(v.forSupport)}`);
 }
 console.log("vote-logic tests ok");

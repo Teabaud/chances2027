@@ -1,10 +1,8 @@
 import { caveat, getScenario, help, inBlackout, isEarly, loadSummary, scenarioTabs } from "./common.js";
 import { ABSTAIN, ACCEPTABLE, SUPPORT, UNACCEPTABLE, advise, decisiveChange, evaluate, makeData } from "./vote-logic.js";
 
-const BLOC_SHARES = [0.01, 0.005, 0.02]; // of registered voters: computed on a group, checked at 3 sizes
-const PER = 100_000; // the « clearly better » threshold is set per 100 000 voters
-const SHOWN = 2; // index in BLOC_SHARES of the group whose numbers are shown: 2 % of registered ≈ « un million »
-const CLEAR_EFFECT = 0.002; // ≥ 0.2 point per 100 000 voters counts as « nettement »
+const BLOC_SHARE = 0.02; // the group of voters « like you »: 2 % of registered voters ≈ « un million »
+const SMALL_GAP = 0.01; // below 1 point out of 100, the advice says the gap with the planned vote is small
 const MIN_QUALIFY_OPTION = 0.005;
 const GROUP_LABELS = [[SUPPORT, "Je soutiens"], [ACCEPTABLE, "Acceptable"], [UNACCEPTABLE, "Inacceptable"]];
 
@@ -106,10 +104,9 @@ async function update() {
   const eligible = (c, i) => i === current || groups[i] === SUPPORT || (c.p_qualify >= MIN_QUALIFY_OPTION && groups[i] !== UNACCEPTABLE);
   const options = [...sc().candidates.map((c, i) => (eligible(c, i) ? i : null)).filter((i) => i !== null), ABSTAIN];
   if (!options.includes(current)) options.push(current);
-  const E = summary.electorate;
-  const deltas = BLOC_SHARES.map((f) => f / E.expressed_r1); // bloc as a fraction of R1 expressed votes
-  const runs = deltas.map((d) => evaluate(data, groups, current, d, options));
-  out.innerHTML = verdict(runs, groups, current, hasSupport, hasUnacc, data, deltas[SHOWN]) + table(runs[SHOWN], current, hasSupport, hasUnacc);
+  const delta = BLOC_SHARE / summary.electorate.expressed_r1; // the group as a fraction of R1 expressed votes
+  const res = evaluate(data, groups, current, delta, options);
+  out.innerHTML = verdict(res, groups, current, hasSupport, hasUnacc, data, delta) + table(res, current, hasSupport, hasUnacc);
 }
 
 const nameOf = (o) => (o === ABSTAIN ? "blanc ou l'abstention" : nameOfIdx(o));
@@ -139,45 +136,40 @@ function effects(row, base, hasSupport, hasUnacc) {
   return `<p class="small">Si environ un million d'électeurs comme vous faisaient ce choix :</p><ul class="small">${items.map((x) => `<li>${x}</li>`).join("")}</ul>`;
 }
 
-function advice(option, current, why, rows, base, hasSupport, hasUnacc) {
+// small: the advised vote is only slightly better than the planned one, so the headline says so instead of ordering
+function advice(option, current, why, rows, base, hasSupport, hasUnacc, small = false) {
   const head = option === current
     ? (current === ABSTAIN ? "Aucun vote ne change nettement les chances" : `Gardez votre vote : <strong>${nameOfIdx(current)}</strong>`)
+    : small ? "Votre choix change peu de chose"
     : (option === ABSTAIN ? "Votez blanc ou abstenez-vous" : `Votez pour <strong>${nameOfIdx(option)}</strong>`);
   return `<div class="advice-block"><p class="advice">${head}</p>${why ? `<p>${why}</p>` : ""}` +
     (option === current ? "" : effects(rows(option), base, hasSupport, hasUnacc)) + `</div>`;
 }
 
-function verdict(runs, groups, current, hasSupport, hasUnacc, data, delta) {
+function verdict(res, groups, current, hasSupport, hasUnacc, data, delta) {
   if (groups.every((g) => g === groups[0])) return `<p class="verdict">Vous avez mis tous les candidats dans le même groupe. Aucun vote ne change donc le résultat pour vous.</p>`;
-  const v = advise(runs, current, hasSupport, hasUnacc, scales(), CLEAR_EFFECT, groups);
-  const shown = runs[SHOWN];
-  const rows = (o) => shown.find((r) => r.option === o);
+  const v = advise(res, current, hasSupport, hasUnacc, groups);
+  const rows = (o) => res.find((r) => r.option === o);
   const base = rows(current);
   const now = isEarly(summary) ? "D'après les sondages d'aujourd'hui. " : "";
-  const sincereWhy = "Selon vos réponses, aucun vote ne change nettement les chances. Autant voter pour un candidat que vous soutenez.";
-  const why = (o, both, sincereFlag) => (o === current
-    ? (current === ABSTAIN ? "Selon vos réponses, aucun vote ne change nettement les chances." : `Aucun autre vote ne fait nettement mieux${both ? "" : " pour cet objectif"}.`)
-    : sincereFlag ? sincereWhy : "");
-  const why2 = (o, sincereFlag) => {
-    if (o === current || sincereFlag) return "";
+  // the gap with the planned vote, for the wording only (largest gain over the objectives the user set)
+  const gap = (o) => Math.max(hasUnacc ? base.unacc.p - rows(o).unacc.p : -1, hasSupport ? rows(o).support.p - base.support.p : -1);
+  const why = (o) => (o === current
+    ? (current === ABSTAIN ? "Selon vos réponses, aucun vote ne fait mieux de façon mesurable." : "Aucun autre vote ne fait mieux de façon mesurable.")
+    : gap(o) < SMALL_GAP ? `${o === ABSTAIN ? "Voter blanc" : `Voter pour <strong>${nameOfIdx(o)}</strong>`} ferait à peine mieux que votre choix actuel.` : "");
+  const pourquoi = (o) => {
+    if (o === current) return "";
     const ch = decisiveChange(data, current, o, delta);
     return ch ? help(`<p>Si un million d'électeurs comme vous faisaient ce choix, le second tour changerait dans ${fmt(ch.share)} simulations sur 100. ` +
       `Le plus souvent, ${nameOfIdx(ch.entered)} y accéderait à la place de ${nameOfIdx(ch.left)}.</p>`, "Pourquoi ?") : "";
   };
-  // both objectives give the same answer: one block
-  if (hasSupport && hasUnacc && v.forAvoid === v.forSupport)
-    return advice(v.forAvoid, current, now + why(v.forAvoid, true, v.sincere.avoid), rows, base, hasSupport, hasUnacc) + why2(v.forAvoid, v.sincere.avoid);
-  // otherwise one section per objective
-  let html = now ? `<p class="small muted">${now}</p>` : "";
-  if (hasUnacc) html += `<h3>Pour éviter un candidat que vous jugez inacceptable</h3>` +
-    advice(v.forAvoid, current, why(v.forAvoid, false, v.sincere.avoid), rows, base, hasSupport, hasUnacc) + why2(v.forAvoid, v.sincere.avoid);
-  if (hasSupport) html += `<h3>Pour faire gagner un candidat que vous soutenez</h3>` +
-    advice(v.forSupport, current, why(v.forSupport, false, v.sincere.support), rows, base, hasSupport, hasUnacc) + why2(v.forSupport, v.sincere.support);
-  return html;
+  const block = (o) => advice(o, current, why(o), rows, base, hasSupport, hasUnacc, o !== current && gap(o) < SMALL_GAP) + pourquoi(o);
+  if (!hasSupport || !hasUnacc || v.forAvoid === v.forSupport) return (now ? `<p class="small muted">${now}</p>` : "") + block(v.forAvoid ?? v.forSupport);
+  return (now ? `<p class="small muted">${now}</p>` : "") +
+    `<h3>Pour éviter un candidat que vous jugez inacceptable</h3>${block(v.forAvoid)}` +
+    `<h3>Pour faire gagner un candidat que vous soutenez</h3>${block(v.forSupport)}`;
 }
 
-// converts each group size's effect to « per 100 000 voters » (one factor per size: the threshold is size-free)
-const scales = () => BLOC_SHARES.map((f) => PER / (f * summary.electorate.registered));
 
 function table(res, current, hasSupport, hasUnacc) {
   const base = res.find((r) => r.option === current);
