@@ -139,3 +139,7 @@ a.btn.big { font-size: 1.05rem; padding: 10px 22px; }
 .advice { font-size: 1.4rem; line-height: 1.3; margin: 10px 0 6px; }
 .advice-block { border-left: 4px solid var(--accent); padding: 4px 0 4px 14px; margin: 14px 0; }
 .advice-block ul { margin: 6px 0; padding-left: 20px; }
+
+/* good / bad for the user (status palette, never used for series; always paired with ▲ / ▼ and a word) */
+.good { color: #0ca30c; }
+.bad { color: #d03b3b; }
