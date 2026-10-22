@@ -3,6 +3,8 @@ import { attachTip, chances, earlyBanner, frDate, getScenario, hbar, loadSummary
 const NEAR_CERTAIN = 0.85; // above this P(qualify), the headline is about who faces them
 const MIN_QUALIFY_ROW = 0.01;
 const UNRELIABLE_QUALIFY = 0.05;
+const HISTORY_MIN = 0.1; // a challenger appears in the history chart if they reached this at some point
+const HISTORY_MAX = 3;
 
 const summary = await loadSummary();
 let scen = summary.scenarios[getScenario()] ? getScenario() : "lepen";
@@ -136,8 +138,11 @@ function historyChart(cands) {
   const dates = [...new Set(rows.map((r) => r.date))].sort();
   if (dates.length < 2) { el.innerHTML = "<p class='muted small'>L'historique s'affichera après quelques jours de mises à jour.</p>"; return; }
   const top = cands[0].p_qualify >= NEAR_CERTAIN ? cands[0].id : null;
-  const ids = cands.filter((c) => c.id !== top).slice(0, 2).map((c) => c.id);
-  const colors = ["var(--series-1)", "var(--series-2)"];
+  // every challenger who reached HISTORY_MIN at some point in the period, by peak value, at most HISTORY_MAX lines
+  const peak = (id) => Math.max(...rows.filter((r) => r.candidate === id).map((r) => r.p_qualify));
+  const ids = cands.map((c) => c.id).filter((id) => id !== top && peak(id) >= HISTORY_MIN)
+    .sort((a, b) => peak(b) - peak(a)).slice(0, HISTORY_MAX);
+  const colors = ["var(--series-1)", "var(--series-2)", "var(--series-3)"];
   const W = 700, H = 220, L = 34, R = 150, T = 10, B = 26;
   const t0 = Date.parse(dates[0]), t1 = Date.parse(dates.at(-1));
   const x = (d) => L + ((Date.parse(d) - t0) / (t1 - t0)) * (W - L - R);
@@ -149,13 +154,21 @@ function historyChart(cands) {
   }
   root.append(svg("text", { x: L, y: H - 6 }, frDate(dates[0])));
   root.append(svg("text", { x: W - R, y: H - 6, "text-anchor": "end" }, frDate(dates.at(-1))));
+  const labels = [];
   ids.forEach((id, k) => {
     const pts = rows.filter((r) => r.candidate === id).sort((a, b) => a.date.localeCompare(b.date));
     root.append(svg("polyline", { points: pts.map((r) => `${x(r.date)},${y(r.p_qualify)}`).join(" "), fill: "none", stroke: colors[k], "stroke-width": 2 }));
     const last = pts.at(-1);
-    root.append(svg("text", { x: W - R + 8, y: y(last.p_qualify) + 4, class: "label" }, `${nameOf(summary, scen, id)} ${pctShort(last.p_qualify)}`));
+    labels.push({ y: y(last.p_qualify) + 4, text: `${nameOf(summary, scen, id)} ${pctShort(last.p_qualify)}`, color: colors[k] });
   });
-  el.innerHTML = "<p class='small muted'>Chance d'être au second tour, sur 100, pour les deux candidats les mieux placés" + (top ? ` pour affronter ${nameOf(summary, scen, top)}` : "") + ".</p>";
+  // keep end labels at least 16px apart so close lines stay readable
+  labels.sort((a, b) => a.y - b.y).forEach((l, i, all) => { if (i && l.y - all[i - 1].y < 16) l.y = all[i - 1].y + 16; });
+  for (const l of labels) {
+    root.append(svg("rect", { x: W - R + 8, y: l.y - 9, width: 10, height: 10, rx: 2, fill: l.color }));
+    root.append(svg("text", { x: W - R + 22, y: l.y, class: "label" }, l.text));
+  }
+  el.innerHTML = `<p class='small muted'>Chance d'être au second tour, sur 100, pour les candidats qui ont atteint au moins ${HISTORY_MIN * 100} chances sur 100 sur la période` +
+    (top ? `, face à ${nameOf(summary, scen, top)}` : "") + ` (${HISTORY_MAX} au plus).</p>`;
   el.append(root);
 }
 
