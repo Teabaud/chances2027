@@ -167,8 +167,9 @@ function historyChart(cands) {
     root.append(svg("rect", { x: W - R + 8, y: l.y - 9, width: 10, height: 10, rx: 2, fill: l.color }));
     root.append(svg("text", { x: W - R + 22, y: l.y, class: "label" }, l.text));
   }
-  el.innerHTML = `<p class='small muted'>Chance d'être au second tour, sur 100, pour les candidats qui ont atteint au moins ${HISTORY_MIN * 100} chances sur 100 sur la période` +
-    (top ? `, face à ${nameOf(summary, scen, top)}` : "") + ` (${HISTORY_MAX} au plus).</p>`;
+  el.innerHTML = `<p class='small muted'>Chance d'être qualifié pour le second tour, sur 100. Le graphique montre les ${HISTORY_MAX} candidats au plus ` +
+    `qui ont dépassé ${HISTORY_MIN * 100} chances sur 100 sur la période` + (top ? `, en plus de ${nameOf(summary, scen, top)}` : "") + `. ` +
+    `Être qualifié ne veut pas dire gagner : la chance de gagner en cas de qualification est indiquée plus haut.</p>`;
   el.append(root);
 }
 
