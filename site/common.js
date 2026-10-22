@@ -132,29 +132,16 @@ export function daysToVote(summary) {
 
 export const isEarly = (summary) => daysToVote(summary) > EARLY_DAYS;
 
-// « Too early » banner, with the historical poll error at today's horizon vs the last two weeks.
-export function earlyBanner(summary, forVote = false) {
-  const days = daysToVote(summary);
-  if (days <= EARLY_DAYS) return "";
-  const mae = summary.mae_by_horizon;
-  const horizons = Object.keys(mae).map(Number).sort((a, b) => a - b);
-  const now = mae[horizons.filter((h) => h <= days).at(-1) ?? horizons.at(-1)];
-  const late = horizons.filter((h) => h <= RELIABLE_DAYS).reduce((t, h) => t + mae[h], 0) / horizons.filter((h) => h <= RELIABLE_DAYS).length;
-  const comeBack = new Date(Date.parse(summary.r1_date) - RELIABLE_DAYS * 864e5).toISOString().slice(0, 10);
-  const fmt1 = (x) => x.toLocaleString("fr-FR", { maximumFractionDigits: 1 });
-  return `<div class="box warn"><strong>Le vote est dans ${days} jours. À ce stade, ces chiffres sont encore très incertains et se regardent surtout par curiosité.</strong> ` +
-    `À cette distance du vote, les sondages se sont trompés en moyenne de ${fmt1(now)} points par candidat ` +
-    `et l'écart a parfois dépassé 10 points, à la hausse comme à la baisse, à gauche, au centre comme à droite. ` +
-    `Les sondages se précisent à mesure que la campagne avance : lors des présidentielles passées, l'écart n'était plus que de ${fmt1(late)} point environ dans les deux dernières semaines. ` +
-    (forVote ? `<strong>Pour décider de votre vote, revenez à partir du ${frDate(comeBack)}.</strong> D'ici là, l'outil sert à comprendre le mécanisme, pas à choisir.`
-             : `Revenez à partir du ${frDate(comeBack)}.`) + `</div>`;
+// Same format under every chart: a small « Comment lire ce graphique » that opens the explanation.
+export function help(html, label = "Comment lire ce graphique") {
+  return `<details class="help"><summary>${label}</summary><div>${html}</div></details>`;
 }
 
-// Home page: one short box. Far from the vote it says "curiosity" first; closer, only "not a poll".
-export function homeDisclaimer(summary) {
+// One-line caveat that opens on click. Far from the vote: « ces chiffres bougeront encore ». Closer: « pas un sondage ».
+export function caveat(summary) {
   const notPoll = "Ces chiffres ne sont pas un sondage. Ce sont des chances calculées à partir des sondages et de leurs erreurs passées. " +
     "Un candidat à 25 chances sur 100 gagne une fois sur quatre.";
-  if (!isEarly(summary)) return `<div class="box small">${notPoll}</div>`;
+  if (!isEarly(summary)) return help(`<p>${notPoll}</p>`, "Ces chiffres ne sont pas un sondage. En savoir plus");
   const days = daysToVote(summary);
   const mae = summary.mae_by_horizon;
   const horizons = Object.keys(mae).map(Number).sort((a, b) => a - b);
@@ -162,9 +149,7 @@ export function homeDisclaimer(summary) {
   const lateH = horizons.filter((h) => h <= RELIABLE_DAYS);
   const late = lateH.reduce((t, h) => t + mae[h], 0) / lateH.length;
   const fmt = (x, d) => x.toLocaleString("fr-FR", { maximumFractionDigits: d });
-  return `<div class="box warn small"><strong>Le vote est dans ${days} jours : ces chiffres se regardent surtout par curiosité.</strong> ` +
-    `Ce ne sont pas des sondages, mais des chances calculées à partir des sondages et de leurs erreurs passées. ` +
-    `À cette distance du vote, les sondages se sont trompés en moyenne de ${fmt(now, 0)} points par candidat. ` +
-    `Ils se précisent à mesure que la campagne avance : lors des présidentielles passées, l'écart n'était plus que de ${fmt(late, 1)} point environ ` +
-    `dans les deux dernières semaines. Suivez l'évolution ici, jour après jour.</div>`;
+  return help(`<p>${notPoll}</p><p>À ${days} jours du vote, les sondages se sont trompés en moyenne de ${fmt(now, 0)} points par candidat lors des présidentielles passées. ` +
+    `Ils se précisent à mesure que la campagne avance : l'écart n'était plus que de ${fmt(late, 1)} point environ dans les deux dernières semaines. ` +
+    `Suivez l'évolution ici, jour après jour.</p>`, `Le vote est dans ${days} jours : ces chiffres bougeront encore beaucoup. En savoir plus`);
 }

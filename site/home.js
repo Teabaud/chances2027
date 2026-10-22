@@ -1,4 +1,4 @@
-import { attachTip, chances, frDate, getScenario, hbar, homeDisclaimer, loadSummary, nameOf, pctShort, scenarioTabs, svg } from "./common.js";
+import { attachTip, caveat, chances, frDate, getScenario, hbar, help, loadSummary, nameOf, pctShort, scenarioTabs, svg } from "./common.js";
 
 const NEAR_CERTAIN = 0.85; // above this P(qualify), the headline is about who will face them
 const MIN_QUALIFY_ROW = 0.01; // duels table: both candidates must qualify at least this often
@@ -22,7 +22,7 @@ function render() {
   scenarioTabs(document.getElementById("scenarios"), summary, scen, (s) => { scen = s; render(); });
   document.getElementById("asof").textContent =
     `Mis à jour le ${frDate(summary.asof)} · 1er tour le ${frDate(summary.r1_date)}, second tour le ${frDate(summary.r2_date)}`;
-  document.getElementById("disclaimer").innerHTML = homeDisclaimer(summary);
+  document.getElementById("caveat").innerHTML = caveat(summary);
   headline(cands);
   challengers(cands);
   winTable(cands);
@@ -77,9 +77,6 @@ function challengers(cands) {
   const el = document.getElementById("challengers");
   el.innerHTML = "";
   el.append(root);
-  document.getElementById("challengers-note").textContent =
-    "Les chiffres sont en chances sur 100. La chance de gagner en cas de qualification dépend de l'adversaire probable. " +
-    "Elle n'est pas estimée pour les candidats qualifiés dans moins de 5 simulations sur 100.";
 }
 
 function winTable(cands) {
@@ -175,10 +172,11 @@ function historyChart(cands) {
     root.append(svg("rect", { x: W - R + 8, y: l.y - 9, width: 10, height: 10, rx: 2, fill: l.color }));
     root.append(svg("text", { x: W - R + 22, y: l.y, class: "label" }, l.text));
   }
-  el.innerHTML = `<p class='small muted'>Chance de remporter l'élection, sur 100, pour les ${HISTORY_MAX} candidats qui ont aujourd'hui les meilleures chances.` +
-    (anyThin ? ` En pointillés, les dates où moins de ${MIN_POLLSTERS_SOLID} instituts avaient testé cette liste : le chiffre repose alors sur peu de sondages.` : "") +
-    (anyGap ? " Une interruption signifie qu'aucun institut n'avait testé cette liste à cette date." : "") + `</p>`;
+  el.innerHTML = "";
   el.append(root);
+  el.insertAdjacentHTML("beforeend", help(`<p>Chance de remporter l'élection, sur 100, pour les ${HISTORY_MAX} candidats qui ont aujourd'hui les meilleures chances.</p>` +
+    (anyThin ? `<p>En pointillés, les dates où moins de ${MIN_POLLSTERS_SOLID} instituts avaient testé cette liste : le chiffre repose alors sur peu de sondages.</p>` : "") +
+    (anyGap ? "<p>Une interruption signifie qu'aucun institut n'avait testé cette liste à cette date.</p>" : "")));
 }
 
 function duelsTable(sc) {

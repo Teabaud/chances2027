@@ -17,33 +17,28 @@
 <main>
   <h1>Vote sincère ou vote stratégique ?</h1>
   <p class="lead">Au premier tour, voter pour son candidat préféré n'est pas toujours le meilleur moyen d'obtenir le résultat qu'on souhaite.
-    Indiquez ce que vous pensez des candidats, et l'outil compare l'effet de chaque vote possible, d'après les sondages actuels et leurs erreurs passées.</p>
-  <div class="box small"><strong>Vos réponses ne quittent pas votre appareil.</strong> Le calcul se fait dans votre navigateur.
-    Cette page n'envoie rien, ne demande aucun compte et ne mesure pas l'audience. L'adresse de la page contient vos réponses, après le signe #,
-    pour que vous puissiez les retrouver. Ne la partagez que si vous le souhaitez.</div>
-  <p class="small muted" id="asof"></p>
-  <div id="early"></div>
+    Dites ce que vous pensez des candidats : l'outil indique quel vote sert le mieux vos préférences, d'après les sondages actuels.</p>
+  <p class="small muted">Vos réponses restent sur votre appareil, rien n'est envoyé. Pour les retrouver ou les partager, copiez l'adresse de la page.</p>
   <div id="scenarios"></div>
 
-  <h2>1. Que pensez-vous de chaque candidat ?</h2>
+  <h2>1. Que pensez-vous des candidats ?</h2>
   <p class="small muted">Par défaut, tous les candidats sont « acceptables ». Changez seulement ceux qui comptent pour vous.</p>
   <div id="cands"></div>
 
   <h2>2. Pour qui comptiez-vous voter au premier tour ?</h2>
   <select id="current" aria-label="Votre intention de vote actuelle"></select>
 
-  <h2>3. Ce que change votre vote</h2>
+  <h2>3. Pour qui voter ?</h2>
   <div id="result" aria-live="polite"><p class="muted">Indiquez au moins un candidat que vous soutenez ou que vous jugez inacceptable.</p></div>
+  <div id="caveat"></div>
 
   <details>
-    <summary>Pourquoi « pour 100 000 électeurs » ?</summary>
+    <summary>Pourquoi « un million d'électeurs comme vous » ?</summary>
     <p>Une seule voix ne décide presque jamais d'une présidentielle, moins d'une fois sur dix millions.
       L'outil raisonne donc pour un groupe d'électeurs qui pensent comme vous et feraient le même choix.
-      L'effet est proportionnel à la taille du groupe, deux fois plus d'électeurs donnant deux fois plus d'effet.
-      Nous l'exprimons donc pour 100 000 électeurs, comme on parle de taux pour 100 000 habitants.</p>
-    <p>Le classement des options ne dépend presque pas de la taille du groupe. Nous le vérifions pour des groupes de 250 000 à un million de personnes,
-      et nous vous prévenons si la réponse change. Une option n'est conseillée que si elle fait nettement mieux que votre choix actuel,
-      d'au moins 0,2 point pour 100 000 électeurs.</p>
+      Plus le groupe est grand, plus l'effet est grand : les chiffres affichés sont pour environ un million d'électeurs.</p>
+    <p>Le conseil, lui, ne dépend presque pas de la taille du groupe. Nous le vérifions pour des groupes de 250 000 à un million de personnes,
+      et nous vous prévenons si la réponse change. Un vote n'est conseillé que s'il fait nettement mieux que votre choix actuel.</p>
   </details>
   <details>
     <summary>Ce que l'outil ne prend pas en compte</summary>

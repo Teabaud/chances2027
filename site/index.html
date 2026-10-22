@@ -15,19 +15,16 @@
   <a href="methode.html">Méthode</a>
 </nav></header>
 <main>
-  <h1>Où en est la course ?</h1>
+  <h1>Évolution des chances de victoire</h1>
   <p class="muted small" id="asof"></p>
-  <div id="disclaimer"></div>
   <div id="scenarios"></div>
-
-  <h2>Les chances de victoire, dans le temps</h2>
   <p class="lead" id="headline"></p>
   <div id="history" class="hero"></div>
+  <div id="caveat"></div>
 
-  <div class="box cta">
-    <p><strong>Faut-il voter pour son candidat préféré, ou pour un candidat mieux placé ?</strong>
-      « Mon vote » compare l'effet de chaque vote possible au premier tour, selon vos propres préférences.</p>
-    <a class="btn" href="vote.html">Comparer les votes possibles</a>
+  <div class="box cta center">
+    <p><strong>Faut-il voter pour son candidat préféré, ou pour un candidat mieux placé ?</strong></p>
+    <a class="btn big" href="vote.html">Comparer les votes possibles</a>
   </div>
 
   <h2>Qui pourrait être au second tour ?</h2>
@@ -36,16 +33,24 @@
     <span style="--c: var(--series-2)">Chance de gagner en cas de qualification</span>
   </div>
   <div id="challengers"></div>
-  <p class="small muted" id="challengers-note"></p>
+  <details class="help"><summary>Comment lire ce graphique</summary><div>
+    <p>Les chiffres sont en chances sur 100. La barre bleue est la chance d'être au second tour. La barre orange est la chance de gagner si le candidat y est :
+      elle dépend de l'adversaire probable. Sous chaque nom, la chance de remporter l'élection.</p>
+  </div></details>
 
   <h2>Ce que disent les sondages, et la marge d'incertitude</h2>
-  <p class="small muted">Le trait noir est la moyenne des sondages récents. La barre montre où le vrai score du premier tour a 80 chances sur 100 de tomber,
-    d'après les erreurs passées des sondages à la même distance du vote.</p>
   <div id="shares"></div>
+  <details class="help"><summary>Comment lire ce graphique</summary><div>
+    <p>Le trait noir est la moyenne des sondages récents. La barre montre où le vrai score du premier tour a 80 chances sur 100 de tomber,
+      d'après les erreurs passées des sondages à la même distance du vote.</p>
+  </div></details>
 
   <h2>Les seconds tours les plus probables</h2>
   <div class="scroll"><table id="table-finals"></table></div>
-  <p class="small muted">Un duel « estimé » n'a pas été sondé récemment. Son résultat vient du modèle, pas d'un sondage.</p>
+  <details class="help"><summary>Comment lire ce tableau</summary><div>
+    <p>Pour chaque duel, la chance qu'il ait lieu, et la chance de chaque candidat de le gagner. Un duel « estimé » n'a pas été sondé récemment :
+      son résultat vient du modèle, pas d'un sondage.</p>
+  </div></details>
 
   <details>
     <summary>Tous les duels de second tour</summary>
