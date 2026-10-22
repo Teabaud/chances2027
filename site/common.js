@@ -42,8 +42,17 @@ export function setScenario(s) {
 
 // Two rows: who is the RN candidate, and which line-up (only line-ups tested by ≥3 pollsters are offered).
 export function scenarioTabs(el, summary, current, onChange) {
-  el.innerHTML = "";
   const sc = summary.scenarios;
+  const wasOpen = el.querySelector("details")?.open ?? false;
+  el.innerHTML = "";
+  const box = document.createElement("details");
+  box.className = "scen";
+  box.open = wasOpen;
+  const rn = current === "bardella" ? "Jordan Bardella candidat" : "Marine Le Pen candidate";
+  const list = sc[current]?.kind === "lineup" ? sc[current].label : "liste de référence";
+  box.innerHTML = `<summary>Scénario : <strong>${rn}</strong>, <strong>${list}</strong>. Modifier</summary>`;
+  el.append(box);
+  const target = box;
   const rnRow = [["lepen", "Marine Le Pen"], ["bardella", "Jordan Bardella"]].filter(([k]) => sc[k]);
   const lineupRow = [["lepen", "Liste de référence"],
     ...Object.entries(sc).filter(([, v]) => v.kind === "lineup").map(([k, v]) => [k, v.label])];
@@ -65,7 +74,7 @@ export function scenarioTabs(el, summary, current, onChange) {
       b.onclick = () => { if (b.getAttribute("aria-pressed") === "true") return; setScenario(key); onChange(key); };
       wrap.append(b);
     }
-    el.append(wrap);
+    target.append(wrap);
   };
   row("Candidat du RN", rnRow, (k) => k === current || (k === "lepen" && sc[current]?.kind === "lineup"),
     (k) => k === "bardella" && sc[current]?.kind === "lineup");
@@ -76,7 +85,7 @@ export function scenarioTabs(el, summary, current, onChange) {
     const note = document.createElement("p");
     note.className = "small muted";
     note.textContent = `Ce scénario repose sur les sondages de ${n} instituts qui ont testé exactement cette liste ces 45 derniers jours.`;
-    el.append(note);
+    target.append(note);
   }
 }
 
@@ -139,4 +148,20 @@ export function earlyBanner(summary, forVote = false) {
     `Les prévisions deviennent vraiment utiles dans les deux dernières semaines, où l'erreur tombe à environ ${fmt1(late)} point. ` +
     (forVote ? `<strong>Pour décider de votre vote, revenez à partir du ${frDate(comeBack)}.</strong> D'ici là, l'outil sert à comprendre le mécanisme, pas à choisir.`
              : `Revenez à partir du ${frDate(comeBack)}.`) + `</div>`;
+}
+
+// Home page: one short box. Far from the vote it says "curiosity" first; closer, only "not a poll".
+export function homeDisclaimer(summary) {
+  const notPoll = "Ces chiffres ne sont pas un sondage. Ce sont des chances calculées à partir des sondages et de leurs erreurs passées. " +
+    "Un candidat à 25 chances sur 100 gagne une fois sur quatre.";
+  if (!isEarly(summary)) return `<div class="box small">${notPoll}</div>`;
+  const days = daysToVote(summary);
+  const mae = summary.mae_by_horizon;
+  const horizons = Object.keys(mae).map(Number).sort((a, b) => a - b);
+  const now = mae[horizons.filter((h) => h <= days).at(-1) ?? horizons.at(-1)];
+  const comeBack = new Date(Date.parse(summary.r1_date) - RELIABLE_DAYS * 864e5).toISOString().slice(0, 10);
+  return `<div class="box warn small"><strong>Le vote est dans ${days} jours : ces chiffres se regardent surtout par curiosité.</strong> ` +
+    `Ce ne sont pas des sondages, mais des chances calculées à partir des sondages et de leurs erreurs passées. ` +
+    `À cette distance du vote, ces erreurs atteignent en moyenne ${now.toLocaleString("fr-FR", { maximumFractionDigits: 0 })} points par candidat. ` +
+    `Revenez à partir du ${frDate(comeBack)} pour des prévisions fiables.</div>`;
 }

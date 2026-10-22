@@ -1,7 +1,7 @@
-import { attachTip, chances, earlyBanner, frDate, getScenario, hbar, loadSummary, nameOf, pctShort, scenarioTabs, svg } from "./common.js";
+import { attachTip, chances, frDate, getScenario, hbar, homeDisclaimer, loadSummary, nameOf, pctShort, scenarioTabs, svg } from "./common.js";
 
-const NEAR_CERTAIN = 0.85; // above this P(qualify), the headline is about who faces them
-const MIN_QUALIFY_ROW = 0.01;
+const NEAR_CERTAIN = 0.85; // above this P(qualify), the headline is about who will face them
+const MIN_QUALIFY_ROW = 0.01; // duels table: both candidates must qualify at least this often
 const UNRELIABLE_QUALIFY = 0.05;
 const HISTORY_MAX = 5; // lines in the history chart: today's top candidates by chance of winning
 
@@ -21,7 +21,7 @@ function render() {
   scenarioTabs(document.getElementById("scenarios"), summary, scen, (s) => { scen = s; render(); });
   document.getElementById("asof").textContent =
     `Mis à jour le ${frDate(summary.asof)} · 1er tour le ${frDate(summary.r1_date)}, second tour le ${frDate(summary.r2_date)}`;
-  document.getElementById("early").innerHTML = earlyBanner(summary);
+  document.getElementById("disclaimer").innerHTML = homeDisclaimer(summary);
   headline(cands);
   challengers(cands);
   winTable(cands);
@@ -37,32 +37,28 @@ function headline(cands) {
   if (top.p_qualify >= NEAR_CERTAIN) {
     el.innerHTML = `${top.name} a ${chances(top.p_qualify)} d'être au second tour, et ${chances(top.p_win)} de remporter l'élection. ` +
       `Reste à savoir qui lui fera face.`;
-    document.getElementById("challengers-title").textContent = `Qui pourrait être au second tour face à ${top.name} ?`;
   } else {
     const byWin = [...cands].sort((a, b) => b.p_win - a.p_win);
     el.innerHTML = `Le mieux placé aujourd'hui est ${byWin[0].name}, avec ${chances(byWin[0].p_win)} de gagner, ` +
       `devant ${byWin[1].name}, avec ${chances(byWin[1].p_win)}. Rien n'est joué.`;
-    document.getElementById("challengers-title").textContent = "Qui pourrait être au second tour, et le gagner ?";
   }
 }
 
 function challengers(cands) {
-  const top = cands[0];
-  const shown = (c) => c.p_qualify >= UNRELIABLE_QUALIFY && !(c === top && top.p_qualify >= NEAR_CERTAIN);
-  const rows = cands.filter(shown);
-  const others = cands.filter((c) => !shown(c) && c !== top);
-  const W = 700, labelW = 170, rowH = 46, barH = 14, barW = W - labelW - 50;
-  const root = svg("svg", { viewBox: `0 0 ${W} ${rows.length * rowH + 24}`, class: "chart", role: "img",
-    "aria-label": "Chance d'être au second tour et chance de gagner s'il y est, par candidat" });
+  // every candidate, most likely to qualify first; the conditional win bar only when it rests on enough simulations
+  const W = 700, labelW = 190, rowH = 46, barH = 14, barW = W - labelW - 50;
+  const root = svg("svg", { viewBox: `0 0 ${W} ${cands.length * rowH + 24}`, class: "chart", role: "img",
+    "aria-label": "Pour chaque candidat : chance d'être au second tour, chance de gagner en cas de qualification, chance de victoire" });
   for (const t of [0, 0.25, 0.5, 0.75, 1]) {
     const x = labelW + t * barW;
-    root.append(svg("line", { x1: x, x2: x, y1: 0, y2: rows.length * rowH, class: "grid" }));
-    root.append(svg("text", { x, y: rows.length * rowH + 16, "text-anchor": "middle" }, `${t * 100}`));
+    root.append(svg("line", { x1: x, x2: x, y1: 0, y2: cands.length * rowH, class: "grid" }));
+    root.append(svg("text", { x, y: cands.length * rowH + 16, "text-anchor": "middle" }, `${t * 100}`));
   }
-  rows.forEach((c, i) => {
+  cands.forEach((c, i) => {
     const y = i * rowH + 6;
-    root.append(svg("text", { x: 0, y: y + barH + 4, class: "label" }, c.name));
     const g = svg("g");
+    root.append(svg("text", { x: 0, y: y + barH - 1, class: "label" }, c.name));
+    root.append(svg("text", { x: 0, y: y + 2 * barH + 1 }, `victoire : ${pctShort(c.p_win)} sur 100`));
     g.append(hbar(labelW, y, c.p_qualify * barW, barH, "var(--series-1)"));
     root.append(svg("text", { x: labelW + c.p_qualify * barW + 6, y: y + barH - 2, class: "value" }, pctShort(c.p_qualify)));
     const reliable = c.p_qualify >= UNRELIABLE_QUALIFY && c.p_win_if_qualified !== null;
@@ -70,7 +66,7 @@ function challengers(cands) {
       g.append(hbar(labelW, y + barH + 2, c.p_win_if_qualified * barW, barH, "var(--series-2)"));
       root.append(svg("text", { x: labelW + c.p_win_if_qualified * barW + 6, y: y + 2 * barH, class: "value" }, pctShort(c.p_win_if_qualified)));
     } else {
-      root.append(svg("text", { x: labelW, y: y + 2 * barH, class: "value" }, "trop rarement qualifié pour estimer"));
+      root.append(svg("text", { x: labelW + 4, y: y + 2 * barH }, "trop rare pour estimer"));
     }
     g.append(svg("rect", { x: 0, y: y - 4, width: W, height: rowH - 4, fill: "transparent" }));
     attachTip(g, `<strong>${c.name}</strong><br>Au second tour : ${chances(c.p_qualify)}<br>` +
@@ -82,7 +78,7 @@ function challengers(cands) {
   el.append(root);
   document.getElementById("challengers-note").textContent =
     "Les chiffres sont en chances sur 100. La chance de gagner en cas de qualification dépend de l'adversaire probable. " +
-    (others.length ? `Candidats à moins de 5 chances sur 100 d'être au second tour : ${others.map((c) => c.name).join(", ")}.` : "");
+    "Elle n'est pas estimée pour les candidats qualifiés dans moins de 5 simulations sur 100.";
 }
 
 function winTable(cands) {
@@ -139,7 +135,7 @@ function historyChart(cands) {
   // the HISTORY_MAX candidates with the best chance of winning today
   const ids = [...cands].sort((a, b) => b.p_win - a.p_win).slice(0, HISTORY_MAX).map((c) => c.id);
   const colors = ["var(--series-1)", "var(--series-2)", "var(--series-3)", "var(--series-4)", "var(--series-5)"];
-  const W = 700, H = 260, L = 34, R = 170, T = 10, B = 26;
+  const W = 700, H = 320, L = 34, R = 170, T = 10, B = 26;
   const t0 = Date.parse(dates[0]), t1 = Date.parse(dates.at(-1));
   const x = (d) => L + ((Date.parse(d) - t0) / (t1 - t0)) * (W - L - R);
   const y = (p) => T + (1 - p) * (H - T - B);

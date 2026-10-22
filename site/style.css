@@ -73,6 +73,10 @@ p { margin: 8px 0; }
 .box { background: var(--surface-2); border-radius: 8px; padding: 12px 16px; margin: 16px 0; }
 .warn { background: var(--warn-bg); }
 .cta { border-left: 4px solid var(--accent); }
+.hero .chart { min-height: 240px; }
+details.scen { margin: 8px 0 4px; }
+details.scen > summary { font-weight: 400; font-size: 0.92rem; color: var(--text-2); }
+details.scen > summary strong { color: var(--text); }
 .cta p { margin-top: 0; }
 a.btn { display: inline-block; text-decoration: none; background: var(--accent); color: var(--surface); border-color: var(--accent); font-weight: 600; }
 .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
