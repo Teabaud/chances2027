@@ -1,5 +1,5 @@
 import { caveat, getScenario, inBlackout, isEarly, loadSummary, scenarioTabs } from "./common.js";
-import { ABSTAIN, ACCEPTABLE, SUPPORT, UNACCEPTABLE, decideStable, decisiveChange, evaluate, makeData, recommend } from "./vote-logic.js";
+import { ABSTAIN, ACCEPTABLE, SUPPORT, UNACCEPTABLE, advise, decisiveChange, evaluate, makeData } from "./vote-logic.js";
 
 const BLOC_SHARES = [0.01, 0.005, 0.02]; // of registered voters: computed on a group, checked at 3 sizes
 const PER = 100_000; // the « clearly better » threshold is set per 100 000 voters
@@ -109,8 +109,7 @@ async function update() {
   const E = summary.electorate;
   const deltas = BLOC_SHARES.map((f) => f / E.expressed_r1); // bloc as a fraction of R1 expressed votes
   const runs = deltas.map((d) => evaluate(data, groups, current, d, options));
-  const recs = runs.map((r) => recommend(r, groups));
-  out.innerHTML = verdict(runs, recs, groups, current, hasSupport, hasUnacc, data, deltas[SHOWN]) + table(runs[SHOWN], current, hasSupport, hasUnacc);
+  out.innerHTML = verdict(runs, groups, current, hasSupport, hasUnacc, data, deltas[SHOWN]) + table(runs[SHOWN], current, hasSupport, hasUnacc);
 }
 
 const nameOf = (o) => (o === ABSTAIN ? "blanc ou l'abstention" : nameOfIdx(o));
@@ -148,9 +147,9 @@ function advice(option, current, why, rows, base, hasSupport, hasUnacc) {
     (option === current ? "" : effects(rows(option), base, hasSupport, hasUnacc)) + `</div>`;
 }
 
-function verdict(runs, recs, groups, current, hasSupport, hasUnacc, data, delta) {
+function verdict(runs, groups, current, hasSupport, hasUnacc, data, delta) {
   if (groups.every((g) => g === groups[0])) return `<p class="verdict">Vous avez mis tous les candidats dans le même groupe. Aucun vote ne change donc le résultat pour vous.</p>`;
-  const d = decideStable(runs, recs, current, hasSupport, hasUnacc, perScale(), CLEAR_EFFECT, groups);
+  const d = advise(runs, current, hasSupport, hasUnacc, scales(), CLEAR_EFFECT, groups);
   const shown = runs[SHOWN];
   const rows = (o) => shown.find((r) => r.option === o);
   const base = rows(current);
@@ -167,6 +166,11 @@ function verdict(runs, recs, groups, current, hasSupport, hasUnacc, data, delta)
     const ch = decisiveChange(data, current, d.best, delta);
     if (ch) html += `<p class="small muted">Pourquoi ? Si un million d'électeurs comme vous faisaient ce choix, le second tour changerait dans ${fmt(ch.share)} simulations sur 100. ` +
       `Le plus souvent, ${nameOfIdx(ch.entered)} y accéderait à la place de ${nameOfIdx(ch.left)}.</p>`;
+    // an option that does even better on one objective, at the cost of the other
+    const alt = (o, goal) => `<div class="advice-block alt"><p><strong>Autre option.</strong> Si vous voulez avant tout ${goal}, ` +
+      `voter pour <strong>${nameOfIdx(o)}</strong> fait encore mieux, au prix de l'autre objectif.</p>${effects(rows(o), base, hasSupport, hasUnacc)}</div>`;
+    if (d.altAvoid !== undefined) html += alt(d.altAvoid, "éviter qu'un candidat que vous jugez inacceptable gagne");
+    if (d.altSupport !== undefined) html += alt(d.altSupport, "qu'un candidat que vous soutenez gagne");
   } else {
     html += `<p>${now}Le meilleur vote dépend de ce qui compte le plus pour vous.</p>` +
       advice(d.forAvoid, current, "Si vous voulez avant tout éviter qu'un candidat que vous jugez inacceptable gagne.", rows, base, hasSupport, hasUnacc) +
@@ -175,7 +179,8 @@ function verdict(runs, recs, groups, current, hasSupport, hasUnacc, data, delta)
   return html;
 }
 
-const perScale = () => PER / (BLOC_SHARES[0] * summary.electorate.registered);
+// converts each group size's effect to « per 100 000 voters » (one factor per size: the threshold is size-free)
+const scales = () => BLOC_SHARES.map((f) => PER / (f * summary.electorate.registered));
 
 function table(res, current, hasSupport, hasUnacc) {
   const base = res.find((r) => r.option === current);

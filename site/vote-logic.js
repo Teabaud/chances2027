@@ -171,3 +171,53 @@ export function decideStable(runs, recs, current, hasSupport, hasUnacc, perScale
   if (all.every((x) => JSON.stringify(x) === JSON.stringify(all[0])) || ["keep", "sincere"].includes(all[0].kind)) return all[0];
   return all.find((x) => x.kind === "sincere") ?? { kind: "keep" };
 }
+
+// Final advice, stable across group sizes. runs[n] = evaluate() for group size n (runs[0] is the reference),
+// scales[n] converts that size's effect to « per 100 000 voters ». Compared with the planned vote `current`:
+// - "switch" to the option that improves at least one objective clearly and hurts none measurably, at every size
+//   (most liked first, then largest gains); optional altAvoid / altSupport: an option that does even better on one
+//   objective at the cost of the other, consistently across sizes;
+// - "depends" when the two objectives point to different options consistently and no option improves both;
+// - otherwise the sincere vote (a supported candidate) or "keep".
+// Returns {kind, best?, forSupport?, forAvoid?, altAvoid?, altSupport?}.
+export function advise(runs, current, hasSupport, hasUnacc, scales, clearEffect, groups) {
+  const keys = [hasUnacc && "unacc", hasSupport && "support"].filter(Boolean);
+  const gain = (m, key) => (key === "unacc" ? -m.diff : m.diff);
+  const improves = (r, key, n) => gain(r[key], key) > 2 * r[key].se && gain(r[key], key) * scales[n] >= clearEffect;
+  const hurts = (r, key) => -gain(r[key], key) > 2 * r[key].se;
+  const others = (res) => res.filter((r) => r.option !== current);
+  const liking = (o) => (o === ABSTAIN ? 0.5 : groups[o]);
+  const intersect = (sets) => sets.reduce((a, b) => a.filter((x) => b.includes(x)));
+  // options that make things better without making anything worse, at every size
+  const pareto = intersect(runs.map((res, n) => others(res)
+    .filter((r) => keys.some((k) => improves(r, k, n)) && !keys.some((k) => hurts(r, k))).map((r) => r.option)));
+  // best option for one objective, if it is the same and clearly better at every size
+  const bestFor = (key) => {
+    const per = runs.map((res, n) => {
+      const top = others(res).filter((r) => improves(r, key, n)).sort((a, b) => gain(b[key], key) - gain(a[key], key))[0];
+      return top ? top.option : current;
+    });
+    return per.every((o) => o === per[0]) ? per[0] : null;
+  };
+  const ref = runs[0];
+  const row = (o) => ref.find((r) => r.option === o);
+  if (pareto.length) {
+    const score = (o) => keys.reduce((t, k) => t + gain(row(o)[k], k), 0);
+    const best = [...pareto].sort((a, b) => liking(b) - liking(a) || score(b) - score(a))[0];
+    const out = { kind: "switch", best };
+    for (const [k, name] of [["unacc", "altAvoid"], ["support", "altSupport"]]) {
+      if (!keys.includes(k)) continue;
+      const alt = bestFor(k);
+      if (alt !== null && alt !== best && alt !== current && gain(row(alt)[k], k) - gain(row(best)[k], k) > 2 * Math.hypot(row(alt)[k].se, row(best)[k].se)) out[name] = alt;
+    }
+    return out;
+  }
+  const fa = hasUnacc ? bestFor("unacc") : current, fs = hasSupport ? bestFor("support") : current;
+  if (fa !== null && fs !== null && (fa !== current || fs !== current)) {
+    if (fa === fs) return { kind: "switch", best: fa };
+    if (!hasUnacc) return { kind: "switch", best: fs };
+    if (!hasSupport) return { kind: "switch", best: fa };
+    return { kind: "depends", forSupport: fs, forAvoid: fa };
+  }
+  return sincere(ref, current, hasSupport, hasUnacc, scales[0], clearEffect, groups);
+}

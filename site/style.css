@@ -143,3 +143,4 @@ a.btn.big { font-size: 1.05rem; padding: 10px 22px; }
 /* good / bad for the user (status palette, never used for series; always paired with ▲ / ▼ and a word) */
 .good { color: #0ca30c; }
 .bad { color: #d03b3b; }
+.advice-block.alt { border-left-color: var(--border); font-size: 0.95rem; }
