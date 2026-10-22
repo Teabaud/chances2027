@@ -1,0 +1,45 @@
+name: daily forecast
+
+on:
+  schedule:
+    - cron: "30 5 * * *" # 07:30 Paris (summer) — after overnight poll releases
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: daily
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Legal blackout guard
+        id: guard
+        run: uv run --frozen pipeline/blackout.py | tee -a "$GITHUB_OUTPUT"
+      - name: Fetch polls and run model
+        if: steps.guard.outputs.frozen != 'true'
+        run: |
+          uv run --frozen pipeline/fetch.py
+          uv run --frozen pipeline/model.py
+          node tests/vote-logic.test.mjs
+      - name: Archive today's build in git (legal record of what was published)
+        if: steps.guard.outputs.frozen != 'true'
+        run: |
+          git config user.name "forecast-bot"
+          git config user.email "forecast-bot@users.noreply.github.com"
+          git add data/polls.csv site/data
+          git diff --cached --quiet || git commit -m "data: daily update $(date -u +%F)"
+          git push
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.guard.outputs.frozen != 'true'
+        with:
+          path: site
+      - uses: actions/deploy-pages@v4
+        if: steps.guard.outputs.frozen != 'true'

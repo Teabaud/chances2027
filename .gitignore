@@ -1,0 +1,16 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Raw downloads (re-fetched by pipeline/fetch.py; historical raw cached locally only)
+data/raw/
+
+# Simulation draws: rebuilt deterministically by pipeline/model.py (seed = date) on every deploy
+site/data/*.bin

@@ -1,0 +1,21 @@
+[project]
+name = "elections2027"
+version = "0.1.0"
+description = "Probabilistic forecast of the 2027 French presidential election, with a strategic-voting helper"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "lxml>=6.1.3",
+    "numpy>=2.5.4",
+    "pandas>=3.0.6",
+    "scipy>=1.18.1",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.17.1",
+    "ty>=0.0.90",
+]
+
+[tool.ruff]
+line-length = 110

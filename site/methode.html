@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Présidentielle 2027 — Méthode</title>
+<meta name="description" content="Comment les sondages sont transformés en chances : données, modèle, tests sur les présidentielles passées, limites.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><nav>
+  <a class="brand" href="index.html">Présidentielle 2027 · les chances</a>
+  <a href="index.html">La course</a>
+  <a href="vote.html">Mon vote</a>
+  <a href="methode.html" aria-current="page">Méthode</a>
+</nav></header>
+<main>
+  <h1>Méthode</h1>
+  <p class="lead">En bref : nous faisons la moyenne des sondages récents, puis nous simulons 10 000 élections
+    en ajoutant à chaque fois une erreur de sondage du même ordre que celles observées lors des présidentielles passées.
+    La « chance » d'un candidat est la part des simulations qu'il gagne.</p>
+
+  <h2>1. Les sondages utilisés</h2>
+  <p>Nous utilisons les compilations ouvertes de <a href="https://github.com/MieuxVoter/presidentielle2027">MieuxVoter</a> (licence MIT)
+    et de <a href="https://sondax.fr">Sondax</a> (CC-BY-SA), qui reprennent les sondages publiés et déclarés à la
+    <a href="https://www.commission-des-sondages.fr">Commission des sondages</a>. Chaque sondage teste souvent plusieurs
+    listes de candidats (« hypothèses »). Nous retenons, pour chaque sondage, l'hypothèse la plus proche de la liste de référence ci-dessous.</p>
+  <p><strong>Liste de référence</strong> (choix éditorial, revu quand les candidatures évoluent ; la liste officielle sera connue en mars 2027) :</p>
+  <p id="lineup" class="box small"></p>
+  <p id="excluded" class="small"></p>
+  <p>La moyenne garde le dernier sondage de chaque institut (45 derniers jours), pondère davantage les plus récents et,
+    un peu, les plus gros échantillons. Elle se fait sur le logarithme des scores, puis est ramenée à 100 %.</p>
+  <details><summary>Sondages retenus aujourd'hui (mentions légales des sondages)</summary>
+    <div class="scroll"><table id="polls"></table></div>
+    <p class="small muted">Chaque sondage a sa notice détaillée (commanditaire, méthode, marge d'erreur) sur le site de la Commission des sondages.</p>
+  </details>
+
+  <h2>2. L'incertitude : apprise sur les présidentielles passées</h2>
+  <p>Nous avons rejoué la même méthode de moyenne sur les sondages de 1995 à 2022 (et utilisé les moyennes de
+    Jennings &amp; Wlezien pour 1981–1995), à différentes distances de l'élection, et mesuré l'écart avec les résultats officiels.</p>
+  <div class="scroll"><table id="mae"></table></div>
+  <p>L'erreur grandit avec la distance à l'élection et est plus forte, en proportion, pour les petits candidats. Les grosses surprises
+    (Le Pen 2002, Mélenchon 2022) sont rares mais pas exceptionnelles : le modèle leur laisse plus de place qu'une courbe en cloche classique
+    (loi de Student à <span id="nu"></span> degrés de liberté, pour les spécialistes). Une même simulation peut être une « mauvaise année » pour tous les sondages à la fois.</p>
+
+  <h3>Est-ce bien calibré ?</h3>
+  <p>Quand nous annonçons « 80 chances sur 100 que le score soit entre 15 et 25 % », est-ce vrai ? Pour le vérifier, nous avons
+    refait les prévisions de chaque présidentielle passée avec un modèle construit <em>sans</em> elle, et compté combien de fois le vrai score
+    est tombé dans la fourchette annoncée :</p>
+  <ul id="coverage"></ul>
+  <p class="small muted">La fourchette à 80 chances sur 100 a servi à régler un facteur d'échelle : elle est juste par construction. Les deux autres sont de vrais tests.
+    Six élections avec des sondages détaillés, c'est peu : ces vérifications sont encourageantes, pas des preuves.</p>
+
+  <h2>3. Le second tour</h2>
+  <p>Pour chaque duel sondé, nous faisons la même moyenne pondérée. Pour les duels jamais sondés, nous attribuons à chaque candidat
+    une « force » de second tour ajustée sur les duels sondés, et le duel est marqué « estimé ». Les candidats jamais testés au second tour
+    empruntent la force d'un candidat proche (estimation grossière ; ils atteignent le second tour dans moins de 1 simulation sur 100).</p>
+  <p><strong>Correction d'un biais connu.</strong> Lors des trois seconds tours avec un candidat FN/RN (2002, 2017, 2022), les sondages ont
+    surestimé ce candidat à chaque fois, de 3 à 5 points. Avec seulement trois cas, nous corrigeons <em>partiellement</em> :
+    <span id="rnbias"></span>, avec une incertitude tirée à chaque simulation.</p>
+  <div class="scroll"><table id="r2polled"></table></div>
+
+  <h2>4. Les deux scénarios</h2>
+  <p>La cour d'appel a permis à Marine Le Pen d'être candidate (7 juillet 2026) ; un pourvoi en cassation reste possible. Nous publions donc
+    deux scénarios sans les mélanger : Marine Le Pen candidate (par défaut), ou Jordan Bardella à sa place. Pour le second, nous utilisons
+    l'écart entre les deux mesuré dans les mêmes sondages, lorsqu'ils ont testé les deux.</p>
+
+  <h3>Choisir les candidats</h3>
+  <p>La liste définitive ne sera connue qu'en mars 2027, et les instituts testent plusieurs listes (Philippe et/ou Attal, Glucksmann ou Hollande…).
+    Vous pouvez choisir une autre liste, mais seulement parmi celles qu'au moins 3 instituts ont réellement testées ces 45 derniers jours :
+    les chiffres viennent alors directement de ces sondages, sans hypothèse de notre part sur l'endroit où iraient les électeurs d'un candidat absent.</p>
+
+  <h2>5. « Mon vote »</h2>
+  <p>L'outil reprend les 10 000 simulations. Pour chaque vote possible, il déplace un groupe d'électeurs « comme vous » (1 % des inscrits)
+    de votre intention actuelle vers ce vote, recalcule qui va au second tour et qui gagne, et compte combien de fois un candidat que vous
+    soutenez, ou que vous jugez inacceptable, l'emporte. Les mêmes simulations servent pour toutes les options, ce qui rend les comparaisons précises.
+    Si la meilleure option est la même pour les deux objectifs, elle l'est aussi pour toute façon de pondérer vos préférences entre les trois groupes.
+    Au second tour, ces électeurs votent comme les sondages le prévoient déjà (ils y sont comptés).
+    L'outil ne propose jamais de voter pour un candidat que vous jugez inacceptable, même si, par calcul, cela pouvait aider votre favori (en lui offrant un adversaire plus faible).</p>
+
+  <h2>6. Deux façons de prévoir</h2>
+  <p>On peut prévoir une élection « de l'intérieur » : imaginer les mécanismes de la campagne (vote utile, barrage, reports de voix) et les simuler.
+    Ou « de l'extérieur » : regarder comment, par le passé, les sondages à la même distance du vote se sont comparés au résultat.
+    Les deux approches donnent parfois des résultats très différents. D'autres sites, comme
+    <a href="https://www.quiserapresident.fr/methodologie">quiserapresident.fr</a>, privilégient la première.</p>
+  <p>Notre règle : <strong>partir de l'extérieur, et n'ajouter un mécanisme que s'il améliore les prévisions des élections passées</strong>,
+    testé en mettant chaque élection de côté. Et quand une mesure directe existe (un duel de second tour sondé), elle passe avant le mécanisme.
+    Les mécanismes servent pour ce qui n'est pas mesuré : un duel jamais sondé, le scénario Bardella.</p>
+
+  <h2>7. Ce que nous avons testé et rejeté</h2>
+  <p>Avec six présidentielles sondées en détail, beaucoup d'idées semblent vraies sur quelques élections et fausses sur d'autres.
+    Voici celles que nous avons essayées et pourquoi elles ne sont pas dans le modèle.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Idée</th><th>Résultat du test</th></tr></thead>
+    <tbody>
+      <tr><td>Le « vote utile » de fin de campagne profite au candidat en tête de son camp</td>
+        <td>Réel sur les courbes de 2017 et 2022, inverse en 2002, faible en 1995, 2007 et 2012. Ajouté au modèle, il dégrade les prévisions des élections mises de côté. La notion de « tête de camp » est fragile : Valérie Pécresse menait la droite en 2022 et s'est effondrée.</td></tr>
+      <tr><td>Le mécanisme de « vote utile » de <a href="https://www.quiserapresident.fr/methodologie">quiserapresident.fr</a>, rejoué avec les paramètres de sa <a href="https://www.quiserapresident.fr/Note_technique.pdf">note technique</a></td>
+        <td>Appliqué aux sondages d'il y a 7, 30 ou 60 jours, il éloigne la prévision du résultat dans 5 élections sur 6 (erreur 2 à 3 fois plus grande).
+          Seule exception : 2022, l'élection sur laquelle il a été calibré. Si on règle sa force sur les autres élections, le meilleur réglage le désactive presque entièrement.</td></tr>
+      <tr><td>La dynamique du dernier mois se prolonge jusqu'au vote</td>
+        <td>Vrai en 2022 et 2002, faux en 2007, 2012 et 2017. Gain très faible à 3 jours du vote, prévisions moins bonnes à 7, 14 et 30 jours.</td></tr>
+      <tr><td>Les surprises touchent tout un camp à la fois</td>
+        <td>Rejeté : les erreurs de candidats d'un même camp ne vont pas dans le même sens.</td></tr>
+      <tr><td>Les électeurs se déplacent surtout à l'intérieur d'un camp</td>
+        <td>Rejeté : toute dose de « vases communicants » internes dégrade le modèle, surtout en 2002 et 2022, où les électeurs ont changé de camp.</td></tr>
+      <tr><td>Depuis 2017, la France tripartite se comporte autrement</td>
+        <td>Peut-être, mais deux élections ne suffisent pas pour l'estimer, et choisir cette coupure après avoir vu les données serait de l'ajustement a posteriori.</td></tr>
+      <tr><td>Un modèle de « barrage » au second tour, sans tenir compte des duels sondés</td>
+        <td>Contredit par la mesure : Marine Le Pen devance Jean-Luc Mélenchon de 36 points dans 7 sondages de second tour. Une telle erreur n'a jamais été observée (maximum historique : 6 à 8 points).</td></tr>
+      <tr><td>Faire la moyenne de plusieurs modèles</td>
+        <td>Avec six élections, impossible de savoir quel poids donner à chacun ; et un modèle contredit par les sondages de second tour n'améliorerait pas la moyenne.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small muted">Rejeté ne veut pas dire impossible : le vote utile de fin de campagne existe, et l'incertitude affichée l'inclut, puisqu'elle vient des écarts réels du passé.
+    Simplement, on ne sait pas prévoir à l'avance dans quel sens il jouera. Pas encore testé : la correction des biais propres à chaque institut.</p>
+
+  <h2>8. Limites, en toute transparence</h2>
+  <ul>
+    <li>Les chances dépendent de la liste de candidats retenue : un retrait ou une union changerait beaucoup les chiffres.</li>
+    <li>Les instituts qui ne testent jamais la liste de référence sont écartés de la moyenne (indiqués plus haut).</li>
+    <li>Le second tour est la partie la plus incertaine : peu de duels sondés, seulement six élections pour mesurer l'erreur ; nous avons fixé
+      l'erreur à long terme de façon prudente plutôt que de l'estimer.</li>
+    <li>Le second tour n'a pas de test indépendant comme le premier, et nous ne modélisons pas encore les surprises communes à un même camp politique.</li>
+    <li>Nous ne modélisons pas le « vote utile » de dernière minute, sinon à travers l'erreur historique (qui l'inclut).</li>
+    <li>La participation est supposée égale à celle de 2022.</li>
+    <li>Ce site peut lui-même influencer les votes ; ce phénomène n'existe pas dans les données historiques.</li>
+  </ul>
+
+  <h2>9. Questions fréquentes</h2>
+  <details><summary>Le vote blanc compte-t-il ?</summary><p>Les votes blancs sont comptés à part et n'entrent pas dans les pourcentages : pour le résultat, voter blanc revient à s'abstenir.</p></details>
+  <details><summary>Et si les sondages se trompent ?</summary><p>C'est prévu : toute l'incertitude affichée vient des erreurs passées des sondages. Un candidat à 20 chances sur 100 gagne une fois sur cinq.</p></details>
+  <details><summary>Qui fait ce site ? Êtes-vous partisans ?</summary><p>Un projet personnel, sans financement ni lien avec un parti ou un candidat. Le code et les données sont publics : chacun peut vérifier les calculs.</p></details>
+  <details><summary>Mes réponses à « Mon vote » sont-elles enregistrées ?</summary><p>Non. Le calcul se fait dans votre navigateur, rien n'est envoyé. Le site n'utilise ni cookie ni mesure d'audience.</p></details>
+  <details><summary>Est-ce légal ?</summary><p>La publication de sondages et de simulations fondées sur des sondages est encadrée par la loi n° 77-808 du 19 juillet 1977. Le site cite chaque sondage utilisé et cesse toute mise à jour la veille et le jour de chaque tour.</p></details>
+  <details><summary>Et au second tour ?</summary><p>Entre les deux tours, le site affichera les chances du duel effectivement qualifié.</p></details>
+
+  <h2>Code, données, mentions légales</h2>
+  <p>Code source et données : <a href="https://github.com/Teabaud/chances2027">github.com/Teabaud/chances2027</a>.
+    Éditeur : Thibaud Veron (projet personnel). Hébergeur : GitHub Pages (GitHub, Inc., 88 Colin P. Kelly Jr St, San Francisco, CA 94107, États-Unis).</p>
+</main>
+<footer>Projet personnel, indépendant de tout parti.</footer>
+<script type="module" src="methode.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+# Reference first-round line-up per scenario. Hand-maintained: who runs is a political judgement,
+# shown as-is on the site. Revisit when candidacies change (official list ~March 2027).
+# Choice 2026-10-21: the most-polled full field over the last 60 days (both Philippe and Attal).
+
+[lepen]
+label = "Marine Le Pen candidate"
+candidates = ["arthaud", "roussel", "melenchon", "tondelier", "glucksmann", "attal", "philippe",
+              "retailleau", "dupont-aignan", "le-pen", "zemmour"]
+
+[bardella]
+label = "Jordan Bardella candidat à la place de Marine Le Pen"
+candidates = ["arthaud", "roussel", "melenchon", "tondelier", "glucksmann", "attal", "philippe",
+              "retailleau", "dupont-aignan", "bardella", "zemmour"]
