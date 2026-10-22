@@ -169,19 +169,20 @@ function effectSentence(opt, base, hasSupport, hasUnacc) {
   return html + `</p>`;
 }
 
-function signed(m, isCurrent) {
+// sign = +1 when a higher probability is better for the user, −1 when lower is better: "+" always means better
+function signed(m, isCurrent, sign) {
   if (isCurrent) return "—";
   if (Math.abs(m.diff) <= 2 * m.se) return "≈ 0";
-  return `${m.diff < 0 ? "−" : "+"}${pts(m.diff)}`;
+  return `${sign * m.diff < 0 ? "−" : "+"}${pts(m.diff)}`;
 }
 
 function table(res, current, hasSupport, hasUnacc) {
   const sorted = [...res].sort((a, b) => (hasUnacc ? a.unacc.diff - b.unacc.diff : b.support.diff - a.support.diff));
-  const head = `<tr><th>Voter pour…</th>${hasSupport ? "<th class='num'>Un candidat que vous soutenez gagne</th>" : ""}${hasUnacc ? "<th class='num'>Un candidat inacceptable gagne</th>" : ""}</tr>`;
+  const head = `<tr><th>Voter pour…</th>${hasSupport ? "<th class='num'>Faire gagner un candidat que vous soutenez</th>" : ""}${hasUnacc ? "<th class='num'>Éviter un candidat inacceptable</th>" : ""}</tr>`;
   const body = sorted.map((r) => `<tr${r.option === current ? " class='better'" : ""}><td>${r.option === ABSTAIN ? "blanc / abstention" : sc().candidates[r.option].name}${r.option === current ? " (votre choix actuel)" : ""}</td>` +
-    (hasSupport ? `<td class="num">${signed(r.support, r.option === current)}</td>` : "") + (hasUnacc ? `<td class="num">${signed(r.unacc, r.option === current)}</td>` : "") + `</tr>`).join("");
-  return `<h3>Toutes les options</h3><p class="small muted">Changement de probabilité, en points, si 100 000 électeurs passaient de votre choix actuel à cette option. ` +
-    `« ≈ 0 » signifie qu'il n'y a pas de différence mesurable.</p>` +
+    (hasSupport ? `<td class="num">${signed(r.support, r.option === current, 1)}</td>` : "") + (hasUnacc ? `<td class="num">${signed(r.unacc, r.option === current, -1)}</td>` : "") + `</tr>`).join("");
+  return `<h3>Toutes les options</h3><p class="small muted">Effet, en points de probabilité, si 100 000 électeurs passaient de votre choix actuel à cette option. ` +
+    `Un nombre positif signifie que l'option fait mieux que votre choix actuel. « ≈ 0 » signifie qu'il n'y a pas de différence mesurable.</p>` +
     `<div class="scroll"><table><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
 }
 
