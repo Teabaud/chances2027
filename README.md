@@ -12,7 +12,8 @@ Methodology (in French, for the public): `site/methode.html`.
 uv run pipeline/fetch.py      # polls: MieuxVoter (MIT) + Sondax (CC-BY-SA) → data/polls.csv
 uv run pipeline/backtest.py   # fit + leave-one-election-out validation on 1995–2022 → data/error_params.json
 uv run pipeline/model.py      # averages, 10 000 simulations per scenario → site/data/
-node tests/vote-logic.test.mjs
+node tests/vote-logic.test.mjs   # « Mon vote » logic
+uv run python tests/test_model.py   # scenario layer: Bardella, no look-ahead, line-up ids, pollster counts
 uv run pipeline/blackout.py   # legal blackout guard (loi 77-808): no build on the eve and day of each round
 ```
 

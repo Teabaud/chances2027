@@ -1,14 +1,12 @@
 import { frDate, loadSummary } from "./common.js";
 
 const [summary, bt] = await Promise.all([loadSummary(), fetch("data/backtest.json", { cache: "no-cache" }).then((r) => r.json())]);
-const sc = summary.scenarios.lepen;
+const sc = summary.scenarios[summary.reference];
 const allCands = Object.values(summary.scenarios).flatMap((x) => x.candidates);
 const name = (id) => allCands.find((c) => c.id === id)?.name ?? id;
 const pct = (x) => `${Math.round(100 * x)} %`;
 
 document.getElementById("lineup").textContent = sc.candidates.map((c) => c.name).sort((a, b) => a.localeCompare(b, "fr")).join(", ");
-document.getElementById("excluded").textContent = summary.pollsters_excluded.length
-  ? `Instituts écartés aujourd'hui car ils ne testent pas cette liste : ${summary.pollsters_excluded.join(", ")}.` : "";
 
 document.getElementById("polls").innerHTML = `<thead><tr><th>Institut</th><th>Commanditaire</th><th>Terrain</th><th class="num">Échantillon</th><th>Notice</th></tr></thead><tbody>` +
   summary.polls_used.map((p) => `<tr><td>${p.pollster}</td><td>${p.sponsor ?? "voir la notice"}</td><td>du ${frDate(p.start)} au ${frDate(p.end)}</td>` +

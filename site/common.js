@@ -2,10 +2,8 @@
 
 export const SCENARIO_KEY = "scenario";
 const EARLY_DAYS = 60; // before this, the site says plainly that the numbers are mostly a curiosity
-const RELIABLE_DAYS = 14;
-// Legal blackout (loi n° 77-808): same windows as pipeline/blackout.py, Paris time (UTC+2 in April–May)
-const BLACKOUT = [["2027-04-16T18:00:00+02:00", "2027-04-18T20:00:00+02:00"], ["2027-04-30T18:00:00+02:00", "2027-05-02T20:00:00+02:00"]];
-export const inBlackout = (now = Date.now()) => BLACKOUT.some(([a, b]) => now >= Date.parse(a) && now < Date.parse(b));
+// Legal blackout windows (loi n° 77-808) come from pipeline/blackout.py through summary.json.
+export const inBlackout = (summary, now = Date.now()) => summary.constants.blackout.some(([a, b]) => now >= Date.parse(a) && now < Date.parse(b));
 
 export async function loadSummary() {
   const res = await fetch("data/summary.json", { cache: "no-cache" });
@@ -33,7 +31,7 @@ export function frDate(iso) {
 }
 
 export function getScenario() {
-  try { return localStorage.getItem(SCENARIO_KEY) || "lepen"; } catch { return "lepen"; }
+  try { return localStorage.getItem(SCENARIO_KEY); } catch { return null; }
 }
 
 export function setScenario(s) {
@@ -41,53 +39,56 @@ export function setScenario(s) {
 }
 
 // Two rows: who is the RN candidate, and which line-up (only line-ups tested by ≥3 pollsters are offered).
+// A scenario = RN candidate × line-up (keys and labels come from summary.json). Bardella exists only with the
+// reference line-up, so the line-up row is limited to it when Bardella is chosen.
 export function scenarioTabs(el, summary, current, onChange) {
   const sc = summary.scenarios;
+  const cur = sc[current];
   const wasOpen = el.querySelector("details")?.open ?? false;
   el.innerHTML = "";
   const box = document.createElement("details");
   box.className = "scen";
   box.open = wasOpen;
-  const rn = current === "bardella" ? "Jordan Bardella candidat" : "Marine Le Pen candidate";
-  const list = sc[current]?.kind === "lineup" ? sc[current].label : "liste de référence";
-  box.innerHTML = `<summary>Scénario : <strong>${rn}</strong>, <strong>${list}</strong>. Modifier</summary>`;
+  const rnLabel = cur.rn === "bardella" ? "Jordan Bardella candidat" : "Marine Le Pen candidate";
+  box.innerHTML = `<summary>Scénario : <strong>${rnLabel}</strong>, <strong>${cur.reference ? "liste de référence" : cur.label}</strong>. Modifier</summary>`;
   el.append(box);
-  const target = box;
-  const rnRow = [["lepen", "Marine Le Pen"], ["bardella", "Jordan Bardella"]].filter(([k]) => sc[k]);
-  const lineupRow = [["lepen", "Liste de référence"],
-    ...Object.entries(sc).filter(([, v]) => v.kind === "lineup").map(([k, v]) => [k, v.label])];
-  const row = (title, items, isActive, disabled) => {
+  const bardella = Object.keys(sc).find((k) => sc[k].rn === "bardella");
+  const lePen = Object.keys(sc).filter((k) => sc[k].rn === "lepen").sort((a, b) => sc[b].reference - sc[a].reference);
+  const row = (title, items) => {
     const wrap = document.createElement("div");
     wrap.className = "tabs";
     wrap.setAttribute("role", "group");
     wrap.setAttribute("aria-label", title);
-    const t = document.createElement("span");
-    t.className = "small muted";
-    t.textContent = title + " :";
-    wrap.append(t);
-    for (const [key, label] of items) {
+    wrap.innerHTML = `<span class="small muted">${title} :</span>`;
+    for (const { key, label, active, disabled } of items) {
       const b = document.createElement("button");
       b.textContent = label;
-      b.setAttribute("aria-pressed", String(isActive(key)));
-      b.disabled = disabled(key);
-      if (b.disabled) b.title = "Combinaison pas assez testée par les instituts";
-      b.onclick = () => { if (b.getAttribute("aria-pressed") === "true") return; setScenario(key); onChange(key); };
+      b.setAttribute("aria-pressed", String(active));
+      b.disabled = disabled;
+      if (disabled) b.title = "Combinaison pas assez testée par les instituts";
+      b.onclick = () => { if (active) return; setScenario(key); onChange(key); };
       wrap.append(b);
     }
-    target.append(wrap);
+    box.append(wrap);
   };
-  row("Candidat du RN", rnRow, (k) => k === current || (k === "lepen" && sc[current]?.kind === "lineup"),
-    (k) => k === "bardella" && sc[current]?.kind === "lineup");
-  row("Liste des candidats", lineupRow, (k) => k === current || (k === "lepen" && current === "bardella"),
-    (k) => current === "bardella" && k !== "lepen");
-  const n = sc[current]?.n_pollsters;
-  if (n) {
-    const note = document.createElement("p");
-    note.className = "small muted";
-    note.textContent = `Ce scénario repose sur les sondages de ${n} instituts qui ont testé exactement cette liste ces 45 derniers jours.`;
-    target.append(note);
-  }
+  row("Candidat du RN", [
+    { key: summary.reference, label: "Marine Le Pen", active: cur.rn === "lepen", disabled: false },
+    ...(bardella ? [{ key: bardella, label: "Jordan Bardella", active: cur.rn === "bardella", disabled: !cur.reference }] : []),
+  ]);
+  row("Liste des candidats", lePen.map((k) => ({
+    key: k, label: sc[k].label, active: cur.rn === "lepen" ? k === current : sc[k].reference, disabled: cur.rn === "bardella" && !sc[k].reference,
+  })));
+  const note = document.createElement("p");
+  note.className = "small muted";
+  const c = summary.constants;
+  note.textContent = cur.rn === "bardella"
+    ? `Ce scénario est estimé : il reprend les sondages faits avec Marine Le Pen, corrigés de l'écart mesuré dans ${cur.delta_polls} sondages qui ont testé les deux noms.`
+    : `Ce scénario repose sur les sondages de ${cur.n_pollsters} instituts qui ont testé cette liste ces ${c.window_days} derniers jours.`;
+  box.append(note);
 }
+
+// Unknown or outdated scenario key (old links, saved preference) → the reference scenario.
+export const resolveScenario = (summary, ...keys) => keys.find((k) => k && summary.scenarios[k]) ?? summary.reference;
 
 export function svg(tag, attrs = {}, text) {
   const n = document.createElementNS("http://www.w3.org/2000/svg", tag);
@@ -147,7 +148,7 @@ export function caveat(summary) {
   const mae = summary.mae_by_horizon;
   const horizons = Object.keys(mae).map(Number).sort((a, b) => a - b);
   const now = mae[horizons.filter((h) => h <= days).at(-1) ?? horizons.at(-1)];
-  const lateH = horizons.filter((h) => h <= RELIABLE_DAYS);
+  const lateH = horizons.filter((h) => h <= summary.constants.late_days);
   const late = lateH.reduce((t, h) => t + mae[h], 0) / lateH.length;
   const fmt = (x, d) => x.toLocaleString("fr-FR", { maximumFractionDigits: d });
   return help(`<p>${notPoll}</p><p>À ${days} jours du vote, les sondages se sont trompés en moyenne de ${fmt(now, 0)} points par candidat lors des présidentielles passées. ` +

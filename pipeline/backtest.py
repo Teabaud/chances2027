@@ -32,10 +32,12 @@ COVERAGE_LEVELS = [0.5, 0.8, 0.95]
 WITHDRAWN_PRESENCE = 0.5
 RN_CANDIDATES = {"le-pen"}  # FN/RN candidates in past run-offs (J.-M. Le Pen 2002, M. Le Pen 2017/2022)
 RN_BIAS_PRIOR_SD = 0.10  # logit; prior on a party-level R2 polling bias (independent review, 2026-10)
-R2_SIGMA_INF = 0.30  # logit; fixed: 6 elections cannot pin the far-horizon asymptote (review recommendation)
-R2_D_HALF = 64.0  # days; gives ≈0.27 logit at 190 days with σ_f ≈ 0.15
+# R2 error: judgement, not a fit. Six run-offs cannot pin these (a fit of σ_f hit any floor we set), so they are
+# stated as such (methode.html « Limites »): final week ≈ 2.5 pp (Jennings & Wlezien, across countries), far-horizon
+# asymptote and half-life from the independent review (≈ 0.27 logit at 190 days).
+R2_SIGMA_FINAL, R2_SIGMA_INF, R2_D_HALF = 0.10, 0.30, 64.0
 R2_TYPICAL_SD = 0.15  # logit; typical single-election R2 error, for the bias standard error
-R2_SIGMA_FINAL_FLOOR = 0.10  # logit; ≈ 2.5 pp, final-week R2 error across countries (Jennings & Wlezien)
+LATE_DAYS = 14  # « the last two weeks », reported separately and used by the site
 N_SIM = 4000
 
 
@@ -178,20 +180,6 @@ def rn_bias(err: pd.DataFrame) -> tuple[float, float]:
     return float(shrink * per_year.mean()), float(np.sqrt(1 / (1 / RN_BIAS_PRIOR_SD**2 + 1 / se2)))
 
 
-def fit_r2(err: pd.DataFrame, bias: float, nu: float) -> ErrorParams:
-    """Fit σ_f on bias-corrected errors; asymptote and half-life fixed (see constants)."""
-    w = (1 / err.groupby("year").d.transform("size")).to_numpy()
-    rn = rn_error(err)
-    resid = np.where(rn.notna(), rn - bias, err.err).astype(float)
-
-    def nll(th: np.ndarray) -> float:
-        sd = sigma(err.d_eff.to_numpy(), ErrorParams(abs(th[0]), R2_SIGMA_INF, R2_D_HALF, 1.0, nu))
-        return -(w * (stats.t.logpdf(resid / sd, nu) - np.log(sd))).sum()
-
-    res = optimize.minimize(nll, x0=[0.1], method="Nelder-Mead")
-    return ErrorParams(max(float(abs(res.x[0])), R2_SIGMA_FINAL_FLOOR), R2_SIGMA_INF, R2_D_HALF, 1.0, nu)
-
-
 def loeo_logscore(err: pd.DataFrame, nu: float) -> float:
     total = 0.0
     for year in err.year.unique():
@@ -268,16 +256,16 @@ def main() -> None:
     scale, cov = calibrate_scale(err, err_all, nu, rng)
     p1.scale = scale
     fitted = cov[cov.avg >= MIN_SHARE]
-    cov_all, cov_late = coverage_table(fitted), coverage_table(fitted[fitted.d <= 14])
+    cov_all, cov_late = coverage_table(fitted), coverage_table(fitted[fitted.d <= LATE_DAYS])
     brier = float(((cov.p_qualify - cov.qualified) ** 2).mean())
-    brier_late = float(((cov[cov.d <= 14].p_qualify - cov[cov.d <= 14].qualified) ** 2).mean())
+    brier_late = float(((cov[cov.d <= LATE_DAYS].p_qualify - cov[cov.d <= LATE_DAYS].qualified) ** 2).mean())
     print("R1 params:", p1.to_dict())
     print("LOEO coverage all horizons:", cov_all, " D≤14:", cov_late)
     print(f"Qualify Brier: all {brier:.3f}, D≤14 {brier_late:.3f}")
 
     e2 = r2_errors(polls, results)
     bias, bias_sd = rn_bias(e2)
-    p2 = fit_r2(e2, bias, nu)
+    p2 = ErrorParams(R2_SIGMA_FINAL, R2_SIGMA_INF, R2_D_HALF, 1.0, nu)
     print(f"RN R2 bias (logit of RN share): {bias:.3f} ± {bias_sd:.3f}")
     print("R2 errors (logit, result − polls):")
     print(
@@ -295,6 +283,7 @@ def main() -> None:
         json.dumps(
             {
                 "years": sorted(int(y) for y in err.year.unique()),
+                "late_days": LATE_DAYS,
                 "nu": nu,
                 "r1": p1.to_dict(),
                 "r2": p2.to_dict(),

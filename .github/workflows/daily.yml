@@ -30,6 +30,7 @@ jobs:
           uv run --frozen pipeline/model.py
           uv run --frozen pipeline/model.py --backfill
           node tests/vote-logic.test.mjs
+          uv run --frozen python tests/test_model.py
       - name: Archive today's build in git (legal record of what was published)
         if: steps.guard.outputs.frozen != 'true'
         run: |

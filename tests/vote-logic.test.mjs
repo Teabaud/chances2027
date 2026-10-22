@@ -28,8 +28,17 @@ const SHARE = 0.02; // group of voters « like you », as in site/vote.js
   assert.equal(flat.forAvoid, null); assert.equal(flat.forSupport, null);
 }
 
-function load(key) {
+// "lepen" = the reference scenario; any other name = the Le Pen line-up with that label (e.g. "sans Attal")
+function scenarioKey(summary, name) {
+  if (name === "lepen") return summary.reference;
+  const key = Object.keys(summary.scenarios).find((k) => summary.scenarios[k].rn === "lepen" && summary.scenarios[k].label === name);
+  assert.ok(key, `no scenario labelled ${name}`);
+  return key;
+}
+
+function load(name) {
   const summary = JSON.parse(readFileSync("site/data/summary.json"));
+  const key = scenarioKey(summary, name);
   const sc = summary.scenarios[key];
   const d = makeData(new Uint16Array(readFileSync(`site/data/r1_${key}.bin`).buffer.slice(0)),
     new Uint16Array(readFileSync(`site/data/r2_${key}.bin`).buffer.slice(0)), sc.candidates.length, sc.pairs.length, sc.pairs);
@@ -70,7 +79,7 @@ for (const [label, key, g, curId] of [
   ["Arthaud fan voting Philippe", "lepen", { arthaud: SUPPORT }, "philippe"],
   ["planning to vote for an unacceptable candidate (Le Pen)", "lepen", { glucksmann: SUPPORT, "le-pen": UNACCEPTABLE }, "le-pen"],
   ["planning Le Pen, rejecting her, nothing supported", "lepen", { "le-pen": UNACCEPTABLE }, "le-pen"],
-  ["reported 1: left voter planning Tondelier (sans Attal)", "lu-sans-attal",
+  ["reported 1: left voter planning Tondelier (sans Attal)", "sans Attal",
     { arthaud: SUPPORT, melenchon: SUPPORT, glucksmann: SUPPORT, tondelier: SUPPORT, roussel: SUPPORT, "le-pen": UNACCEPTABLE, zemmour: UNACCEPTABLE }, "tondelier"],
   ["reported 2: left voter planning Tondelier", "lepen",
     { glucksmann: SUPPORT, melenchon: SUPPORT, roussel: SUPPORT, tondelier: SUPPORT, "dupont-aignan": UNACCEPTABLE, "le-pen": UNACCEPTABLE, retailleau: UNACCEPTABLE, zemmour: UNACCEPTABLE }, "tondelier"],

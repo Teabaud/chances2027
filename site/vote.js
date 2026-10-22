@@ -1,4 +1,4 @@
-import { caveat, getScenario, help, inBlackout, isEarly, loadSummary, scenarioTabs } from "./common.js";
+import { caveat, getScenario, help, inBlackout, isEarly, loadSummary, resolveScenario, scenarioTabs } from "./common.js";
 import { ABSTAIN, ACCEPTABLE, SUPPORT, UNACCEPTABLE, advise, decisiveChange, evaluate, makeData } from "./vote-logic.js";
 
 const BLOC_SHARE = 0.02; // the group of voters « like you »: 2 % of registered voters ≈ « un million »
@@ -9,7 +9,7 @@ const GROUP_LABELS = [[SUPPORT, "Je soutiens"], [ACCEPTABLE, "Acceptable"], [UNA
 const summary = await loadSummary();
 const dataCache = {};
 const state = readHash();
-let scen = [state.scen, getScenario()].find((k) => summary.scenarios[k]) || "lepen";
+let scen = resolveScenario(summary, state.scen, getScenario());
 
 function readHash() {
   const h = new URLSearchParams(location.hash.slice(1));
@@ -84,7 +84,7 @@ function currentId() {
 async function update() {
   writeHash();
   const out = document.getElementById("result");
-  if (inBlackout()) {
+  if (inBlackout(summary)) {
     out.innerHTML = `<p class="box warn">L'outil est suspendu la veille et le jour du vote, comme le prévoit la loi n° 77-808. Il revient le dimanche à 20 h.</p>`;
     return;
   }
@@ -119,21 +119,30 @@ const pct = (p, other) => {
 // Both displayed metrics go up when things improve: « éviter » is 1 − P(an unacceptable candidate wins).
 const avoid = (m) => ({ p: 1 - m.p, diff: -m.diff, se: m.se });
 
-// « de 23 à 31 sur 100 » in bold green with ▲ if it rises (better for the user), bold red with ▼ if it falls,
-// plain if the change is within the noise. The arrow keeps the meaning readable without colour.
-function change(m, b, suffix = " sur 100") {
-  const text = `de ${pct(b.p, m.p)} à ${pct(m.p, b.p)}${suffix}`;
-  if (Math.abs(m.diff) <= 2 * m.se) return text;
+// « augmenteraient : ▲ 23 → 31 sur 100 » in bold green, « baisseraient : ▼ 23 → 20 sur 100 » in bold red,
+// « ne changeraient pas : 23 sur 100 » if the change is within the noise. The arrow keeps it readable without colour.
+function change(m, b) {
+  if (Math.abs(m.diff) <= 2 * m.se) return `ne changeraient pas : ${pct(b.p, b.p)} sur 100`;
   const up = m.diff > 0;
-  return `<strong class="${up ? "good" : "bad"}">${text} ${up ? "▲" : "▼"}</strong>`;
+  return `${up ? "augmenteraient" : "baisseraient"} : <strong class="${up ? "good" : "bad"}">${up ? "▲" : "▼"} ${pct(b.p, m.p)} → ${pct(m.p, b.p)} sur 100</strong>`;
 }
 
-// « Les chances d'éviter un candidat que vous jugez inacceptable passeraient de 23 à 31 sur 100. »
+const AVOID = "Les chances d'éviter un candidat que vous jugez inacceptable";
+const SUPPORT_WINS = "Les chances qu'un candidat que vous soutenez gagne";
+
 function effects(row, base, hasSupport, hasUnacc) {
   const items = [];
-  if (hasUnacc) items.push(`Les chances d'éviter un candidat que vous jugez inacceptable passeraient ${change(avoid(row.unacc), avoid(base.unacc))}.`);
-  if (hasSupport) items.push(`Les chances qu'un candidat que vous soutenez gagne passeraient ${change(row.support, base.support)}.`);
+  if (hasUnacc) items.push(`${AVOID} ${change(avoid(row.unacc), avoid(base.unacc))}.`);
+  if (hasSupport) items.push(`${SUPPORT_WINS} ${change(row.support, base.support)}.`);
   return `<p class="small">Si environ un million d'électeurs comme vous faisaient ce choix :</p><ul class="small">${items.map((x) => `<li>${x}</li>`).join("")}</ul>`;
+}
+
+// today's chances, shown when the advice is to keep the planned vote
+function today(base, hasSupport, hasUnacc) {
+  const items = [];
+  if (hasUnacc) items.push(`${AVOID} : ${Math.round(100 * (1 - base.unacc.p))} sur 100.`);
+  if (hasSupport) items.push(`${SUPPORT_WINS} : ${Math.round(100 * base.support.p)} sur 100.`);
+  return `<p class="small">Aujourd'hui :</p><ul class="small">${items.map((x) => `<li>${x}</li>`).join("")}</ul>`;
 }
 
 // small: the advised vote is only slightly better than the planned one, so the headline says so instead of ordering
@@ -143,7 +152,7 @@ function advice(option, current, why, rows, base, hasSupport, hasUnacc, small = 
     : small ? "Votre choix change peu de chose"
     : (option === ABSTAIN ? "Votez blanc ou abstenez-vous" : `Votez pour <strong>${nameOfIdx(option)}</strong>`);
   return `<div class="advice-block"><p class="advice">${head}</p>${why ? `<p>${why}</p>` : ""}` +
-    (option === current ? "" : effects(rows(option), base, hasSupport, hasUnacc)) + `</div>`;
+    (option === current ? today(base, hasSupport, hasUnacc) : effects(rows(option), base, hasSupport, hasUnacc)) + `</div>`;
 }
 
 function verdict(res, groups, current, hasSupport, hasUnacc, data, delta) {

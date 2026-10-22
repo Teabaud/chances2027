@@ -15,48 +15,33 @@ export function makeData(r1u16, r2u16, K, P, pairs) {
   return { S, K, P, r1, r2, pairs, pairIndex };
 }
 
-// Winner of each draw after moving `delta` (fraction of R1 expressed votes) from `from` to `to`.
-export function winners(data, from, to, delta) {
-  const { S, K, P, r1, r2, pairs, pairIndex } = data;
-  const out = new Int8Array(S);
-  const p = new Float64Array(K);
-  for (let s = 0; s < S; s++) {
-    for (let c = 0; c < K; c++) p[c] = r1[s * K + c];
-    if (from !== to && delta > 0) {
-      if (from === ABSTAIN) {
-        p[to] += delta; // newcomers: renormalising is a common factor, irrelevant to the ranking
-      } else {
-        const moved = Math.min(delta, p[from]);
-        p[from] -= moved;
-        if (to !== ABSTAIN) p[to] += moved;
-      }
-    }
-    let a = 0, b = -1;
-    for (let c = 1; c < K; c++) {
-      if (p[c] > p[a]) { b = a; a = c; } else if (b < 0 || p[c] > p[b]) b = c;
-    }
-    const n = pairIndex[a * K + b];
-    const shareLow = r2[s * P + n];
-    const low = pairs[n][0];
-    out[s] = shareLow > 0.5 ? low : (low === a ? b : a);
-  }
-  return out;
-}
-
+// The two qualifiers of each draw after moving `delta` (fraction of R1 expressed votes) from `from` to `to`
+// (to/from ABSTAIN: voters joining or leaving). Returns [a0, b0, a1, b1, …].
 export function finalists(data, from, to, delta) {
-  // same perturbation as winners(), returns the two qualifiers per draw (for the explanation)
   const { S, K, r1 } = data;
   const out = new Int8Array(2 * S);
   const p = new Float64Array(K);
   for (let s = 0; s < S; s++) {
     for (let c = 0; c < K; c++) p[c] = r1[s * K + c];
     if (from !== to && delta > 0) {
-      if (from === ABSTAIN) p[to] += delta;
-      else { const m = Math.min(delta, p[from]); p[from] -= m; if (to !== ABSTAIN) p[to] += m; }
+      if (from === ABSTAIN) p[to] += delta; // newcomers: renormalising is a common factor, irrelevant to the ranking
+      else { const moved = Math.min(delta, p[from]); p[from] -= moved; if (to !== ABSTAIN) p[to] += moved; }
     }
     let a = 0, b = -1;
     for (let c = 1; c < K; c++) { if (p[c] > p[a]) { b = a; a = c; } else if (b < 0 || p[c] > p[b]) b = c; }
     out[2 * s] = a; out[2 * s + 1] = b;
+  }
+  return out;
+}
+
+// Winner of each draw for the same move: the qualifier who wins that draw's simulated second round.
+export function winners(data, from, to, delta) {
+  const { S, K, P, r2, pairs, pairIndex } = data;
+  const top2 = finalists(data, from, to, delta);
+  const out = new Int8Array(S);
+  for (let s = 0; s < S; s++) {
+    const a = top2[2 * s], b = top2[2 * s + 1], n = pairIndex[a * K + b], low = pairs[n][0];
+    out[s] = r2[s * P + n] > 0.5 ? low : (low === a ? b : a);
   }
   return out;
 }

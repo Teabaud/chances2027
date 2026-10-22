@@ -126,3 +126,22 @@ def r2_averages(polls: pd.DataFrame, asof: pd.Timestamp, days_to_election: float
             }
         )
     return pd.DataFrame(rows)
+
+
+def tested_counts(r1: pd.DataFrame, asof: pd.Timestamp) -> tuple[set[str], dict[frozenset, int]]:
+    """Major candidates over the last R1_WINDOW_DAYS, and how many pollsters tested each set of major candidates
+    in that window. The single definition of « a line-up tested by N pollsters », used to offer and to report."""
+    r1 = r1[r1["round"] == 1]
+    end = pd.to_datetime(r1.end)
+    recent = r1[(end <= asof) & (end > asof - pd.Timedelta(days=R1_WINDOW_DAYS))]
+    mean = recent.groupby("candidate").share.mean()
+    major = set(mean[mean >= MAJOR_SHARE].index)
+    hyps = recent.groupby("hyp").agg(
+        m=("candidate", lambda c: frozenset(set(c) & major)), p=("pollster", "first")
+    )
+    return major, hyps.groupby("m").p.nunique().to_dict()
+
+
+def pollsters_testing(r1: pd.DataFrame, lineup: list[str], asof: pd.Timestamp) -> int:
+    major, counts = tested_counts(r1, asof)
+    return int(counts.get(frozenset(set(lineup) & major), 0))

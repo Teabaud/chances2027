@@ -42,9 +42,19 @@ def mixing(rng: np.random.Generator, nu: float, n: int) -> np.ndarray:
     return 1 / np.sqrt(rng.chisquare(nu, n) / nu)
 
 
-def draw_r1(share: np.ndarray, d: float, p: ErrorParams, rng: np.random.Generator, n: int) -> np.ndarray:
-    """share: K fractions summing to 1. Returns n×K simulated vote shares (rows sum to 1)."""
+def draw_r1(
+    share: np.ndarray,
+    d: float,
+    p: ErrorParams,
+    rng: np.random.Generator,
+    n: int,
+    extra_sd: np.ndarray | None = None,
+) -> np.ndarray:
+    """share: K fractions summing to 1; extra_sd: optional per-candidate log-share sd added in quadrature
+    (e.g. uncertainty of a derived scenario). Returns n×K simulated vote shares (rows sum to 1)."""
     sd = p.scale * sigma(d, p) * size_scaling(share, p.k)
+    if extra_sd is not None:
+        sd = np.hypot(sd, extra_sd)
     logits = np.log(share) + sd * rng.standard_normal((n, len(share))) * mixing(rng, p.nu, n)[:, None]
     logits -= logits.max(axis=1, keepdims=True)
     e = np.exp(logits)

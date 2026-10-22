@@ -1,13 +1,12 @@
-import { attachTip, caveat, chances, frDate, getScenario, hbar, help, loadSummary, nameOf, pctShort, scenarioTabs, svg } from "./common.js";
+import { attachTip, caveat, chances, frDate, getScenario, hbar, help, loadSummary, nameOf, pctShort, resolveScenario, scenarioTabs, svg } from "./common.js";
 
 const NEAR_CERTAIN = 0.85; // above this P(qualify), the headline is about who will face them
 const MIN_QUALIFY_ROW = 0.01; // duels table: both candidates must qualify at least this often
 const UNRELIABLE_QUALIFY = 0.05;
 const HISTORY_MAX = 5; // lines in the history chart: today's top candidates by chance of winning
-const MIN_POLLSTERS_SOLID = 3; // fewer pollsters behind a history point: drawn dashed
 
 const summary = await loadSummary();
-let scen = summary.scenarios[getScenario()] ? getScenario() : "lepen";
+let scen = resolveScenario(summary, getScenario());
 let history = await fetch("data/history.csv", { cache: "no-cache" }).then((r) => r.text()).then(parseCsv);
 
 function parseCsv(text) {
@@ -128,7 +127,8 @@ function historyChart(cands) {
   const el = document.getElementById("history");
   const rows = history.filter((r) => r.scenario === scen);
   // the x axis spans the reference history, so a line-up tested only recently starts later instead of stretching
-  const dates = [...new Set(history.filter((r) => r.scenario === "lepen").map((r) => r.date))].sort();
+  // one time axis for all scenarios: a line-up tested only recently starts later instead of stretching
+  const dates = [...new Set(history.map((r) => r.date))].sort();
   if (dates.length < 2) { el.innerHTML = "<p class='muted small'>L'historique s'affichera après quelques jours de mises à jour.</p>"; return; }
   // the HISTORY_MAX candidates with the best chance of winning today
   const ids = [...cands].sort((a, b) => b.p_win - a.p_win).slice(0, HISTORY_MAX).map((c) => c.id);
@@ -145,7 +145,8 @@ function historyChart(cands) {
   root.append(svg("text", { x: L, y: H - 6 }, frDate(dates[0])));
   root.append(svg("text", { x: W - R, y: H - 6, "text-anchor": "end" }, frDate(dates.at(-1))));
   const labels = [];
-  const thin = (r) => r.n_pollsters > 0 && r.n_pollsters < MIN_POLLSTERS_SOLID;
+  const solid = summary.constants.min_lineup_pollsters; // fewer pollsters behind a point: drawn dashed
+  const thin = (r) => r.n_pollsters > 0 && r.n_pollsters < solid;
   let anyThin = false, anyGap = false;
   ids.forEach((id, k) => {
     const pts = rows.filter((r) => r.candidate === id).sort((a, b) => a.date.localeCompare(b.date));
@@ -175,7 +176,7 @@ function historyChart(cands) {
   el.innerHTML = "";
   el.append(root);
   el.insertAdjacentHTML("beforeend", help(`<p>Chance de remporter l'élection, sur 100, pour les ${HISTORY_MAX} candidats qui ont aujourd'hui les meilleures chances.</p>` +
-    (anyThin ? `<p>En pointillés, les dates où moins de ${MIN_POLLSTERS_SOLID} instituts avaient testé cette liste : le chiffre repose alors sur peu de sondages.</p>` : "") +
+    (anyThin ? `<p>En pointillés, les dates où moins de ${solid} instituts avaient testé cette liste : le chiffre repose alors sur peu de sondages.</p>` : "") +
     (anyGap ? "<p>Une interruption signifie qu'aucun institut n'avait testé cette liste à cette date.</p>" : "")));
 }
 
