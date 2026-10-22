@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 POLLS = ROOT / "data" / "polls.csv"
 LINEUPS = ROOT / "data" / "lineups.toml"
 PARAMS = ROOT / "data" / "error_params.json"
+BACKTEST = ROOT / "site" / "data" / "backtest.json"
 OUT = ROOT / "site" / "data"
 R1_DATE = pd.Timestamp("2027-04-18")
 R2_DATE = pd.Timestamp("2027-05-02")
@@ -189,11 +190,12 @@ def tested_lineups(r1: pd.DataFrame, reference: list[str], asof: pd.Timestamp) -
 
 
 def lineup_label(lineup: list[str], reference: list[str], names: dict[str, str]) -> str:
-    out = [names.get(c, c) for c in reference if c not in lineup]
-    add = [names.get(c, c) for c in lineup if c not in reference]
-    if len(out) == 1 and len(add) == 1:
-        return f"{add[0]} au lieu de {out[0]}"
-    parts = [f"avec {a}" for a in add] + [f"sans {o}" for o in out]
+    """Short label vs the reference, surnames only: 'Hollande au lieu de Glucksmann, sans Attal'."""
+    surname = lambda c: names.get(c, c).split(" ", 1)[-1]  # 'Marine Le Pen' -> 'Le Pen'
+    out = [surname(c) for c in reference if c not in lineup]
+    add = [surname(c) for c in lineup if c not in reference]
+    parts = [f"{a} au lieu de {o}" for a, o in zip(add, out)]
+    parts += [f"avec {a}" for a in add[len(out) :]] + [f"sans {o}" for o in out[len(add) :]]
     return ", ".join(parts)
 
 
@@ -343,17 +345,18 @@ def export_draws(sim: dict, scen: str) -> None:
 
 
 def polls_table(used: pd.DataFrame) -> list[dict]:
-    hyps = used.drop_duplicates("hyp")
+    """One row per poll (not per hypothesis or scenario), for the legal mentions."""
+    polls = used.sort_values("end").drop_duplicates(["pollster", "start", "end"])
     return [
         {
             "pollster": r.pollster,
             "start": r.start,
             "end": r.end,
             "n": None if pd.isna(r.n) else int(r.n),
+            "sponsor": None if pd.isna(r.sponsor) else r.sponsor,
             "ref": r.ref,
-            "weight": round(float(r.w), 3),
         }
-        for r in hyps.itertuples()
+        for r in polls.itertuples()
     ]
 
 
@@ -380,6 +383,8 @@ def main(asof: pd.Timestamp | None = None) -> None:
             "expressed_r2": TURNOUT_EXPRESSED_R2,
         },
         "params": {"r1": p1.to_dict(), "r2": p2.to_dict(), "r2_rn_bias": rn_bias},
+        # average poll error per candidate by days before R1 (from backtest.py), for the « too early » banner
+        "mae_by_horizon": json.loads(BACKTEST.read_text())["mae_by_horizon"],
         "scenarios": {},
     }
     used_pollsters = {p for k, v in inputs.items() if k != "polled_r2" for p in v["avg"].polls.pollster}

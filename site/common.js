@@ -1,6 +1,11 @@
 // Shared helpers: data loading, wording of probabilities, scenario choice, tiny SVG helpers.
 
 export const SCENARIO_KEY = "scenario";
+const EARLY_DAYS = 60; // before this, the site says plainly that the numbers are mostly a curiosity
+const RELIABLE_DAYS = 14;
+// Legal blackout (loi n° 77-808): same windows as pipeline/blackout.py, Paris time (UTC+2 in April–May)
+const BLACKOUT = [["2027-04-16T18:00:00+02:00", "2027-04-18T20:00:00+02:00"], ["2027-04-30T18:00:00+02:00", "2027-05-02T20:00:00+02:00"]];
+export const inBlackout = (now = Date.now()) => BLACKOUT.some(([a, b]) => now >= Date.parse(a) && now < Date.parse(b));
 
 export async function loadSummary() {
   const res = await fetch("data/summary.json", { cache: "no-cache" });
@@ -40,7 +45,7 @@ export function scenarioTabs(el, summary, current, onChange) {
   el.innerHTML = "";
   const sc = summary.scenarios;
   const rnRow = [["lepen", "Marine Le Pen"], ["bardella", "Jordan Bardella"]].filter(([k]) => sc[k]);
-  const lineupRow = [["lepen", "Tous les candidats déclarés (référence)"],
+  const lineupRow = [["lepen", "Liste de référence"],
     ...Object.entries(sc).filter(([, v]) => v.kind === "lineup").map(([k, v]) => [k, v.label])];
   const row = (title, items, isActive, disabled) => {
     const wrap = document.createElement("div");
@@ -70,7 +75,7 @@ export function scenarioTabs(el, summary, current, onChange) {
   if (n) {
     const note = document.createElement("p");
     note.className = "small muted";
-    note.textContent = `Ce scénario repose sur ${n} instituts qui ont testé exactement cette liste ces 45 derniers jours.`;
+    note.textContent = `Ce scénario repose sur les sondages de ${n} instituts qui ont testé exactement cette liste ces 45 derniers jours.`;
     el.append(note);
   }
 }
@@ -110,4 +115,28 @@ export function attachTip(node, html) {
 export function nameOf(summary, scen, id) {
   const c = summary.scenarios[scen].candidates.find((x) => x.id === id);
   return c ? c.name : id;
+}
+
+export function daysToVote(summary) {
+  return Math.round((Date.parse(summary.r1_date) - Date.parse(summary.asof)) / 864e5);
+}
+
+export const isEarly = (summary) => daysToVote(summary) > EARLY_DAYS;
+
+// « Too early » banner, with the historical poll error at today's horizon vs the last two weeks.
+export function earlyBanner(summary, forVote = false) {
+  const days = daysToVote(summary);
+  if (days <= EARLY_DAYS) return "";
+  const mae = summary.mae_by_horizon;
+  const horizons = Object.keys(mae).map(Number).sort((a, b) => a - b);
+  const now = mae[horizons.filter((h) => h <= days).at(-1) ?? horizons.at(-1)];
+  const late = horizons.filter((h) => h <= RELIABLE_DAYS).reduce((t, h) => t + mae[h], 0) / horizons.filter((h) => h <= RELIABLE_DAYS).length;
+  const comeBack = new Date(Date.parse(summary.r1_date) - RELIABLE_DAYS * 864e5).toISOString().slice(0, 10);
+  const fmt1 = (x) => x.toLocaleString("fr-FR", { maximumFractionDigits: 1 });
+  return `<div class="box warn"><strong>Le vote est dans ${days} jours. À ce stade, ces chiffres sont encore très incertains et se regardent surtout par curiosité.</strong> ` +
+    `À cette distance du vote, les sondages se sont trompés en moyenne de ${fmt1(now)} points par candidat ` +
+    `et l'écart a parfois dépassé 10 points, à la hausse comme à la baisse, à gauche, au centre comme à droite. ` +
+    `Les prévisions deviennent vraiment utiles dans les deux dernières semaines, où l'erreur tombe à environ ${fmt1(late)} point. ` +
+    (forVote ? `<strong>Pour décider de votre vote, revenez à partir du ${frDate(comeBack)}.</strong> D'ici là, l'outil sert à comprendre le mécanisme, pas à choisir.`
+             : `Revenez à partir du ${frDate(comeBack)}.`) + `</div>`;
 }

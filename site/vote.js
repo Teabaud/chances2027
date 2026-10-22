@@ -1,5 +1,5 @@
-import { chances, frDate, getScenario, loadSummary, scenarioTabs } from "./common.js";
-import { ABSTAIN, ACCEPTABLE, SUPPORT, UNACCEPTABLE, decisiveChange, evaluate, makeData, recommend } from "./vote-logic.js";
+import { chances, earlyBanner, frDate, getScenario, inBlackout, isEarly, loadSummary, scenarioTabs } from "./common.js";
+import { ABSTAIN, ACCEPTABLE, SUPPORT, UNACCEPTABLE, decide, decisiveChange, evaluate, makeData, recommend } from "./vote-logic.js";
 
 const BLOC_SHARES = [0.01, 0.005, 0.02]; // of registered voters: computed on a group, checked at 3 sizes
 const PER = 100_000; // effects are shown per 100 000 voters (they scale linearly with the group size)
@@ -48,6 +48,7 @@ const fmt = (p) => (100 * p).toLocaleString("fr-FR", { minimumFractionDigits: 1,
 function renderInputs() {
   scenarioTabs(document.getElementById("scenarios"), summary, scen, (s) => { scen = s; renderInputs(); update(); });
   document.getElementById("asof").textContent = `Sondages au ${frDate(summary.asof)}.`;
+  document.getElementById("early").innerHTML = earlyBanner(summary, true);
   const box = document.getElementById("cands");
   box.innerHTML = "";
   for (const c of alpha()) {
@@ -85,6 +86,10 @@ function currentId() {
 async function update() {
   writeHash();
   const out = document.getElementById("result");
+  if (inBlackout()) {
+    out.innerHTML = `<p class="box warn">L'outil est suspendu la veille et le jour du vote, comme le prévoit la loi n° 77-808. Il revient le dimanche à 20 h.</p>`;
+    return;
+  }
   const ids = sc().candidates.map((c) => c.id);
   const groups = ids.map(groupOf);
   const hasSupport = groups.includes(SUPPORT), hasUnacc = groups.includes(UNACCEPTABLE);
@@ -104,47 +109,35 @@ async function update() {
   const deltas = BLOC_SHARES.map((f) => f / E.expressed_r1); // bloc as a fraction of R1 expressed votes
   const runs = deltas.map((d) => evaluate(data, groups, current, d, options));
   const recs = runs.map((r) => recommend(r, groups));
-  out.innerHTML = verdict(runs[0], recs, groups, current, hasSupport, hasUnacc, data, deltas[0]) + table(runs[0], current, hasSupport, hasUnacc);
+  out.innerHTML = verdict(runs[0], recs, runs, groups, current, hasSupport, hasUnacc, data, deltas[0]) + table(runs[0], current, hasSupport, hasUnacc);
 }
 
-function pickRec(rec, hasSupport, hasUnacc, groups) {
-  if (hasSupport && !hasUnacc) return { best: rec.forSupport.best, robust: true };
-  if (hasUnacc && !hasSupport) return { best: rec.forAvoid.best, robust: true };
-  if (rec.robust) {
-    const liking = (o) => (o === ABSTAIN ? 0.5 : groups[o]);
-    return { best: [...rec.robust].sort((a, b) => liking(b) - liking(a))[0], robust: true };
-  }
-  return { best: null, robust: false };
-}
+const voteFor = (o) => (o === ABSTAIN ? "voter blanc ou vous abstenir" : `voter pour ${nameOfIdx(o)}`);
+const currentLabel = (o) => (o === ABSTAIN ? "ne pas choisir de candidat" : `votre choix actuel, ${nameOfIdx(o)}`);
 
-function verdict(res, recs, groups, current, hasSupport, hasUnacc, data, delta) {
-  const rec = recs[0];
-  const pick = pickRec(rec, hasSupport, hasUnacc, groups);
+function verdict(res, recs, runs, groups, current, hasSupport, hasUnacc, data, delta) {
+  if (groups.every((g) => g === groups[0])) return `<p class="verdict">Vous avez mis tous les candidats dans le même groupe. Aucun vote ne change donc le résultat pour vous.</p>`;
+  const d = decide(res, recs[0], current, hasSupport, hasUnacc, perScale(), CLEAR_EFFECT);
   const row = (o) => res.find((r) => r.option === o);
   const base = row(current);
+  const today = isEarly(summary) ? "aujourd'hui " : "";
   let html = "";
-  if (groups.every((g) => g === groups[0])) return `<p class="verdict">Vous avez mis tous les candidats dans le même groupe : aucun vote ne change le résultat pour vous.</p>`;
-  if (pick.robust) {
-    const best = pick.best;
-    if (best === current) {
-      html += `<p class="verdict">D'après vos réponses, <strong>${current === ABSTAIN ? "aucun vote" : `voter ${nameOfIdx(current)}`}</strong> ` +
-        `${current === ABSTAIN ? "ne change nettement le résultat pour vous" : "est déjà votre choix le plus efficace"}.</p>`;
-    } else {
-      html += `<p class="verdict">D'après vos réponses, <strong class="better">${best === ABSTAIN ? "voter blanc ou vous abstenir" : `voter ${nameOfIdx(best)}`}</strong> ` +
-        `${current === ABSTAIN ? "plutôt que ne pas choisir" : `plutôt que ${nameOfIdx(current)}`} est votre meilleure option${hasSupport && hasUnacc ? ", quel que soit le poids exact que vous donnez à vos préférences" : ""}.</p>`;
-      html += effectSentence(row(best), base, hasSupport, hasUnacc);
-      const ch = decisiveChange(data, current, best, delta);
-      if (ch) html += `<p>Pourquoi ? Ce changement modifie le second tour dans ${fmt(ch.share)} simulations sur 100 : le plus souvent, <strong>${nameOfIdx(ch.entered)}</strong> y accède à la place de ${nameOfIdx(ch.left)}.</p>`;
-    }
+  if (d.kind === "keep") {
+    html += `<p class="verdict">D'après vos réponses, aucune option ne fait ${today}nettement mieux que ${currentLabel(current)}.</p>`;
+    html += effectSentence(null, base, hasSupport, hasUnacc);
+  } else if (d.kind === "switch") {
+    html += `<p class="verdict">D'après vos réponses, <strong class="better">${voteFor(d.best)}</strong> ${isEarly(summary) ? "serait aujourd'hui" : "est"} plus efficace que ${currentLabel(current)}.</p>`;
+    html += effectSentence(row(d.best), base, hasSupport, hasUnacc);
+    const ch = decisiveChange(data, current, d.best, delta);
+    if (ch) html += `<p>Si environ 500 000 électeurs comme vous faisaient ce choix, le second tour changerait dans ${fmt(ch.share)} simulations sur 100. ` +
+      `Le plus souvent, ${nameOfIdx(ch.entered)} y accéderait à la place de ${nameOfIdx(ch.left)}.</p>`;
   } else {
-    html += `<p class="verdict">Cela dépend de ce qui compte le plus pour vous :</p><ul>` +
-      `<li>si vous visez avant tout la victoire d'un candidat que vous soutenez : <strong>${nameOfIdx(rec.forSupport.best)}</strong> ;</li>` +
-      `<li>si vous voulez avant tout éviter un candidat inacceptable : <strong>${nameOfIdx(rec.forAvoid.best)}</strong>.</li></ul>`;
+    html += `<p class="verdict">Cela dépend de ce qui compte le plus pour vous.</p><ul>` +
+      `<li>Si vous voulez avant tout qu'un candidat que vous soutenez gagne, le plus efficace est de ${voteFor(d.forSupport)}.</li>` +
+      `<li>Si vous voulez avant tout éviter qu'un candidat inacceptable gagne, le plus efficace est de ${voteFor(d.forAvoid)}.</li></ul>`;
   }
-  const bests = recs.map((r) => pickRec(r, hasSupport, hasUnacc, groups).best);
-  if (bests.some((b) => b !== bests[0])) html += `<p class="small box warn">La meilleure option change selon le nombre d'électeurs qui font ce choix (de quelques centaines de milliers à un million) : la réponse est fragile.</p>`;
-  const daysLeft = Math.round((Date.parse(summary.r1_date) - Date.parse(summary.asof)) / 864e5);
-  if (daysLeft > 60) html += `<p class="small muted">À ${daysLeft} jours du vote, les sondages bougeront encore beaucoup : ces conseils aussi. Revenez dans les dernières semaines.</p>`;
+  const kinds = runs.map((r, n) => JSON.stringify(decide(r, recs[n], current, hasSupport, hasUnacc, perScale(), CLEAR_EFFECT)));
+  if (kinds.some((k) => k !== kinds[0])) html += `<p class="small box warn">La réponse change selon le nombre d'électeurs qui font ce choix, de quelques centaines de milliers à un million. Elle est donc fragile.</p>`;
   return html;
 }
 
@@ -152,24 +145,28 @@ const perScale = () => PER / (BLOC_SHARES[0] * summary.electorate.registered);
 const pts = (d) => (100 * Math.abs(d) * perScale()).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 function tier(diff, se) {
-  if (Math.abs(diff) <= 2 * se) return "équivalent : l'écart est dans le bruit du calcul";
+  if (Math.abs(diff) <= 2 * se) return "pas de différence mesurable";
   return Math.abs(diff) * perScale() >= CLEAR_EFFECT ? "nettement" : "un peu";
 }
 
-// One clause per metric: « baisse de 0,12 point (un peu mieux) »; good = the direction the user wants.
+// « baisse de 0,12 point, un peu mieux pour vous »; good = the direction the user wants.
 function effectClause(m, good) {
-  if (Math.abs(m.diff) <= 2 * m.se) return `ne change pas vraiment (${tier(m.diff, m.se)})`;
+  if (Math.abs(m.diff) <= 2 * m.se) return "ne change pas de façon mesurable";
   const better = good === "down" ? m.diff < 0 : m.diff > 0;
-  return `${m.diff < 0 ? "baisse" : "monte"} de ${pts(m.diff)} point (${tier(m.diff, m.se)} ${better ? "mieux" : "moins bien"})`;
+  return `${m.diff < 0 ? "baisse" : "augmente"} de ${pts(m.diff)} point, ${tier(m.diff, m.se)} ${better ? "mieux" : "moins bien"} pour vous`;
 }
 
 function effectSentence(opt, base, hasSupport, hasUnacc) {
-  const parts = [];
-  if (hasUnacc) parts.push(`la probabilité qu'un candidat que vous jugez inacceptable gagne ${effectClause(opt.unacc, "down")}`);
-  if (hasSupport) parts.push(`celle qu'un candidat que vous soutenez gagne ${effectClause(opt.support, "up")}`);
-  const now = [hasUnacc ? `${chances(base.unacc.p)} qu'un candidat inacceptable pour vous gagne` : "",
+  const now = [hasUnacc ? `${chances(base.unacc.p)} qu'un candidat que vous jugez inacceptable gagne` : "",
     hasSupport ? `${chances(base.support.p)} qu'un candidat que vous soutenez gagne` : ""].filter(Boolean).join(", et ");
-  return `<p>Aujourd'hui : ${now}. Pour chaque tranche de 100 000 électeurs qui feraient ce choix, ${parts.join(" ; ")}.</p>`;
+  let html = `<p>Aujourd'hui, il y a ${now}.`;
+  if (opt) {
+    const parts = [];
+    if (hasUnacc) parts.push(`la probabilité qu'un candidat inacceptable gagne ${effectClause(opt.unacc, "down")}`);
+    if (hasSupport) parts.push(`la probabilité qu'un candidat que vous soutenez gagne ${effectClause(opt.support, "up")}`);
+    html += ` Pour chaque groupe de 100 000 électeurs qui feraient ce choix, ${parts.join(", et ")}.`;
+  }
+  return html + `</p>`;
 }
 
 function signed(m, isCurrent) {
@@ -183,8 +180,8 @@ function table(res, current, hasSupport, hasUnacc) {
   const head = `<tr><th>Voter pour…</th>${hasSupport ? "<th class='num'>Un candidat que vous soutenez gagne</th>" : ""}${hasUnacc ? "<th class='num'>Un candidat inacceptable gagne</th>" : ""}</tr>`;
   const body = sorted.map((r) => `<tr${r.option === current ? " class='better'" : ""}><td>${r.option === ABSTAIN ? "blanc / abstention" : sc().candidates[r.option].name}${r.option === current ? " (votre choix actuel)" : ""}</td>` +
     (hasSupport ? `<td class="num">${signed(r.support, r.option === current)}</td>` : "") + (hasUnacc ? `<td class="num">${signed(r.unacc, r.option === current)}</td>` : "") + `</tr>`).join("");
-  return `<h3>Toutes les options</h3><p class="small muted">Changement de probabilité, en points, pour 100 000 électeurs qui passeraient de votre choix actuel à cette option. ` +
-    `« ≈ 0 » : pas de différence mesurable.</p>` +
+  return `<h3>Toutes les options</h3><p class="small muted">Changement de probabilité, en points, si 100 000 électeurs passaient de votre choix actuel à cette option. ` +
+    `« ≈ 0 » signifie qu'il n'y a pas de différence mesurable.</p>` +
     `<div class="scroll"><table><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
 }
 

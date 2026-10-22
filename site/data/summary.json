@@ -34,6 +34,17 @@
    "sd": 0.06546536707079771
   }
  },
+ "mae_by_horizon": {
+  "1": 1.3363279663052,
+  "7": 1.6080164540305901,
+  "14": 1.8435757684840808,
+  "30": 2.429958956047913,
+  "60": 2.9567813303441772,
+  "90": 3.6968217032309894,
+  "120": 3.9894457007504944,
+  "180": 3.873740948285281,
+  "270": 3.656126799585572
+ },
  "scenarios": {
   "lepen": {
    "label": "Marine Le Pen candidate",
@@ -1744,7 +1755,7 @@
    ]
   },
   "lineup1": {
-   "label": "sans Gabriel Attal",
+   "label": "sans Attal",
    "kind": "lineup",
    "n_pollsters": 8,
    "d_eff": 190.23437908544355,
@@ -2473,7 +2484,7 @@
    ]
   },
   "lineup2": {
-   "label": "sans Édouard Philippe",
+   "label": "sans Philippe",
    "kind": "lineup",
    "n_pollsters": 8,
    "d_eff": 190.23437908544355,
@@ -3202,7 +3213,7 @@
    ]
   },
   "lineup3": {
-   "label": "avec David Lisnard",
+   "label": "avec Lisnard",
    "kind": "lineup",
    "n_pollsters": 3,
    "d_eff": 184.20674490712474,
@@ -4192,7 +4203,7 @@
    ]
   },
   "lineup4": {
-   "label": "avec François Hollande, sans Raphaël Glucksmann, sans Gabriel Attal",
+   "label": "Hollande au lieu de Glucksmann, sans Attal",
    "kind": "lineup",
    "n_pollsters": 3,
    "d_eff": 192.3237261671297,
@@ -4927,232 +4938,72 @@
    "start": "2026-09-03",
    "end": "2026-09-09",
    "n": 13060,
-   "ref": "10262-pres-enquete-electorale-ipsos-bva-le-monde-13-septembre.pdf",
-   "weight": 0.194
-  },
-  {
-   "pollster": "harris",
-   "start": "2026-10-05",
-   "end": "2026-10-08",
-   "n": 2348,
-   "ref": "10305-pres-iv-toluna-harris-interactive-12-octobre.pdf",
-   "weight": 0.75
-  },
-  {
-   "pollster": "opinionway",
-   "start": "2026-10-13",
-   "end": "2026-10-14",
-   "n": 1043,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10319-pres-iv-opinionway-cnews-15-octobre.pdf",
-   "weight": 0.698
-  },
-  {
-   "pollster": "yougov",
-   "start": "2026-10-12",
-   "end": "2026-10-15",
-   "n": 1094,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10323-pres-iv-yougov-le-huffpost-18-octobre.pdf",
-   "weight": 0.715
-  },
-  {
-   "pollster": "elabe",
-   "start": "2026-10-14",
-   "end": "2026-10-16",
-   "n": 1701,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10324-pres-iv-elabe-17-octobre.pdf",
-   "weight": 0.935
-  },
-  {
-   "pollster": "ifop",
-   "start": "2026-10-17",
-   "end": "2026-10-19",
-   "n": 1928,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10327-pres-barometre-election-v7-ifop-20-octobre.pdf",
-   "weight": 1.148
-  },
-  {
-   "pollster": "ipsos",
-   "start": "2026-09-03",
-   "end": "2026-09-09",
-   "n": 13060,
-   "ref": "10262-pres-enquete-electorale-ipsos-bva-le-monde-13-septembre.pdf",
-   "weight": 0.194
+   "sponsor": "CEVIPOF, Le Monde, Fondation Jean Jaurès, Institut Montaigne",
+   "ref": "https://www.commission-des-sondages.fr/notices/medias/fichiers/add/2275"
   },
   {
    "pollster": "cluster17",
    "start": "2026-09-15",
    "end": "2026-09-16",
    "n": 2045,
-   "ref": "10273-pres-iv-cluster17-politico-24-septembre.pdf",
-   "weight": 0.258
-  },
-  {
-   "pollster": "odoxa",
-   "start": "2026-09-24",
-   "end": "2026-10-07",
-   "n": 12005,
-   "ref": "10310-pres-iv-odoxa-14-octobre.pdf",
-   "weight": 0.637
-  },
-  {
-   "pollster": "harris",
-   "start": "2026-10-05",
-   "end": "2026-10-08",
-   "n": 2348,
-   "ref": "10305-pres-iv-toluna-harris-interactive-12-octobre.pdf",
-   "weight": 0.75
-  },
-  {
-   "pollster": "opinionway",
-   "start": "2026-10-13",
-   "end": "2026-10-14",
-   "n": 1043,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10319-pres-iv-opinionway-cnews-15-octobre.pdf",
-   "weight": 0.698
-  },
-  {
-   "pollster": "yougov",
-   "start": "2026-10-12",
-   "end": "2026-10-15",
-   "n": 1094,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10323-pres-iv-yougov-le-huffpost-18-octobre.pdf",
-   "weight": 0.715
-  },
-  {
-   "pollster": "elabe",
-   "start": "2026-10-14",
-   "end": "2026-10-16",
-   "n": 1701,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10324-pres-iv-elabe-17-octobre.pdf",
-   "weight": 0.467
-  },
-  {
-   "pollster": "elabe",
-   "start": "2026-10-14",
-   "end": "2026-10-16",
-   "n": 1701,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10324-pres-iv-elabe-17-octobre.pdf",
-   "weight": 0.467
-  },
-  {
-   "pollster": "ifop",
-   "start": "2026-10-17",
-   "end": "2026-10-19",
-   "n": 1928,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10327-pres-barometre-election-v7-ifop-20-octobre.pdf",
-   "weight": 1.148
-  },
-  {
-   "pollster": "ipsos",
-   "start": "2026-09-03",
-   "end": "2026-09-09",
-   "n": 13060,
-   "ref": "10262-pres-enquete-electorale-ipsos-bva-le-monde-13-septembre.pdf",
-   "weight": 0.194
-  },
-  {
-   "pollster": "cluster17",
-   "start": "2026-09-15",
-   "end": "2026-09-16",
-   "n": 2045,
-   "ref": "10273-pres-iv-cluster17-politico-24-septembre.pdf",
-   "weight": 0.258
-  },
-  {
-   "pollster": "odoxa",
-   "start": "2026-09-24",
-   "end": "2026-10-07",
-   "n": 12005,
-   "ref": "10310-pres-iv-odoxa-14-octobre.pdf",
-   "weight": 0.637
-  },
-  {
-   "pollster": "harris",
-   "start": "2026-10-05",
-   "end": "2026-10-08",
-   "n": 2348,
-   "ref": "10305-pres-iv-toluna-harris-interactive-12-octobre.pdf",
-   "weight": 0.75
-  },
-  {
-   "pollster": "opinionway",
-   "start": "2026-10-13",
-   "end": "2026-10-14",
-   "n": 1043,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10319-pres-iv-opinionway-cnews-15-octobre.pdf",
-   "weight": 0.698
-  },
-  {
-   "pollster": "yougov",
-   "start": "2026-10-12",
-   "end": "2026-10-15",
-   "n": 1094,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10323-pres-iv-yougov-le-huffpost-18-octobre.pdf",
-   "weight": 0.715
-  },
-  {
-   "pollster": "elabe",
-   "start": "2026-10-14",
-   "end": "2026-10-16",
-   "n": 1701,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10324-pres-iv-elabe-17-octobre.pdf",
-   "weight": 0.935
-  },
-  {
-   "pollster": "ifop",
-   "start": "2026-10-17",
-   "end": "2026-10-19",
-   "n": 1928,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10327-pres-barometre-election-v7-ifop-20-octobre.pdf",
-   "weight": 1.148
-  },
-  {
-   "pollster": "opinionway",
-   "start": "2026-10-13",
-   "end": "2026-10-14",
-   "n": 1043,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10319-pres-iv-opinionway-cnews-15-octobre.pdf",
-   "weight": 0.698
-  },
-  {
-   "pollster": "yougov",
-   "start": "2026-10-12",
-   "end": "2026-10-15",
-   "n": 1094,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10323-pres-iv-yougov-le-huffpost-18-octobre.pdf",
-   "weight": 0.715
-  },
-  {
-   "pollster": "ifop",
-   "start": "2026-10-17",
-   "end": "2026-10-19",
-   "n": 1928,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10327-pres-barometre-election-v7-ifop-20-octobre.pdf",
-   "weight": 1.148
+   "sponsor": "Politico",
+   "ref": "https://www.commission-des-sondages.fr/notices/medias/fichiers/add/2286"
   },
   {
    "pollster": "ifop",
    "start": "2026-09-25",
    "end": "2026-09-29",
    "n": 1527,
-   "ref": "10284-pres-barometre-election-presidentielle-v6-ifop-le-figaro-30-septembre.pdf",
-   "weight": 0.376
+   "sponsor": "LCI, Le Figaro, Sud Radio",
+   "ref": "https://www.commission-des-sondages.fr/notices/medias/fichiers/add/2308"
+  },
+  {
+   "pollster": "odoxa",
+   "start": "2026-09-24",
+   "end": "2026-10-07",
+   "n": 12005,
+   "sponsor": "Backbone, Public Sénat, La Presse Régionale, Le Nouvel Obs",
+   "ref": "https://www.commission-des-sondages.fr/notices/medias/fichiers/add/2325"
   },
   {
    "pollster": "harris",
    "start": "2026-10-05",
    "end": "2026-10-08",
    "n": 2348,
-   "ref": "10305-pres-iv-toluna-harris-interactive-12-octobre.pdf",
-   "weight": 0.75
+   "sponsor": "M6, RTL",
+   "ref": "https://www.commission-des-sondages.fr/notices/medias/fichiers/add/2321"
+  },
+  {
+   "pollster": "opinionway",
+   "start": "2026-10-13",
+   "end": "2026-10-14",
+   "n": 1043,
+   "sponsor": null,
+   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10319-pres-iv-opinionway-cnews-15-octobre.pdf"
   },
   {
    "pollster": "yougov",
    "start": "2026-10-12",
    "end": "2026-10-15",
    "n": 1094,
-   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10323-pres-iv-yougov-le-huffpost-18-octobre.pdf",
-   "weight": 0.715
+   "sponsor": null,
+   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10323-pres-iv-yougov-le-huffpost-18-octobre.pdf"
+  },
+  {
+   "pollster": "elabe",
+   "start": "2026-10-14",
+   "end": "2026-10-16",
+   "n": 1701,
+   "sponsor": null,
+   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10324-pres-iv-elabe-17-octobre.pdf"
+  },
+  {
+   "pollster": "ifop",
+   "start": "2026-10-17",
+   "end": "2026-10-19",
+   "n": 1928,
+   "sponsor": null,
+   "ref": "https://www.commission-des-sondages.fr/notices/files/notices/2026/octobre/10327-pres-barometre-election-v7-ifop-20-octobre.pdf"
   }
  ],
  "pollsters_excluded": [],

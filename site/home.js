@@ -1,4 +1,4 @@
-import { attachTip, chances, frDate, getScenario, hbar, loadSummary, nameOf, pctShort, scenarioTabs, svg } from "./common.js";
+import { attachTip, chances, earlyBanner, frDate, getScenario, hbar, loadSummary, nameOf, pctShort, scenarioTabs, svg } from "./common.js";
 
 const NEAR_CERTAIN = 0.85; // above this P(qualify), the headline is about who faces them
 const MIN_QUALIFY_ROW = 0.01;
@@ -20,6 +20,7 @@ function render() {
   scenarioTabs(document.getElementById("scenarios"), summary, scen, (s) => { scen = s; render(); });
   document.getElementById("asof").textContent =
     `Mis à jour le ${frDate(summary.asof)} · 1er tour le ${frDate(summary.r1_date)}, second tour le ${frDate(summary.r2_date)}`;
+  document.getElementById("early").innerHTML = earlyBanner(summary);
   headline(cands);
   challengers(cands);
   winTable(cands);
@@ -33,14 +34,13 @@ function headline(cands) {
   const top = cands[0];
   const el = document.getElementById("headline");
   if (top.p_qualify >= NEAR_CERTAIN) {
-    el.innerHTML = `<strong>${top.name}</strong> a ${chances(top.p_qualify)} d'être au second tour. ` +
-      `Le vrai enjeu du 1er tour : <strong>qui l'affrontera, et pourrait-il l'emporter ?</strong> ` +
-      `Aujourd'hui, ${top.name} a ${chances(top.p_win)} de remporter l'élection.`;
-    document.getElementById("challengers-title").textContent = `Qui affrontera ${top.name}, et pourrait gagner ?`;
+    el.innerHTML = `${top.name} a ${chances(top.p_qualify)} d'être au second tour, et ${chances(top.p_win)} de remporter l'élection. ` +
+      `Reste à savoir qui lui fera face.`;
+    document.getElementById("challengers-title").textContent = `Qui pourrait être au second tour face à ${top.name} ?`;
   } else {
     const byWin = [...cands].sort((a, b) => b.p_win - a.p_win);
-    el.innerHTML = `Favori aujourd'hui : <strong>${byWin[0].name}</strong> (${chances(byWin[0].p_win)}), ` +
-      `devant ${byWin[1].name} (${chances(byWin[1].p_win)}). Rien n'est joué.`;
+    el.innerHTML = `Le mieux placé aujourd'hui est ${byWin[0].name}, avec ${chances(byWin[0].p_win)} de gagner, ` +
+      `devant ${byWin[1].name}, avec ${chances(byWin[1].p_win)}. Rien n'est joué.`;
     document.getElementById("challengers-title").textContent = "Qui pourrait être au second tour, et le gagner ?";
   }
 }
@@ -69,33 +69,33 @@ function challengers(cands) {
       g.append(hbar(labelW, y + barH + 2, c.p_win_if_qualified * barW, barH, "var(--series-2)"));
       root.append(svg("text", { x: labelW + c.p_win_if_qualified * barW + 6, y: y + 2 * barH, class: "value" }, pctShort(c.p_win_if_qualified)));
     } else {
-      root.append(svg("text", { x: labelW, y: y + 2 * barH, class: "value" }, "trop rarement au 2nd tour pour estimer"));
+      root.append(svg("text", { x: labelW, y: y + 2 * barH, class: "value" }, "trop rarement qualifié pour estimer"));
     }
     g.append(svg("rect", { x: 0, y: y - 4, width: W, height: rowH - 4, fill: "transparent" }));
     attachTip(g, `<strong>${c.name}</strong><br>Au second tour : ${chances(c.p_qualify)}<br>` +
-      (reliable ? `S'il y est, gagne : ${chances(c.p_win_if_qualified)}<br>` : "") + `Victoire : ${chances(c.p_win)}`);
+      (reliable ? `Gagne en cas de qualification : ${chances(c.p_win_if_qualified)}<br>` : "") + `Victoire : ${chances(c.p_win)}`);
     root.append(g);
   });
   const el = document.getElementById("challengers");
   el.innerHTML = "";
   el.append(root);
   document.getElementById("challengers-note").textContent =
-    "En chances sur 100. La chance de gagner « s'il y est » dépend de l'adversaire probable au second tour. " +
-    (others.length ? `Moins de 5 chances sur 100 d'être au second tour : ${others.map((c) => c.name).join(", ")}.` : "");
+    "Les chiffres sont en chances sur 100. La chance de gagner en cas de qualification dépend de l'adversaire probable. " +
+    (others.length ? `Candidats à moins de 5 chances sur 100 d'être au second tour : ${others.map((c) => c.name).join(", ")}.` : "");
 }
 
 function winTable(cands) {
   const rows = [...cands].sort((a, b) => b.p_win - a.p_win || b.p_qualify - a.p_qualify);
   document.getElementById("table-win").innerHTML =
-    `<thead><tr><th>Candidat</th><th class="num">Victoire</th><th class="num">Au 2nd tour</th><th class="num">Score 1er tour (fourchette à 80 chances sur 100)</th></tr></thead><tbody>` +
+    `<thead><tr><th>Candidat</th><th class="num">Victoire</th><th class="num">Au 2nd tour</th><th class="num">Score au 1er tour</th></tr></thead><tbody>` +
     rows.map((c) => `<tr><td>${c.name}</td><td class="num">${pctShort(c.p_win)}</td><td class="num">${pctShort(c.p_qualify)}</td>` +
-      `<td class="num">${c.share_q["0.5"].toFixed(0)} % (${c.share_q["0.1"].toFixed(0)}–${c.share_q["0.9"].toFixed(0)})</td></tr>`).join("") +
+      `<td class="num">${c.share_q["0.5"].toFixed(0)} %, entre ${c.share_q["0.1"].toFixed(0)} et ${c.share_q["0.9"].toFixed(0)}</td></tr>`).join("") +
     `</tbody>`;
 }
 
 function finalsTable(sc) {
   document.getElementById("table-finals").innerHTML =
-    `<thead><tr><th>Second tour</th><th class="num">Chance que ce duel ait lieu</th><th>Qui gagnerait</th></tr></thead><tbody>` +
+    `<thead><tr><th>Second tour</th><th class="num">Chance que ce duel ait lieu</th><th>Qui gagnerait ce duel</th></tr></thead><tbody>` +
     sc.finals.slice(0, 6).map((f) => {
       const [fav, pFav] = f.p_a_wins >= 0.5 ? [f.a, f.p_a_wins] : [f.b, 1 - f.p_a_wins];
       return `<tr><td>${nameOf(summary, scen, f.a)} – ${nameOf(summary, scen, f.b)}</td><td class="num">${pctShort(f.p)} sur 100</td>` +
@@ -155,7 +155,7 @@ function historyChart(cands) {
     const last = pts.at(-1);
     root.append(svg("text", { x: W - R + 8, y: y(last.p_qualify) + 4, class: "label" }, `${nameOf(summary, scen, id)} ${pctShort(last.p_qualify)}`));
   });
-  el.innerHTML = "<p class='small muted'>Chance d'être au second tour (sur 100), pour les deux principaux prétendants" + (top ? ` face à ${nameOf(summary, scen, top)}` : "") + ".</p>";
+  el.innerHTML = "<p class='small muted'>Chance d'être au second tour, sur 100, pour les deux candidats les mieux placés" + (top ? ` pour affronter ${nameOf(summary, scen, top)}` : "") + ".</p>";
   el.append(root);
 }
 
@@ -165,10 +165,10 @@ function duelsTable(sc) {
     return pa >= MIN_QUALIFY_ROW && pb >= MIN_QUALIFY_ROW;
   });
   document.getElementById("table-duels").innerHTML =
-    `<thead><tr><th>Duel</th><th class="num">Score médian</th><th>Chances de gagner</th><th>Source</th></tr></thead><tbody>` +
-    duels.map((d) => `<tr><td>${nameOf(summary, scen, d.a)} – ${nameOf(summary, scen, d.b)}</td>` +
-      `<td class="num">${(100 * d.share_a).toFixed(0)} – ${(100 - 100 * d.share_a).toFixed(0)}</td>` +
-      `<td>${pctShort(d.p_a)} – ${pctShort(1 - d.p_a)}</td><td>${d.polled ? "sondé" : "estimé par le modèle"}</td></tr>`).join("") +
+    `<thead><tr><th>Duel</th><th class="num">Score prévu</th><th>Chances de gagner, sur 100</th><th>Source</th></tr></thead><tbody>` +
+    duels.map((d) => `<tr><td>${nameOf(summary, scen, d.a)} contre ${nameOf(summary, scen, d.b)}</td>` +
+      `<td class="num">${(100 * d.share_a).toFixed(0)} à ${(100 - 100 * d.share_a).toFixed(0)}</td>` +
+      `<td>${pctShort(d.p_a)} contre ${pctShort(1 - d.p_a)}</td><td>${d.polled ? "sondé" : "estimé par le modèle"}</td></tr>`).join("") +
     `</tbody>`;
 }
 

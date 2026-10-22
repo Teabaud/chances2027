@@ -52,3 +52,40 @@ import { ABSTAIN, ACCEPTABLE, SUPPORT, UNACCEPTABLE, decisiveChange, evaluate, m
     console.log(r.option === -1 ? "abst" : ids[r.option], (100 * r.unacc.p).toFixed(1), (100 * r.unacc.diff).toFixed(2), "±", (100 * r.unacc.se).toFixed(2));
 }
 console.log("vote-logic tests ok");
+
+// Personas across the spectrum on the real simulations: the verdict never advises a negligible switch,
+// never advises an unacceptable candidate, and is stable in kind for the abstainer who rejects one candidate.
+{
+  const { decide } = await import("../site/vote-logic.js");
+  const summary = JSON.parse(readFileSync("site/data/summary.json"));
+  const sc = summary.scenarios.lepen;
+  const d = makeData(new Uint16Array(readFileSync("site/data/r1_lepen.bin").buffer.slice(0)),
+    new Uint16Array(readFileSync("site/data/r2_lepen.bin").buffer.slice(0)), sc.candidates.length, sc.pairs.length, sc.pairs);
+  const ids = sc.candidates.map((c) => c.id), I = (x) => ids.indexOf(x);
+  const perScale = 100000 / (0.01 * summary.electorate.registered), CLEAR = 0.002;
+  const personas = [
+    ["abstainer rejecting Mélenchon", { melenchon: UNACCEPTABLE }, ABSTAIN],
+    ["LFI", { melenchon: SUPPORT, "le-pen": UNACCEPTABLE }, I("melenchon")],
+    ["PS", { glucksmann: SUPPORT, "le-pen": UNACCEPTABLE, zemmour: UNACCEPTABLE }, I("glucksmann")],
+    ["Renaissance", { attal: SUPPORT, philippe: SUPPORT, "le-pen": UNACCEPTABLE, melenchon: UNACCEPTABLE }, I("attal")],
+    ["LR", { retailleau: SUPPORT, melenchon: UNACCEPTABLE }, I("retailleau")],
+    ["RN", { "le-pen": SUPPORT, melenchon: UNACCEPTABLE }, I("le-pen")],
+    ["Reconquête", { zemmour: SUPPORT, melenchon: UNACCEPTABLE, glucksmann: UNACCEPTABLE }, I("zemmour")],
+  ];
+  for (const [label, g, cur] of personas) {
+    const groups = ids.map((id) => g[id] ?? ACCEPTABLE);
+    const opts = [...ids.keys()].filter((i) => i === cur || groups[i] !== UNACCEPTABLE).concat(ABSTAIN);
+    const res = evaluate(d, groups, cur, 0.0139, opts);
+    const v = decide(res, recommend(res, groups), cur, groups.includes(SUPPORT), groups.includes(UNACCEPTABLE), perScale, CLEAR);
+    for (const o of [v.best, v.forSupport, v.forAvoid].filter((o) => o !== undefined && o !== cur && o !== ABSTAIN))
+      assert.notEqual(groups[o], UNACCEPTABLE, `${label}: advised an unacceptable candidate`);
+    if (v.kind === "switch") {
+      const r = res.find((x) => x.option === v.best);
+      const gain = Math.max(-r.unacc.diff, r.support.diff) * perScale;
+      assert.ok(gain >= CLEAR, `${label}: switch advised for a negligible gain`);
+    }
+    const name = (o) => (o === ABSTAIN ? "blanc" : o === undefined ? "" : ids[o]);
+    console.log(`  ${label}: ${v.kind} ${name(v.best)}${v.kind === "depends" ? `${name(v.forSupport)} / ${name(v.forAvoid)}` : ""}`);
+  }
+  console.log("persona checks ok");
+}

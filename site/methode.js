@@ -10,9 +10,9 @@ document.getElementById("lineup").textContent = sc.candidates.map((c) => c.name)
 document.getElementById("excluded").textContent = summary.pollsters_excluded.length
   ? `Instituts écartés aujourd'hui car ils ne testent pas cette liste : ${summary.pollsters_excluded.join(", ")}.` : "";
 
-document.getElementById("polls").innerHTML = `<thead><tr><th>Institut</th><th>Terrain</th><th class="num">Échantillon</th><th class="num">Poids</th><th>Source</th></tr></thead><tbody>` +
-  summary.polls_used.map((p) => `<tr><td>${p.pollster}</td><td>${frDate(p.start)} – ${frDate(p.end)}</td><td class="num">${p.n ?? "—"}</td>` +
-    `<td class="num">${p.weight.toFixed(2)}</td><td class="small">${String(p.ref).startsWith("http") ? `<a href="${p.ref}">document</a>` : `notice ${p.ref}`}</td></tr>`).join("") + `</tbody>`;
+document.getElementById("polls").innerHTML = `<thead><tr><th>Institut</th><th>Commanditaire</th><th>Terrain</th><th class="num">Échantillon</th><th>Notice</th></tr></thead><tbody>` +
+  summary.polls_used.map((p) => `<tr><td>${p.pollster}</td><td>${p.sponsor ?? "voir la notice"}</td><td>du ${frDate(p.start)} au ${frDate(p.end)}</td>` +
+    `<td class="num">${p.n ?? "non indiqué"}</td><td class="small">${String(p.ref).startsWith("http") ? `<a href="${p.ref}">notice</a>` : `n° ${String(p.ref).split("-")[0]}`}</td></tr>`).join("") + `</tbody>`;
 
 const horizons = Object.entries(bt.mae_by_horizon);
 document.getElementById("mae").innerHTML = `<thead><tr><th>Jours avant le 1er tour</th>${horizons.map(([d]) => `<th class="num">${d}</th>`).join("")}</tr></thead>` +
@@ -21,12 +21,12 @@ document.getElementById("nu").textContent = bt.nu;
 
 const hits = (x) => `${Math.round(100 * x)} fois sur 100`;
 document.getElementById("coverage").innerHTML = [["50", "0.5"], ["80", "0.8"], ["95", "0.95"]].map(([lv, k]) =>
-  `<li>Fourchette à ${lv} chances sur 100 : le vrai score y est tombé <strong>${hits(bt.coverage_all[k])}</strong> ` +
-  `(${hits(bt.coverage_late[k])} pour les prévisions faites dans les deux dernières semaines).</li>`).join("");
+  `<li>Pour la fourchette à ${lv} chances sur 100, le vrai score y est tombé ${hits(bt.coverage_all[k])}, ` +
+  `et ${hits(bt.coverage_late[k])} pour les prévisions faites dans les deux dernières semaines.</li>`).join("");
 
 const b = summary.params.r2_rn_bias;
 const toPts = (logit) => (100 * (1 / (1 + Math.exp(-logit)) - 0.5)).toFixed(1).replace(".", ",");
-document.getElementById("rnbias").textContent = `environ ${toPts(-b.mean)} point(s) retiré(s) au candidat RN dans un duel serré (± ${toPts(b.sd)})`;
+document.getElementById("rnbias").textContent = `${toPts(-b.mean)} points de moins pour le candidat du RN, à ${toPts(b.sd)} point près`;
 
 document.getElementById("r2polled").innerHTML = `<thead><tr><th>Duel sondé</th><th class="num">Moyenne</th><th class="num">Sondages</th><th>Dernier</th></tr></thead><tbody>` +
   summary.r2_polled.map((r) => {

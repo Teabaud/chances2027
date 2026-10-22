@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Présidentielle 2027 — Où en est la course ?</title>
+<title>Présidentielle 2027, où en est la course ?</title>
 <meta name="description" content="Chances de chaque candidat à la présidentielle 2027, calculées à partir des sondages et de leurs erreurs passées. Méthode ouverte.">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -17,17 +17,18 @@
 <main>
   <h1>Où en est la course ?</h1>
   <p class="muted small" id="asof"></p>
+  <div id="early"></div>
   <div id="scenarios"></div>
   <p class="lead" id="headline"></p>
 
-  <div class="box small">Ces chiffres ne sont pas un sondage. Ils traduisent les sondages récents en <strong>chances</strong>,
-    en tenant compte de la façon dont les sondages se sont trompés lors des présidentielles passées.
-    Un candidat à « 25 chances sur 100 » gagne une fois sur quatre.</div>
+  <div class="box small">Ces chiffres ne sont pas un sondage. Ils transforment les sondages récents en chances,
+    en tenant compte des erreurs des sondages lors des présidentielles passées.
+    Un candidat à 25 chances sur 100 gagne une fois sur quatre.</div>
 
   <h2 id="challengers-title">Qui pourrait être au second tour, et le gagner ?</h2>
   <div class="legend">
     <span style="--c: var(--series-1)">Chance d'être au second tour</span>
-    <span style="--c: var(--series-2)">Chance de gagner, s'il y est</span>
+    <span style="--c: var(--series-2)">Chance de gagner en cas de qualification</span>
   </div>
   <div id="challengers"></div>
   <p class="small muted" id="challengers-note"></p>
@@ -37,10 +38,11 @@
 
   <h2>Les seconds tours les plus probables</h2>
   <div class="scroll"><table id="table-finals"></table></div>
-  <p class="small muted">« Estimé » : ce duel n'a pas été sondé récemment ; son résultat est une estimation du modèle, pas un sondage.</p>
+  <p class="small muted">Un duel « estimé » n'a pas été sondé récemment. Son résultat vient du modèle, pas d'un sondage.</p>
 
   <h2>Ce que disent les sondages, et la marge d'incertitude</h2>
-  <p class="small muted">Trait noir : moyenne des sondages récents. Barre : 80 chances sur 100 que le vrai score du 1er tour tombe dedans, d'après les erreurs passées des sondages à la même distance de l'élection.</p>
+  <p class="small muted">Le trait noir est la moyenne des sondages récents. La barre montre où le vrai score du premier tour a 80 chances sur 100 de tomber,
+    d'après les erreurs passées des sondages à la même distance du vote. La même fourchette figure dans le tableau des chances de victoire.</p>
   <div id="shares"></div>
 
   <h2>La course à la 2e place, dans le temps</h2>
@@ -52,7 +54,8 @@
   </details>
 </main>
 <footer>
-  Mis à jour chaque jour à partir des sondages publiés (compilations <a href="https://github.com/MieuxVoter/presidentielle2027">MieuxVoter</a> et <a href="https://sondax.fr">Sondax</a>).
+  Mis à jour chaque jour à partir des sondages publiés, compilés par <a href="https://github.com/MieuxVoter/presidentielle2027">MieuxVoter</a> et <a href="https://sondax.fr">Sondax</a>.
+  Les sondages utilisés et leurs notices sont consultables sur le site de la <a href="https://www.commission-des-sondages.fr/notices/medias/fichiers/bytag/14/2027-Presidentielle">Commission des sondages</a>.
   Projet personnel, indépendant de tout parti. <a href="methode.html">Méthode, données, code, mentions légales</a>.
 </footer>
 <script type="module" src="home.js"></script>

@@ -4,6 +4,7 @@ Sources (in precedence order): MieuxVoter/presidentielle2027 (MIT), Sondax (CC-B
 A poll is identified by (pollster, fieldwork end date); Sondax polls already in MieuxVoter are dropped.
 """
 
+import re
 import unicodedata
 import urllib.request
 from pathlib import Path
@@ -16,6 +17,8 @@ OUT = ROOT / "data" / "polls.csv"
 MV_URL = "https://raw.githubusercontent.com/MieuxVoter/presidentielle2027/main/presidentielle2027.csv"
 SONDAX_URL = "https://sondax.fr/donnees/sondages-presidentielle-2027.csv"
 USER_AGENT = "elections2027-forecast/0.1 (open-source poll aggregator)"
+NOTICES_URL = "https://www.commission-des-sondages.fr/notices/medias/fichiers/bytag/14/2027-Presidentielle"
+NOTICE_BASE = "https://www.commission-des-sondages.fr"
 COLUMNS = [
     "source",
     "pollster",
@@ -28,6 +31,7 @@ COLUMNS = [
     "share",
     "ref",
     "name",
+    "sponsor",
 ]
 # ponytail: FR Wikipedia parser skipped — Sondax is itself scraped from it; add if Sondax goes stale.
 
@@ -64,6 +68,7 @@ def load_mieuxvoter(path: Path) -> pd.DataFrame:
             "share": df.intentions,
             "ref": df.filename,
             "name": df.complete_name,
+            "sponsor": df.commanditaire,
         }
     )
 
@@ -83,8 +88,22 @@ def load_sondax(path: Path) -> pd.DataFrame:
             "share": df.score,
             "ref": df.url_source,
             "name": df.candidat,
+            "sponsor": None,
         }
     )
+
+
+def notice_links(html: str) -> dict[str, str]:
+    """Notice number ('10262') -> URL of its PDF on the Commission des sondages site."""
+    pairs = re.findall(r'href="(/notices/medias/fichiers/add/\d+)"[^>]*>(\d+) ', html)
+    return {num: NOTICE_BASE + href for href, num in pairs}
+
+
+def link_refs(polls: pd.DataFrame, links: dict[str, str]) -> pd.DataFrame:
+    """Replace MieuxVoter notice filenames ('10262-pres-….pdf') by the notice URL when known."""
+    num = polls.ref.astype(str).str.extract(r"^(\d+)-")[0]
+    url = num.map(links)
+    return polls.assign(ref=url.fillna(polls.ref))
 
 
 def merge(mv: pd.DataFrame, sx: pd.DataFrame) -> pd.DataFrame:
@@ -102,6 +121,12 @@ def main() -> None:
     mv = load_mieuxvoter(download(MV_URL, RAW / "mv_presidentielle2027.csv"))
     sx = load_sondax(download(SONDAX_URL, RAW / "sondax.csv"))
     polls = merge(mv, sx)
+    try:
+        links = notice_links(download(NOTICES_URL, RAW / "notices.html").read_text(errors="ignore"))
+    except OSError as err:  # the Commission site being down must not stop the daily update
+        print(f"notices list unavailable ({err}); keeping filenames")
+        links = {}
+    polls = link_refs(polls, links)
     assert polls.groupby("hyp").share.sum().sub(100).abs().max() < 1e-6
     assert not polls.duplicated(["hyp", "candidate"]).any(), "candidate twice in one hypothesis"
     polls.to_csv(OUT, index=False)

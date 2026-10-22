@@ -122,3 +122,32 @@ export function decisiveChange(data, from, to, delta) {
   const [entered, left] = key.split("|").map(Number);
   return { share: changed / data.S, entered, left };
 }
+
+// Final verdict. An option is advised only if it beats the current choice beyond 2 paired s.e. AND by at least
+// `clearEffect` per 100 000 voters (`perScale` converts the computed group's effect to that unit).
+// Returns {kind: "keep"} | {kind: "switch", best} | {kind: "depends", forSupport, forAvoid}.
+export function decide(res, rec, current, hasSupport, hasUnacc, perScale, clearEffect) {
+  const row = (o) => res.find((r) => r.option === o);
+  const clearlyBetter = (r, key) => {
+    const gain = key === "unacc" ? -r[key].diff : r[key].diff;
+    return gain > 2 * r[key].se && gain * perScale >= clearEffect;
+  };
+  const bestFor = (key) => {
+    const best = key === "unacc" ? rec.forAvoid.best : rec.forSupport.best;
+    return best !== current && row(best) && clearlyBetter(row(best), key) ? best : current;
+  };
+  const forSupport = hasSupport ? bestFor("support") : current;
+  const forAvoid = hasUnacc ? bestFor("unacc") : current;
+  if (forSupport === current && forAvoid === current) return { kind: "keep" };
+  if (!hasUnacc) return { kind: "switch", best: forSupport };
+  if (!hasSupport) return { kind: "switch", best: forAvoid };
+  if (forSupport === forAvoid) return { kind: "switch", best: forSupport };
+  // one objective says switch, the other says keep: switching is fine if it does not measurably hurt the other
+  const hurts = (opt, key) => {
+    const m = row(opt)[key];
+    return (key === "unacc" ? m.diff : -m.diff) > 2 * m.se;
+  };
+  if (forAvoid === current && !hurts(forSupport, "unacc")) return { kind: "switch", best: forSupport };
+  if (forSupport === current && !hurts(forAvoid, "support")) return { kind: "switch", best: forAvoid };
+  return { kind: "depends", forSupport, forAvoid };
+}
