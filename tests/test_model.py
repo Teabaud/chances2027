@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "pipeline"))
-import model  # noqa: E402
+import model
 
 POLLS = pd.read_csv(model.POLLS)
 REF = model.reference_lineup()
@@ -26,10 +26,19 @@ def test_bardella_uses_le_pen_duel_polls() -> None:
     pairs = model.r2_inputs(bd["polled"], list(bd["avg"].shares.index))
     cands = list(bd["avg"].shares.index)
     rows = pairs[(pairs.i == cands.index("bardella")) | (pairs.j == cands.index("bardella"))]
-    opponents_polled_with_le_pen = set(lp["polled"].query("a == 'le-pen' or b == 'le-pen'")[["a", "b"]].stack()) - {"le-pen"}
-    derived = rows[[cands[i if cands[j] == "bardella" else j] in opponents_polled_with_le_pen for i, j in zip(rows.i, rows.j)]]
+    opponents_polled_with_le_pen = set(
+        lp["polled"].query("a == 'le-pen' or b == 'le-pen'")[["a", "b"]].stack()
+    ) - {"le-pen"}
+    derived = rows[
+        [
+            cands[i if cands[j] == "bardella" else j] in opponents_polled_with_le_pen
+            for i, j in zip(rows.i, rows.j)
+        ]
+    ]
     assert len(derived) >= 4, "expected the Le Pen duels to carry over to Bardella"
-    assert (derived.model_sd < model.MODEL_SD_FLOOR).all(), "derived duels must not fall back to the strength-model error"
+    assert (derived.model_sd < model.MODEL_SD_FLOOR).all(), (
+        "derived duels must not fall back to the strength-model error"
+    )
 
 
 def test_no_look_ahead() -> None:
@@ -58,7 +67,9 @@ def test_pollster_counts_are_honest() -> None:
     sc = model.build_scenarios(POLLS, REF, ASOF, NAMES)
     for s in sc:
         if s["rn"] == "bardella":
-            assert s["n_pollsters"] is None and s["delta_polls"] >= 3, "Bardella is derived, not 'tested by N pollsters'"
+            assert s["n_pollsters"] is None and s["delta_polls"] >= 3, (
+                "Bardella is derived, not 'tested by N pollsters'"
+            )
         else:
             assert s["n_pollsters"] == model.pollsters_testing(POLLS, s["lineup"], ASOF), s["key"]
 
@@ -72,7 +83,10 @@ def test_missing_bardella_pairs_fail_loudly() -> None:
 
 
 if __name__ == "__main__":
-    for name, fn in list(globals().items()):
-        if name.startswith("test_"):
-            fn()
-            print(f"ok  {name}")
+    for name, fn in [(n, f) for n, f in globals().items() if n.startswith("test_")]:
+        fn()
+        print(f"ok  {name}")
+
+
+def test_append_history_accepts_an_empty_batch() -> None:
+    model.append_history("2026-07-15", {})  # must not crash (backfill date before a line-up was tested)

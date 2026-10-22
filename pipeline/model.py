@@ -445,6 +445,8 @@ def main(asof: pd.Timestamp | None = None) -> None:
 
 
 def append_history(day: str, scenarios: dict) -> None:
+    if not scenarios:  # e.g. a backfill date before a line-up was first tested
+        return
     path = OUT / "history.csv"
     new = pd.DataFrame(
         [
