@@ -76,7 +76,7 @@ console.log("vote-logic tests ok");
     const groups = ids.map((id) => g[id] ?? ACCEPTABLE);
     const opts = [...ids.keys()].filter((i) => i === cur || groups[i] !== UNACCEPTABLE).concat(ABSTAIN);
     const res = evaluate(d, groups, cur, 0.0139, opts);
-    const v = decide(res, recommend(res, groups), cur, groups.includes(SUPPORT), groups.includes(UNACCEPTABLE), perScale, CLEAR);
+    const v = decide(res, recommend(res, groups), cur, groups.includes(SUPPORT), groups.includes(UNACCEPTABLE), perScale, CLEAR, groups);
     for (const o of [v.best, v.forSupport, v.forAvoid].filter((o) => o !== undefined && o !== cur && o !== ABSTAIN))
       assert.notEqual(groups[o], UNACCEPTABLE, `${label}: advised an unacceptable candidate`);
     if (v.kind === "switch") {
@@ -88,4 +88,33 @@ console.log("vote-logic tests ok");
     console.log(`  ${label}: ${v.kind} ${name(v.best)}${v.kind === "depends" ? `${name(v.forSupport)} / ${name(v.forAvoid)}` : ""}`);
   }
   console.log("persona checks ok");
+}
+
+// Sincere fallback: when no vote changes the chances clearly, advise the favourite, never "keep" a candidate
+// the user doesn't support (bug: support Arthaud only, current vote Philippe → "Gardez votre vote : Philippe").
+{
+  const { decide } = await import("../site/vote-logic.js");
+  const summary = JSON.parse(readFileSync("site/data/summary.json"));
+  const sc = summary.scenarios.lepen;
+  const d = makeData(new Uint16Array(readFileSync("site/data/r1_lepen.bin").buffer.slice(0)),
+    new Uint16Array(readFileSync("site/data/r2_lepen.bin").buffer.slice(0)), sc.candidates.length, sc.pairs.length, sc.pairs);
+  const ids = sc.candidates.map((c) => c.id), I = (x) => ids.indexOf(x);
+  const perScale = 100000 / (0.01 * summary.electorate.registered), CLEAR = 0.002;
+  for (const fav of ["arthaud", "roussel", "glucksmann"]) {
+    const groups = ids.map((id) => (id === fav ? SUPPORT : ACCEPTABLE));
+    const cur = I("philippe");
+    const opts = [...ids.keys(), ABSTAIN];
+    const res = evaluate(d, groups, cur, 0.0139, opts);
+    const v = decide(res, recommend(res, groups), cur, true, false, perScale, CLEAR, groups);
+    assert.ok(v.kind !== "keep", `support ${fav} only, vote Philippe: must not advise keeping Philippe`);
+    assert.equal(v.best, I(fav), `support ${fav} only: advise ${fav}`);
+  }
+  // no supported candidate: never pick an arbitrary acceptable one
+  {
+    const groups = ids.map((id) => (id === "melenchon" ? UNACCEPTABLE : ACCEPTABLE));
+    const res = evaluate(d, groups, ABSTAIN, 0.0139, [...ids.keys()].filter((i) => groups[i] !== UNACCEPTABLE).concat(ABSTAIN));
+    const v = decide(res, recommend(res, groups), ABSTAIN, false, true, perScale, CLEAR, groups);
+    assert.ok(v.kind !== "sincere", "abstainer with no supported candidate: no arbitrary sincere pick");
+  }
+  console.log("sincere fallback ok");
 }

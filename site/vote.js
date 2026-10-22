@@ -102,7 +102,8 @@ async function update() {
   const data = await loadData(scen);
   const current = currentId() === "abstain" ? ABSTAIN : ids.indexOf(currentId());
   // never propose a vote for a candidate the user finds unacceptable (unless it is their current choice)
-  const eligible = (c, i) => i === current || (c.p_qualify >= MIN_QUALIFY_OPTION && groups[i] !== UNACCEPTABLE);
+  // supported candidates are always options, however small; others only if they reach R2 sometimes
+  const eligible = (c, i) => i === current || groups[i] === SUPPORT || (c.p_qualify >= MIN_QUALIFY_OPTION && groups[i] !== UNACCEPTABLE);
   const options = [...sc().candidates.map((c, i) => (eligible(c, i) ? i : null)).filter((i) => i !== null), ABSTAIN];
   if (!options.includes(current)) options.push(current);
   const E = summary.electorate;
@@ -137,7 +138,7 @@ function advice(option, current, why, rows, base, hasSupport, hasUnacc) {
 
 function verdict(runs, recs, groups, current, hasSupport, hasUnacc, data, delta) {
   if (groups.every((g) => g === groups[0])) return `<p class="verdict">Vous avez mis tous les candidats dans le même groupe. Aucun vote ne change donc le résultat pour vous.</p>`;
-  const d = decide(runs[0], recs[0], current, hasSupport, hasUnacc, perScale(), CLEAR_EFFECT);
+  const d = decide(runs[0], recs[0], current, hasSupport, hasUnacc, perScale(), CLEAR_EFFECT, groups);
   const shown = runs[SHOWN];
   const rows = (o) => shown.find((r) => r.option === o);
   const base = rows(current);
@@ -146,6 +147,9 @@ function verdict(runs, recs, groups, current, hasSupport, hasUnacc, data, delta)
   if (d.kind === "keep") {
     html += advice(current, current, current === ABSTAIN ? `${now}Selon vos réponses, aucun candidat ne fait nettement mieux qu'un autre.`
       : `${now}Selon vos réponses, aucun autre vote ne change nettement les chances.`, rows, base, hasSupport, hasUnacc);
+  } else if (d.kind === "sincere") {
+    html += advice(d.best, current, `${now}Selon vos réponses, aucun vote ne change nettement les chances. Autant voter pour ` +
+      "un candidat que vous soutenez.", rows, base, hasSupport, hasUnacc);
   } else if (d.kind === "switch") {
     html += advice(d.best, current, `${now}C'est le vote qui sert le mieux vos préférences${current === ABSTAIN ? "" : `, mieux que ${nameOf(current)}`}.`, rows, base, hasSupport, hasUnacc);
     const ch = decisiveChange(data, current, d.best, delta);
@@ -156,7 +160,7 @@ function verdict(runs, recs, groups, current, hasSupport, hasUnacc, data, delta)
       advice(d.forAvoid, current, "Si vous voulez avant tout éviter qu'un candidat que vous jugez inacceptable gagne.", rows, base, hasSupport, hasUnacc) +
       advice(d.forSupport, current, "Si vous voulez avant tout qu'un candidat que vous soutenez gagne.", rows, base, hasSupport, hasUnacc);
   }
-  const kinds = runs.map((r, n) => JSON.stringify(decide(r, recs[n], current, hasSupport, hasUnacc, perScale(), CLEAR_EFFECT)));
+  const kinds = runs.map((r, n) => JSON.stringify(decide(r, recs[n], current, hasSupport, hasUnacc, perScale(), CLEAR_EFFECT, groups)));
   if (kinds.some((k) => k !== kinds[0])) html += `<p class="small box warn">Ce conseil change selon le nombre d'électeurs qui font le même choix. Il est donc fragile.</p>`;
   return html;
 }

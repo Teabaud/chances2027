@@ -125,8 +125,10 @@ export function decisiveChange(data, from, to, delta) {
 
 // Final verdict. An option is advised only if it beats the current choice beyond 2 paired s.e. AND by at least
 // `clearEffect` per 100 000 voters (`perScale` converts the computed group's effect to that unit).
-// Returns {kind: "keep"} | {kind: "switch", best} | {kind: "depends", forSupport, forAvoid}.
-export function decide(res, rec, current, hasSupport, hasUnacc, perScale, clearEffect) {
+// Returns {kind: "keep"} | {kind: "switch", best} | {kind: "sincere", best} | {kind: "depends", forSupport, forAvoid}.
+// "sincere": no vote changes the chances clearly, so vote for a candidate you support, provided it does not
+// meaningfully hurt either objective (never "keep" a current choice you like less than a supported option).
+export function decide(res, rec, current, hasSupport, hasUnacc, perScale, clearEffect, groups) {
   const row = (o) => res.find((r) => r.option === o);
   const clearlyBetter = (r, key) => {
     const gain = key === "unacc" ? -r[key].diff : r[key].diff;
@@ -138,7 +140,7 @@ export function decide(res, rec, current, hasSupport, hasUnacc, perScale, clearE
   };
   const forSupport = hasSupport ? bestFor("support") : current;
   const forAvoid = hasUnacc ? bestFor("unacc") : current;
-  if (forSupport === current && forAvoid === current) return { kind: "keep" };
+  if (forSupport === current && forAvoid === current) return sincere(res, current, hasSupport, hasUnacc, perScale, clearEffect, groups);
   if (!hasUnacc) return { kind: "switch", best: forSupport };
   if (!hasSupport) return { kind: "switch", best: forAvoid };
   if (forSupport === forAvoid) return { kind: "switch", best: forSupport };
@@ -150,4 +152,14 @@ export function decide(res, rec, current, hasSupport, hasUnacc, perScale, clearE
   if (forAvoid === current && !hurts(forSupport, "unacc")) return { kind: "switch", best: forSupport };
   if (forSupport === current && !hurts(forAvoid, "support")) return { kind: "switch", best: forAvoid };
   return { kind: "depends", forSupport, forAvoid };
+}
+
+function sincere(res, current, hasSupport, hasUnacc, perScale, clearEffect, groups) {
+  const liking = (o) => (o === ABSTAIN ? 0.5 : groups ? groups[o] : 0);
+  const meaningfulHurt = (m, badSign) => badSign * m.diff > 2 * m.se && Math.abs(m.diff) * perScale >= clearEffect;
+  const harmless = (r) => !(hasUnacc && meaningfulHurt(r.unacc, 1)) && !(hasSupport && meaningfulHurt(r.support, -1));
+  // only towards a candidate you support: among merely acceptable ones, any pick would be arbitrary
+  const better = res.filter((r) => r.option !== ABSTAIN && groups?.[r.option] === SUPPORT && liking(r.option) > liking(current) && harmless(r))
+    .sort((a, b) => liking(b.option) - liking(a.option) || (b.support.p - a.support.p) || (a.unacc.p - b.unacc.p));
+  return better.length ? { kind: "sincere", best: better[0].option } : { kind: "keep" };
 }
