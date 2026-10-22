@@ -86,24 +86,6 @@ export function evaluate(data, groups, current, delta, options) {
   });
 }
 
-// Best option under each cut-off: (1) maximise P(supported wins), (2) minimise P(unacceptable wins).
-// Options within 2 paired s.e. of the leader are equivalent; among them, prefer the one the voter likes most
-// (a sincere vote when strategy doesn't matter), abstention ranking just above unacceptable candidates.
-export function recommend(results, groups) {
-  const liking = (opt) => (opt === ABSTAIN ? 0.5 : groups[opt]);
-  const by = (key, sign) => {
-    const sorted = [...results].sort((x, y) => sign * (y[key].diff - x[key].diff));
-    const lead = sorted[0];
-    const equivalent = sorted.filter((r) => Math.abs(r[key].diff - lead[key].diff) <= 2 * Math.hypot(r[key].se, lead[key].se));
-    const best = [...equivalent].sort((x, y) => liking(y.option) - liking(x.option) || sign * (y[key].diff - x[key].diff))[0];
-    return { best: best.option, equivalent: equivalent.map((r) => r.option) };
-  };
-  const forSupport = by("support", 1);
-  const forAvoid = by("unacc", -1);
-  const common = forSupport.equivalent.filter((o) => forAvoid.equivalent.includes(o));
-  return { forSupport, forAvoid, robust: common.length > 0 ? common : null };
-}
-
 // Which second-round change does the move cause most often? Returns {share, entered, left} or null.
 export function decisiveChange(data, from, to, delta) {
   const before = finalists(data, from, from, 0), after = finalists(data, from, to, delta);
@@ -123,101 +105,42 @@ export function decisiveChange(data, from, to, delta) {
   return { share: changed / data.S, entered, left };
 }
 
-// Final verdict. An option is advised only if it beats the current choice beyond 2 paired s.e. AND by at least
-// `clearEffect` per 100 000 voters (`perScale` converts the computed group's effect to that unit).
-// Returns {kind: "keep"} | {kind: "switch", best} | {kind: "sincere", best} | {kind: "depends", forSupport, forAvoid}.
-// "sincere": no vote changes the chances clearly, so vote for a candidate you support, provided it does not
-// meaningfully hurt either objective (never "keep" a current choice you like less than a supported option).
-export function decide(res, rec, current, hasSupport, hasUnacc, perScale, clearEffect, groups) {
-  const row = (o) => res.find((r) => r.option === o);
-  const clearlyBetter = (r, key) => {
-    const gain = key === "unacc" ? -r[key].diff : r[key].diff;
-    return gain > 2 * r[key].se && gain * perScale >= clearEffect;
-  };
-  const bestFor = (key) => {
-    const best = key === "unacc" ? rec.forAvoid.best : rec.forSupport.best;
-    return best !== current && row(best) && clearlyBetter(row(best), key) ? best : current;
-  };
-  const forSupport = hasSupport ? bestFor("support") : current;
-  const forAvoid = hasUnacc ? bestFor("unacc") : current;
-  if (forSupport === current && forAvoid === current) return sincere(res, current, hasSupport, hasUnacc, perScale, clearEffect, groups);
-  if (!hasUnacc) return { kind: "switch", best: forSupport };
-  if (!hasSupport) return { kind: "switch", best: forAvoid };
-  if (forSupport === forAvoid) return { kind: "switch", best: forSupport };
-  // one objective says switch, the other says keep: switching is fine if it does not measurably hurt the other
-  const hurts = (opt, key) => {
-    const m = row(opt)[key];
-    return (key === "unacc" ? m.diff : -m.diff) > 2 * m.se;
-  };
-  if (forAvoid === current && !hurts(forSupport, "unacc")) return { kind: "switch", best: forSupport };
-  if (forSupport === current && !hurts(forAvoid, "support")) return { kind: "switch", best: forAvoid };
-  return { kind: "depends", forSupport, forAvoid };
-}
-
-function sincere(res, current, hasSupport, hasUnacc, perScale, clearEffect, groups) {
-  const liking = (o) => (o === ABSTAIN ? 0.5 : groups ? groups[o] : 0);
-  const meaningfulHurt = (m, badSign) => badSign * m.diff > 2 * m.se && Math.abs(m.diff) * perScale >= clearEffect;
-  const harmless = (r) => !(hasUnacc && meaningfulHurt(r.unacc, 1)) && !(hasSupport && meaningfulHurt(r.support, -1));
-  // only towards a candidate you support: among merely acceptable ones, any pick would be arbitrary
-  const better = res.filter((r) => r.option !== ABSTAIN && groups?.[r.option] === SUPPORT && liking(r.option) > liking(current) && harmless(r))
-    .sort((a, b) => liking(b.option) - liking(a.option) || (b.support.p - a.support.p) || (a.unacc.p - b.unacc.p));
-  return better.length ? { kind: "sincere", best: better[0].option } : { kind: "keep" };
-}
-
-// Advice that holds at every group size tested (runs[0] is the reference size). If the group sizes disagree,
-// fall back to the cautious answer: a sincere vote if one of the sizes gives it, otherwise keep the current vote.
-export function decideStable(runs, recs, current, hasSupport, hasUnacc, perScale, clearEffect, groups) {
-  const all = runs.map((r, n) => decide(r, recs[n], current, hasSupport, hasUnacc, perScale, clearEffect, groups));
-  if (all.every((x) => JSON.stringify(x) === JSON.stringify(all[0])) || ["keep", "sincere"].includes(all[0].kind)) return all[0];
-  return all.find((x) => x.kind === "sincere") ?? { kind: "keep" };
-}
-
-// Final advice, stable across group sizes. runs[n] = evaluate() for group size n (runs[0] is the reference),
-// scales[n] converts that size's effect to « per 100 000 voters ». Compared with the planned vote `current`:
-// - "switch" to the option that improves at least one objective clearly and hurts none measurably, at every size
-//   (most liked first, then largest gains); optional altAvoid / altSupport: an option that does even better on one
-//   objective at the cost of the other, consistently across sizes;
-// - "depends" when the two objectives point to different options consistently and no option improves both;
-// - otherwise the sincere vote (a supported candidate) or "keep".
-// Returns {kind, best?, forSupport?, forAvoid?, altAvoid?, altSupport?}.
+// Advice for each objective, compared with the planned vote `current`, stable across group sizes.
+// runs[n] = evaluate() for group size n (runs[0] is the reference size); scales[n] converts that size's effect
+// to « per 100 000 voters », so the « clearly better » threshold (clearEffect) means the same at every size.
+// For each objective: among the options that beat the current vote clearly at EVERY size, the one with the largest
+// gain at the reference size (then the most liked); the current vote if none does.
+// If both answers are « keep » and the current vote is not a supported candidate, fall back to the sincere vote:
+// a supported candidate that does not meaningfully hurt either objective.
+// Returns { forAvoid, forSupport, sincere } (option indices; null for an objective the user did not set).
 export function advise(runs, current, hasSupport, hasUnacc, scales, clearEffect, groups) {
-  const keys = [hasUnacc && "unacc", hasSupport && "support"].filter(Boolean);
   const gain = (m, key) => (key === "unacc" ? -m.diff : m.diff);
   const improves = (r, key, n) => gain(r[key], key) > 2 * r[key].se && gain(r[key], key) * scales[n] >= clearEffect;
-  const hurts = (r, key) => -gain(r[key], key) > 2 * r[key].se;
-  const others = (res) => res.filter((r) => r.option !== current);
   const liking = (o) => (o === ABSTAIN ? 0.5 : groups[o]);
-  const intersect = (sets) => sets.reduce((a, b) => a.filter((x) => b.includes(x)));
-  // options that make things better without making anything worse, at every size
-  const pareto = intersect(runs.map((res, n) => others(res)
-    .filter((r) => keys.some((k) => improves(r, k, n)) && !keys.some((k) => hurts(r, k))).map((r) => r.option)));
-  // best option for one objective, if it is the same and clearly better at every size
-  const bestFor = (key) => {
-    const per = runs.map((res, n) => {
-      const top = others(res).filter((r) => improves(r, key, n)).sort((a, b) => gain(b[key], key) - gain(a[key], key))[0];
-      return top ? top.option : current;
-    });
-    return per.every((o) => o === per[0]) ? per[0] : null;
-  };
   const ref = runs[0];
   const row = (o) => ref.find((r) => r.option === o);
-  if (pareto.length) {
-    const score = (o) => keys.reduce((t, k) => t + gain(row(o)[k], k), 0);
-    const best = [...pareto].sort((a, b) => liking(b) - liking(a) || score(b) - score(a))[0];
-    const out = { kind: "switch", best };
-    for (const [k, name] of [["unacc", "altAvoid"], ["support", "altSupport"]]) {
-      if (!keys.includes(k)) continue;
-      const alt = bestFor(k);
-      if (alt !== null && alt !== best && alt !== current && gain(row(alt)[k], k) - gain(row(best)[k], k) > 2 * Math.hypot(row(alt)[k].se, row(best)[k].se)) out[name] = alt;
-    }
-    return out;
+  const bestFor = (key) => {
+    const sets = runs.map((res, n) => res.filter((r) => r.option !== current && improves(r, key, n)).map((r) => r.option));
+    const common = sets.reduce((a, b) => a.filter((x) => b.includes(x)));
+    if (!common.length) return current;
+    return [...common].sort((a, b) => gain(row(b)[key], key) - gain(row(a)[key], key) || liking(b) - liking(a))[0];
+  };
+  const forAvoid = hasUnacc ? bestFor("unacc") : null;
+  const forSupport = hasSupport ? bestFor("support") : null;
+  if ([forAvoid, forSupport].every((x) => x === null || x === current)) {
+    const s = sincere(ref, current, hasSupport, hasUnacc, scales[0], clearEffect, groups);
+    if (s !== null) return { forAvoid: hasUnacc ? s : null, forSupport: hasSupport ? s : null, sincere: true };
   }
-  const fa = hasUnacc ? bestFor("unacc") : current, fs = hasSupport ? bestFor("support") : current;
-  if (fa !== null && fs !== null && (fa !== current || fs !== current)) {
-    if (fa === fs) return { kind: "switch", best: fa };
-    if (!hasUnacc) return { kind: "switch", best: fs };
-    if (!hasSupport) return { kind: "switch", best: fa };
-    return { kind: "depends", forSupport: fs, forAvoid: fa };
-  }
-  return sincere(ref, current, hasSupport, hasUnacc, scales[0], clearEffect, groups);
+  return { forAvoid, forSupport, sincere: false };
+}
+
+// Sincere fallback: the most supported option (never an arbitrary acceptable one) that does not meaningfully hurt
+// either objective, if the current vote is liked less. Returns an option index or null.
+function sincere(res, current, hasSupport, hasUnacc, perScale, clearEffect, groups) {
+  const liking = (o) => (o === ABSTAIN ? 0.5 : groups[o]);
+  const meaningfulHurt = (m, badSign) => badSign * m.diff > 2 * m.se && Math.abs(m.diff) * perScale >= clearEffect;
+  const harmless = (r) => !(hasUnacc && meaningfulHurt(r.unacc, 1)) && !(hasSupport && meaningfulHurt(r.support, -1));
+  const better = res.filter((r) => r.option !== ABSTAIN && groups[r.option] === SUPPORT && liking(r.option) > liking(current) && harmless(r))
+    .sort((a, b) => b.support.p - a.support.p || a.unacc.p - b.unacc.p);
+  return better.length ? better[0].option : null;
 }

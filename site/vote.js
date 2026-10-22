@@ -149,33 +149,30 @@ function advice(option, current, why, rows, base, hasSupport, hasUnacc) {
 
 function verdict(runs, groups, current, hasSupport, hasUnacc, data, delta) {
   if (groups.every((g) => g === groups[0])) return `<p class="verdict">Vous avez mis tous les candidats dans le même groupe. Aucun vote ne change donc le résultat pour vous.</p>`;
-  const d = advise(runs, current, hasSupport, hasUnacc, scales(), CLEAR_EFFECT, groups);
+  const v = advise(runs, current, hasSupport, hasUnacc, scales(), CLEAR_EFFECT, groups);
   const shown = runs[SHOWN];
   const rows = (o) => shown.find((r) => r.option === o);
   const base = rows(current);
   const now = isEarly(summary) ? "D'après les sondages d'aujourd'hui. " : "";
-  let html = "";
-  if (d.kind === "keep") {
-    html += advice(current, current, current === ABSTAIN ? `${now}Selon vos réponses, aucun candidat ne fait nettement mieux qu'un autre.`
-      : `${now}Selon vos réponses, aucun autre vote ne change nettement les chances.`, rows, base, hasSupport, hasUnacc);
-  } else if (d.kind === "sincere") {
-    html += advice(d.best, current, `${now}Selon vos réponses, aucun vote ne change nettement les chances. Autant voter pour ` +
-      "un candidat que vous soutenez.", rows, base, hasSupport, hasUnacc);
-  } else if (d.kind === "switch") {
-    html += advice(d.best, current, `${now}Selon vos préférences, c'est le meilleur choix${current === ABSTAIN ? "" : `, devant ${nameOf(current)}`}.`, rows, base, hasSupport, hasUnacc);
-    const ch = decisiveChange(data, current, d.best, delta);
-    if (ch) html += `<p class="small muted">Pourquoi ? Si un million d'électeurs comme vous faisaient ce choix, le second tour changerait dans ${fmt(ch.share)} simulations sur 100. ` +
-      `Le plus souvent, ${nameOfIdx(ch.entered)} y accéderait à la place de ${nameOfIdx(ch.left)}.</p>`;
-    // an option that does even better on one objective, at the cost of the other
-    const alt = (o, goal) => `<div class="advice-block alt"><p><strong>Autre option.</strong> Si vous voulez avant tout ${goal}, ` +
-      `voter pour <strong>${nameOfIdx(o)}</strong> fait encore mieux, au prix de l'autre objectif.</p>${effects(rows(o), base, hasSupport, hasUnacc)}</div>`;
-    if (d.altAvoid !== undefined) html += alt(d.altAvoid, "éviter qu'un candidat que vous jugez inacceptable gagne");
-    if (d.altSupport !== undefined) html += alt(d.altSupport, "qu'un candidat que vous soutenez gagne");
-  } else {
-    html += `<p>${now}Le meilleur vote dépend de ce qui compte le plus pour vous.</p>` +
-      advice(d.forAvoid, current, "Si vous voulez avant tout éviter qu'un candidat que vous jugez inacceptable gagne.", rows, base, hasSupport, hasUnacc) +
-      advice(d.forSupport, current, "Si vous voulez avant tout qu'un candidat que vous soutenez gagne.", rows, base, hasSupport, hasUnacc);
-  }
+  const sincereWhy = "Selon vos réponses, aucun vote ne change nettement les chances. Autant voter pour un candidat que vous soutenez.";
+  const why = (o, both) => (o === current
+    ? (current === ABSTAIN ? "Selon vos réponses, aucun vote ne change nettement les chances." : `Aucun autre vote ne fait nettement mieux${both ? "" : " pour cet objectif"}.`)
+    : v.sincere ? sincereWhy : both ? "C'est le meilleur choix pour vos deux objectifs." : "");
+  const why2 = (o) => {
+    if (o === current || v.sincere) return "";
+    const ch = decisiveChange(data, current, o, delta);
+    return ch ? `<p class="small muted">Pourquoi ? Si un million d'électeurs comme vous faisaient ce choix, le second tour changerait dans ${fmt(ch.share)} simulations sur 100. ` +
+      `Le plus souvent, ${nameOfIdx(ch.entered)} y accéderait à la place de ${nameOfIdx(ch.left)}.</p>` : "";
+  };
+  // both objectives give the same answer: one block
+  if (hasSupport && hasUnacc && v.forAvoid === v.forSupport)
+    return advice(v.forAvoid, current, now + why(v.forAvoid, true), rows, base, hasSupport, hasUnacc) + why2(v.forAvoid);
+  // otherwise one section per objective
+  let html = now ? `<p class="small muted">${now}</p>` : "";
+  if (hasUnacc) html += `<h3>Pour éviter un candidat que vous jugez inacceptable</h3>` +
+    advice(v.forAvoid, current, why(v.forAvoid, false), rows, base, hasSupport, hasUnacc) + why2(v.forAvoid);
+  if (hasSupport) html += `<h3>Pour faire gagner un candidat que vous soutenez</h3>` +
+    advice(v.forSupport, current, why(v.forSupport, false), rows, base, hasSupport, hasUnacc) + why2(v.forSupport);
   return html;
 }
 
