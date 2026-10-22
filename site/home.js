@@ -3,8 +3,7 @@ import { attachTip, chances, earlyBanner, frDate, getScenario, hbar, loadSummary
 const NEAR_CERTAIN = 0.85; // above this P(qualify), the headline is about who faces them
 const MIN_QUALIFY_ROW = 0.01;
 const UNRELIABLE_QUALIFY = 0.05;
-const HISTORY_MIN = 0.1; // a challenger appears in the history chart if they reached this at some point
-const HISTORY_MAX = 3;
+const HISTORY_MAX = 3; // lines in the history chart: today's top candidates by chance of winning
 
 const summary = await loadSummary();
 let scen = summary.scenarios[getScenario()] ? getScenario() : "lepen";
@@ -137,17 +136,14 @@ function historyChart(cands) {
   const rows = history.filter((r) => r.scenario === scen);
   const dates = [...new Set(rows.map((r) => r.date))].sort();
   if (dates.length < 2) { el.innerHTML = "<p class='muted small'>L'historique s'affichera après quelques jours de mises à jour.</p>"; return; }
-  const top = cands[0].p_qualify >= NEAR_CERTAIN ? cands[0].id : null;
-  // every challenger who reached HISTORY_MIN at some point in the period, by peak value, at most HISTORY_MAX lines
-  const peak = (id) => Math.max(...rows.filter((r) => r.candidate === id).map((r) => r.p_qualify));
-  const ids = cands.map((c) => c.id).filter((id) => id !== top && peak(id) >= HISTORY_MIN)
-    .sort((a, b) => peak(b) - peak(a)).slice(0, HISTORY_MAX);
+  // the HISTORY_MAX candidates with the best chance of winning today
+  const ids = [...cands].sort((a, b) => b.p_win - a.p_win).slice(0, HISTORY_MAX).map((c) => c.id);
   const colors = ["var(--series-1)", "var(--series-2)", "var(--series-3)"];
   const W = 700, H = 220, L = 34, R = 150, T = 10, B = 26;
   const t0 = Date.parse(dates[0]), t1 = Date.parse(dates.at(-1));
   const x = (d) => L + ((Date.parse(d) - t0) / (t1 - t0)) * (W - L - R);
   const y = (p) => T + (1 - p) * (H - T - B);
-  const root = svg("svg", { viewBox: `0 0 ${W} ${H}`, class: "chart", role: "img", "aria-label": "Chance d'être au second tour dans le temps" });
+  const root = svg("svg", { viewBox: `0 0 ${W} ${H}`, class: "chart", role: "img", "aria-label": "Chance de remporter l'élection dans le temps" });
   for (const p of [0, 0.25, 0.5, 0.75, 1]) {
     root.append(svg("line", { x1: L, x2: W - R, y1: y(p), y2: y(p), class: "grid" }));
     root.append(svg("text", { x: L - 6, y: y(p) + 4, "text-anchor": "end" }, `${p * 100}`));
@@ -157,9 +153,9 @@ function historyChart(cands) {
   const labels = [];
   ids.forEach((id, k) => {
     const pts = rows.filter((r) => r.candidate === id).sort((a, b) => a.date.localeCompare(b.date));
-    root.append(svg("polyline", { points: pts.map((r) => `${x(r.date)},${y(r.p_qualify)}`).join(" "), fill: "none", stroke: colors[k], "stroke-width": 2 }));
+    root.append(svg("polyline", { points: pts.map((r) => `${x(r.date)},${y(r.p_win)}`).join(" "), fill: "none", stroke: colors[k], "stroke-width": 2 }));
     const last = pts.at(-1);
-    labels.push({ y: y(last.p_qualify) + 4, text: `${nameOf(summary, scen, id)} ${pctShort(last.p_qualify)}`, color: colors[k] });
+    labels.push({ y: y(last.p_win) + 4, text: `${nameOf(summary, scen, id)} ${pctShort(last.p_win)}`, color: colors[k] });
   });
   // keep end labels at least 16px apart so close lines stay readable
   labels.sort((a, b) => a.y - b.y).forEach((l, i, all) => { if (i && l.y - all[i - 1].y < 16) l.y = all[i - 1].y + 16; });
@@ -167,9 +163,7 @@ function historyChart(cands) {
     root.append(svg("rect", { x: W - R + 8, y: l.y - 9, width: 10, height: 10, rx: 2, fill: l.color }));
     root.append(svg("text", { x: W - R + 22, y: l.y, class: "label" }, l.text));
   }
-  el.innerHTML = `<p class='small muted'>Chance d'être qualifié pour le second tour, sur 100. Le graphique montre les ${HISTORY_MAX} candidats au plus ` +
-    `qui ont dépassé ${HISTORY_MIN * 100} chances sur 100 sur la période` + (top ? `, en plus de ${nameOf(summary, scen, top)}` : "") + `. ` +
-    `Être qualifié ne veut pas dire gagner : la chance de gagner en cas de qualification est indiquée plus haut.</p>`;
+  el.innerHTML = `<p class='small muted'>Chance de remporter l'élection, sur 100, pour les ${HISTORY_MAX} candidats qui ont aujourd'hui les meilleures chances.</p>`;
   el.append(root);
 }
 
