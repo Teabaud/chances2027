@@ -82,11 +82,11 @@ def test_missing_bardella_pairs_fail_loudly() -> None:
     raise AssertionError("no Bardella pair must raise, not return NaN")
 
 
+def test_append_history_accepts_an_empty_batch() -> None:
+    model.append_history("2026-07-15", {})  # must not crash (backfill date before a line-up was tested)
+
+
 if __name__ == "__main__":
     for name, fn in [(n, f) for n, f in globals().items() if n.startswith("test_")]:
         fn()
         print(f"ok  {name}")
-
-
-def test_append_history_accepts_an_empty_batch() -> None:
-    model.append_history("2026-07-15", {})  # must not crash (backfill date before a line-up was tested)
