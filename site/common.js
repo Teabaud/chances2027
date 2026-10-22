@@ -141,7 +141,8 @@ export function help(html, label = "Comment lire ce graphique") {
 export function caveat(summary) {
   const notPoll = "Ces chiffres ne sont pas un sondage. Ce sont des chances calculées à partir des sondages et de leurs erreurs passées. " +
     "Un candidat à 25 chances sur 100 gagne une fois sur quatre.";
-  if (!isEarly(summary)) return help(`<p>${notPoll}</p>`, "Ces chiffres ne sont pas un sondage. En savoir plus");
+  const events = "<p>Le modèle ne prévoit pas les événements à venir, comme une décision de justice ou le retrait d'un candidat.</p>";
+  if (!isEarly(summary)) return help(`<p>${notPoll}</p>${events}`, "Ces chiffres ne sont pas un sondage. En savoir plus");
   const days = daysToVote(summary);
   const mae = summary.mae_by_horizon;
   const horizons = Object.keys(mae).map(Number).sort((a, b) => a - b);
@@ -151,5 +152,8 @@ export function caveat(summary) {
   const fmt = (x, d) => x.toLocaleString("fr-FR", { maximumFractionDigits: d });
   return help(`<p>${notPoll}</p><p>À ${days} jours du vote, les sondages se sont trompés en moyenne de ${fmt(now, 0)} points par candidat lors des présidentielles passées. ` +
     `Ils se précisent à mesure que la campagne avance : l'écart n'était plus que de ${fmt(late, 1)} point environ dans les deux dernières semaines. ` +
-    `Suivez l'évolution ici, jour après jour.</p>`, `Le vote est dans ${days} jours : ces chiffres bougeront encore beaucoup. En savoir plus`);
+    `Suivez l'évolution ici, jour après jour.</p>` +
+    `<p>Le modèle ne prévoit pas les événements à venir : une décision de justice sur l'éligibilité de Marine Le Pen, le retrait d'un candidat, ` +
+    `une alliance ou une primaire. Pour l'éligibilité, vous pouvez choisir le scénario « Jordan Bardella » dans le menu « Scénario ».</p>`,
+    `Le vote est dans ${days} jours : ces chiffres bougeront encore beaucoup, et ne tiennent pas compte des événements à venir. En savoir plus`);
 }
