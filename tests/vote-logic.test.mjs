@@ -118,3 +118,27 @@ console.log("vote-logic tests ok");
   }
   console.log("sincere fallback ok");
 }
+
+// Stability: decideStable never returns a switch that some group size contradicts.
+{
+  const { decide, decideStable } = await import("../site/vote-logic.js");
+  const summary = JSON.parse(readFileSync("site/data/summary.json"));
+  const sc = summary.scenarios.lepen;
+  const d = makeData(new Uint16Array(readFileSync("site/data/r1_lepen.bin").buffer.slice(0)),
+    new Uint16Array(readFileSync("site/data/r2_lepen.bin").buffer.slice(0)), sc.candidates.length, sc.pairs.length, sc.pairs);
+  const ids = sc.candidates.map((c) => c.id), I = (x) => ids.indexOf(x);
+  const perScale = 100000 / (0.01 * summary.electorate.registered), CLEAR = 0.002;
+  const deltas = [0.01, 0.005, 0.02].map((f) => f / summary.electorate.expressed_r1);
+  for (const [g, cur] of [[{ glucksmann: SUPPORT, "le-pen": UNACCEPTABLE, zemmour: UNACCEPTABLE }, "glucksmann"],
+                          [{ attal: SUPPORT, philippe: SUPPORT, "le-pen": UNACCEPTABLE, melenchon: UNACCEPTABLE }, "attal"]]) {
+    const groups = ids.map((id) => g[id] ?? ACCEPTABLE);
+    const opts = [...ids.keys()].filter((i) => groups[i] !== UNACCEPTABLE || i === I(cur)).concat(ABSTAIN);
+    const runs = deltas.map((dl) => evaluate(d, groups, I(cur), dl, opts));
+    const recs = runs.map((r) => recommend(r, groups));
+    const v = decideStable(runs, recs, I(cur), true, true, perScale, CLEAR, groups);
+    if (v.kind === "switch") for (let n = 0; n < runs.length; n++)
+      assert.deepEqual(decide(runs[n], recs[n], I(cur), true, true, perScale, CLEAR, groups), v, "switch not stable across sizes");
+    console.log(`  stable advice for ${cur} voter: ${v.kind} ${v.best === undefined ? "" : ids[v.best] ?? "blanc"}`);
+  }
+  console.log("stability ok");
+}

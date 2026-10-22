@@ -163,3 +163,11 @@ function sincere(res, current, hasSupport, hasUnacc, perScale, clearEffect, grou
     .sort((a, b) => liking(b.option) - liking(a.option) || (b.support.p - a.support.p) || (a.unacc.p - b.unacc.p));
   return better.length ? { kind: "sincere", best: better[0].option } : { kind: "keep" };
 }
+
+// Advice that holds at every group size tested (runs[0] is the reference size). If the group sizes disagree,
+// fall back to the cautious answer: a sincere vote if one of the sizes gives it, otherwise keep the current vote.
+export function decideStable(runs, recs, current, hasSupport, hasUnacc, perScale, clearEffect, groups) {
+  const all = runs.map((r, n) => decide(r, recs[n], current, hasSupport, hasUnacc, perScale, clearEffect, groups));
+  if (all.every((x) => JSON.stringify(x) === JSON.stringify(all[0])) || ["keep", "sincere"].includes(all[0].kind)) return all[0];
+  return all.find((x) => x.kind === "sincere") ?? { kind: "keep" };
+}

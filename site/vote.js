@@ -1,5 +1,5 @@
 import { caveat, getScenario, inBlackout, isEarly, loadSummary, scenarioTabs } from "./common.js";
-import { ABSTAIN, ACCEPTABLE, SUPPORT, UNACCEPTABLE, decide, decisiveChange, evaluate, makeData, recommend } from "./vote-logic.js";
+import { ABSTAIN, ACCEPTABLE, SUPPORT, UNACCEPTABLE, decideStable, decisiveChange, evaluate, makeData, recommend } from "./vote-logic.js";
 
 const BLOC_SHARES = [0.01, 0.005, 0.02]; // of registered voters: computed on a group, checked at 3 sizes
 const PER = 100_000; // the « clearly better » threshold is set per 100 000 voters
@@ -147,7 +147,7 @@ function advice(option, current, why, rows, base, hasSupport, hasUnacc) {
 
 function verdict(runs, recs, groups, current, hasSupport, hasUnacc, data, delta) {
   if (groups.every((g) => g === groups[0])) return `<p class="verdict">Vous avez mis tous les candidats dans le même groupe. Aucun vote ne change donc le résultat pour vous.</p>`;
-  const d = decide(runs[0], recs[0], current, hasSupport, hasUnacc, perScale(), CLEAR_EFFECT, groups);
+  const d = decideStable(runs, recs, current, hasSupport, hasUnacc, perScale(), CLEAR_EFFECT, groups);
   const shown = runs[SHOWN];
   const rows = (o) => shown.find((r) => r.option === o);
   const base = rows(current);
@@ -169,8 +169,6 @@ function verdict(runs, recs, groups, current, hasSupport, hasUnacc, data, delta)
       advice(d.forAvoid, current, "Si vous voulez avant tout éviter qu'un candidat que vous jugez inacceptable gagne.", rows, base, hasSupport, hasUnacc) +
       advice(d.forSupport, current, "Si vous voulez avant tout qu'un candidat que vous soutenez gagne.", rows, base, hasSupport, hasUnacc);
   }
-  const kinds = runs.map((r, n) => JSON.stringify(decide(r, recs[n], current, hasSupport, hasUnacc, perScale(), CLEAR_EFFECT, groups)));
-  if (kinds.some((k) => k !== kinds[0])) html += `<p class="small box warn">Ce conseil change selon le nombre d'électeurs qui font le même choix. Il est donc fragile.</p>`;
   return html;
 }
 
