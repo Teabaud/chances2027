@@ -28,6 +28,23 @@ const SHARE = 0.02; // group of voters « like you », as in site/vote.js
   assert.equal(flat.forAvoid, null); assert.equal(flat.forSupport, null);
 }
 
+// Toy: user plans A (unacceptable), supports B, accepts C. B and C swap 2nd place half the time.
+function planningA(r2) {
+  const S = 1000, K = 3, pairs = [[0, 1], [0, 2], [1, 2]];
+  const r1 = new Uint16Array(S * K), r2u = new Uint16Array(S * 3);
+  for (let s = 0; s < S; s++) {
+    const tilt = (s % 2 ? 1 : -1) * 50;
+    r1.set([4000, 3000 + tilt, 3000 - tilt], s * K);
+    r2u.set(r2, s * 3);
+  }
+  const groups = [UNACCEPTABLE, SUPPORT, ACCEPTABLE];
+  return advise(evaluate(makeData(r1, r2u, K, 3, pairs), groups, 0, 0.02, [1, 2, ABSTAIN]), 0, true, true, groups);
+}
+// A loses to both B and C: every option stops A equally → the tie goes to the supported candidate.
+assert.equal(planningA([4000, 4000, 5000]).forAvoid, 1, "tie within noise → supported candidate");
+// A beats B but loses to C: only C stops A → the acceptable candidate, although B is supported.
+assert.equal(planningA([6000, 4000, 5000]).forAvoid, 2, "measurably better → acceptable candidate over supported");
+
 // "lepen" = the reference scenario; any other name = the Le Pen line-up with that label (e.g. "sans Attal")
 function scenarioKey(summary, name) {
   if (name === "lepen") return summary.reference;
@@ -99,10 +116,7 @@ for (const [label, key, g, curId] of [
     const r = row(o);
     assert.ok((v.forAvoid === o && -r.unacc.diff > 2 * r.unacc.se) || (v.forSupport === o && r.support.diff > 2 * r.support.se), `${label}: left the planned vote within noise`);
   }
-  if (label.startsWith("Arthaud")) assert.equal(v.forSupport, I("arthaud"), "supported candidate preferred when results are equal");
-  if (label.startsWith("reported")) assert.equal(N(v.forSupport), "glucksmann", `${label}: to make a supported candidate win, Glucksmann`);
-  if (label.startsWith("reported 1")) assert.equal(N(v.forAvoid), "philippe", `${label}: to avoid an unacceptable candidate, Philippe`);
-  if (label.startsWith("planning to vote for an unacceptable")) assert.equal(N(v.forAvoid), "glucksmann", `${label}: Philippe and Glucksmann equal within noise → supported one`);
+  // ponytail: no expected names here, the real simulations change daily; fixed outcomes live in the toy cases above
   console.log(`  ${label}: éviter → ${N(v.forAvoid)}, faire gagner → ${N(v.forSupport)}`);
 }
 console.log("vote-logic tests ok");

@@ -106,6 +106,12 @@ def link_refs(polls: pd.DataFrame, links: dict[str, str]) -> pd.DataFrame:
     return polls.assign(ref=url.fillna(polls.ref))
 
 
+def defang(polls: pd.DataFrame) -> pd.DataFrame:
+    """Third-party text ends up in the site's HTML: drop the characters that open a tag or close an attribute."""
+    text = ["pollster", "hyp", "candidate", "ref", "name", "sponsor"]
+    return polls.assign(**{c: polls[c].astype("string").str.replace(r'[<>"]', "", regex=True) for c in text})
+
+
 def merge(mv: pd.DataFrame, sx: pd.DataFrame) -> pd.DataFrame:
     known = set(zip(mv.pollster, mv.end))
     sx_new = sx[[(p, e) not in known for p, e in zip(sx.pollster, sx.end)]]
@@ -126,7 +132,7 @@ def main() -> None:
     except OSError as err:  # the Commission site being down must not stop the daily update
         print(f"notices list unavailable ({err}); keeping filenames")
         links = {}
-    polls = link_refs(polls, links)
+    polls = defang(link_refs(polls, links))
     assert polls.groupby("hyp").share.sum().sub(100).abs().max() < 1e-6
     assert not polls.duplicated(["hyp", "candidate"]).any(), "candidate twice in one hypothesis"
     polls.to_csv(OUT, index=False)

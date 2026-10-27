@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "pipeline"))
+import fetch
 import model
 
 POLLS = pd.read_csv(model.POLLS)
@@ -84,6 +85,13 @@ def test_missing_bardella_pairs_fail_loudly() -> None:
 
 def test_append_history_accepts_an_empty_batch() -> None:
     model.append_history("2026-07-15", {})  # must not crash (backfill date before a line-up was tested)
+
+
+def test_third_party_text_cannot_inject_html() -> None:
+    row = {c: "x" for c in fetch.COLUMNS} | {"sponsor": '<img src=x onerror=alert(1)>', "ref": 'https://a" onmouseover="x', "hyp": 7}
+    out = fetch.defang(pd.DataFrame([row]))
+    assert not out[["sponsor", "ref", "hyp"]].stack().str.contains(r'[<>"]').any()
+    assert out.hyp[0] == "7"
 
 
 if __name__ == "__main__":
