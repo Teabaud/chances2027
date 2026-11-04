@@ -1,5 +1,6 @@
 """Run: uv run python tests/test_model.py — checks of the scenario layer found by the design audit (2026-10-22)."""
 
+import json
 import sys
 from pathlib import Path
 
@@ -92,6 +93,14 @@ def test_third_party_text_cannot_inject_html() -> None:
     out = fetch.defang(pd.DataFrame([row]))
     assert not out[["sponsor", "ref", "hyp"]].stack().str.contains(r'[<>"]').any()
     assert out.hyp[0] == "7"
+
+
+def test_poll_without_link_gives_valid_json() -> None:
+    """A poll published without a source link (2026-11-04) wrote NaN into summary.json, which the browser cannot parse."""
+    row = {"pollster": "x", "start": "2026-11-01", "end": "2026-11-02", "n": 1000, "sponsor": float("nan"), "ref": float("nan")}
+    out = model.polls_table(pd.DataFrame([row]))
+    assert out[0]["ref"] is None
+    json.dumps(out, allow_nan=False)
 
 
 if __name__ == "__main__":
