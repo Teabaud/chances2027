@@ -377,7 +377,7 @@ def polls_table(used: pd.DataFrame) -> list[dict]:
             "end": r.end,
             "n": None if pd.isna(r.n) else int(r.n),
             "sponsor": None if pd.isna(r.sponsor) else r.sponsor,
-            "ref": r.ref,
+            "ref": None if pd.isna(r.ref) else r.ref,
         }
         for r in polls.itertuples()
     ]
@@ -437,7 +437,7 @@ def main(asof: pd.Timestamp | None = None) -> None:
     summary["r2_polled"] = (
         scenarios[0]["polled"].assign(last=lambda d: d["last"].astype(str)).to_dict("records")
     )
-    (OUT / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1))
+    (OUT / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1, allow_nan=False))
     append_history(summary["asof"], summary["scenarios"])
     for s in summary["scenarios"].values():
         top = sorted(s["candidates"], key=lambda c: -c["p_win"])[:4]
