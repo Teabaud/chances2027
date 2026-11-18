@@ -428,7 +428,7 @@ def main(asof: pd.Timestamp | None = None) -> None:
     (OUT / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1, allow_nan=False))
     append_history(summary["asof"], summary["scenarios"])
     for s in summary["scenarios"].values():
-        top = sorted(s["candidates"], key=lambda c: -c["p_win"])[:4]
+        top = sorted((c for c in s["candidates"] if c["p_win"] is not None), key=lambda c: -c["p_win"])[:4]
         print(f"{s['rn']:8} {s['label'][:40]:40}", " · ".join(f"{c['id']} {c['p_win']:.0%}" for c in top))
 
 
