@@ -1,7 +1,7 @@
 """Daily forecast: poll averages → R2 strengths → Monte Carlo → site/data/.
 
 R2 for unpolled pairs: Bradley–Terry strengths, logit r_AB = s_A − s_B, least squares on polled pairs.
-Candidates never polled in R2 borrow a neighbour's strength (R2_PROXY) with extra model error.
+Candidates never polled in R2 get the weakest polled strength; their R2 figures are published as « non sondé ».
 """
 
 import hashlib
@@ -31,20 +31,6 @@ N_DRAWS = 10_000
 REGISTERED = 49_000_000  # ponytail: 2022 figures held fixed; update with the 2027 electoral roll
 TURNOUT_EXPRESSED_R1, TURNOUT_EXPRESSED_R2 = 0.72, 0.63
 MODEL_SD_FLOOR = 0.15  # logit; error of a strength-model estimate for an unpolled pair
-PROXY_EXTRA_SD = 0.4  # logit; extra error when a candidate's strength is borrowed
-# Candidates never polled in R2: (neighbour whose strength is borrowed, offset in logit). Judgement; they
-# reach R2 in well under 1% of simulations, so this barely moves headline numbers.
-RN = "rn"  # in R2_PROXY: whichever RN candidate the scenario has (Le Pen or Bardella)
-R2_PROXY = {
-    "arthaud": ("melenchon", 0.0),
-    "roussel": ("melenchon", 0.2),
-    "tondelier": ("glucksmann", 0.0),
-    "dupont-aignan": ("retailleau", -0.3),
-    "zemmour": (RN, -0.5),
-    "lisnard": ("retailleau", 0.0),
-    "hollande": ("glucksmann", 0.0),
-    "faure": ("glucksmann", 0.0),
-}
 QUANTILES = [0.05, 0.1, 0.5, 0.9, 0.95]
 MIN_LINEUP_POLLSTERS = 3  # an alternative line-up is offered only if this many pollsters tested it recently
 MIN_DELTA_POLLS = 3  # the Bardella scenario needs this many polls that tested both Le Pen and Bardella
@@ -83,37 +69,35 @@ def fit_strengths(pairs: pd.DataFrame, cands: list[str]) -> tuple[pd.Series, flo
 
 
 def r2_inputs(polled: pd.DataFrame, cands: list[str]) -> pd.DataFrame:
-    """One row per pair of scenario candidates (i < j): mu (logit share of i), model_sd, polled flag.
+    """One row per pair of scenario candidates (i < j): mu (logit share of i), model_sd, polled and unpolled flags.
     `polled` holds the head-to-head averages of the scenario (already transformed for a derived scenario), with
-    `extra_sd` > 0 for pairs derived from another candidate's polls."""
+    `extra_sd` > 0 for pairs derived from another candidate's polls. A candidate in no polled duel gets the weakest
+    polled strength, so the simulation still has a winner; their duels are `unpolled` and never published."""
     flip = polled.a > polled.b
     polled = polled.copy()
     polled.loc[flip, ["a", "b"]] = polled.loc[flip, ["b", "a"]].to_numpy()
     polled.loc[flip, "logit_a"] *= -1
     strengths, model_sd = fit_strengths(polled, cands)
-    rn = next((c for c in cands if c in ("le-pen", "bardella")), "le-pen")
-    extra = {}
-    for c in cands:
-        if c not in strengths:
-            neighbour, offset = R2_PROXY[c]
-            strengths[c], extra[c] = strengths[rn if neighbour == RN else neighbour] + offset, PROXY_EXTRA_SD
+    # ponytail: one rule for every never-polled candidate, no political neighbour. Judgement: pollsters test the duels
+    # they find plausible, so an untested candidate is assumed no stronger than the weakest tested one.
+    unpolled = {c for c in cands if c not in strengths}
+    strengths = pd.concat([strengths, pd.Series(strengths.min(), index=sorted(unpolled))])
     poll_map = {(a, b): r for a, b, r in zip(polled.a, polled.b, polled.itertuples())}
     rows = []
     for i, a in enumerate(cands):
         for j in range(i + 1, len(cands)):
             b = cands[j]
+            u = a in unpolled or b in unpolled
             key, sign = ((a, b), 1) if a < b else ((b, a), -1)
             model_mu = strengths[a] - strengths[b]
-            msd = float(np.hypot(model_sd, np.hypot(extra.get(a, 0), extra.get(b, 0))))
             if key in poll_map:
                 r = poll_map[key]
                 var_poll = POLL_LOGIT_SD**2 / r.n_eff + r.extra_sd**2
-                mu = (sign * r.logit_a / var_poll + model_mu / msd**2) / (1 / var_poll + 1 / msd**2)
-                rows.append(
-                    {"i": i, "j": j, "mu": mu, "model_sd": float(r.extra_sd), "polled": bool(r.extra_sd == 0)}
-                )
+                mu = (sign * r.logit_a / var_poll + model_mu / model_sd**2) / (1 / var_poll + 1 / model_sd**2)
+                pl = bool(r.extra_sd == 0)
+                rows.append({"i": i, "j": j, "mu": mu, "model_sd": float(r.extra_sd), "polled": pl, "unpolled": u})
             else:
-                rows.append({"i": i, "j": j, "mu": model_mu, "model_sd": msd, "polled": False})
+                rows.append({"i": i, "j": j, "mu": model_mu, "model_sd": model_sd, "polled": False, "unpolled": u})
     return pd.DataFrame(rows)
 
 
@@ -324,15 +308,19 @@ def summarise(sim: dict, avg, names: dict[str, str]) -> dict:
     )
     finals["p"] /= len(winner)
     pair_polled = {(i, j): bool(pl) for i, j, pl in zip(pairs.i, pairs.j, pairs.polled)}
+    pair_unpolled = {(i, j): bool(u) for i, j, u in zip(pairs.i, pairs.j, pairs.unpolled)}
+    # no R2 poll at all: their duels rest on an assumed strength, so no R2 figure is published for them
+    no_r2 = {c for c in range(k) if pairs.unpolled[(pairs.i == c) | (pairs.j == c)].all()}
     duel = [
         {
             "a": cands[i],
             "b": cands[j],
-            "p_a": float((r2[:, n] > 0.5).mean()),
-            "share_a": float(np.median(r2[:, n])),
+            "p_a": None if u else float((r2[:, n] > 0.5).mean()),
+            "share_a": None if u else float(np.median(r2[:, n])),
             "polled": bool(pl),
+            "unpolled": bool(u),
         }
-        for n, (i, j, pl) in enumerate(zip(pairs.i, pairs.j, pairs.polled))
+        for n, (i, j, pl, u) in enumerate(zip(pairs.i, pairs.j, pairs.polled, pairs.unpolled))
     ]
     q = np.quantile(r1, QUANTILES, axis=0)
     return {
@@ -343,8 +331,8 @@ def summarise(sim: dict, avg, names: dict[str, str]) -> dict:
                 "poll_avg": float(avg.shares[c]),
                 "share_q": {str(qq): float(100 * q[n, i]) for n, qq in enumerate(QUANTILES)},
                 "p_qualify": float(qualify[i]),
-                "p_win": float(win[i]),
-                "p_win_if_qualified": float(win[i] / qualify[i]) if qualify[i] > 0 else None,
+                "p_win": None if i in no_r2 else float(win[i]),
+                "p_win_if_qualified": float(win[i] / qualify[i]) if qualify[i] > 0 and i not in no_r2 else None,
             }
             for i, c in enumerate(cands)
         ],
@@ -353,8 +341,8 @@ def summarise(sim: dict, avg, names: dict[str, str]) -> dict:
                 "a": cands[r.a],
                 "b": cands[r.b],
                 "p": float(r.p),
-                "p_a_wins": float(r.p_a_wins),
-                "polled": pair_polled[(min(r.a, r.b), max(r.a, r.b))],
+                "p_a_wins": None if pair_unpolled[(r.a, r.b)] else float(r.p_a_wins),
+                "polled": pair_polled[(r.a, r.b)],
             }
             for r in finals.sort_values("p", ascending=False).head(10).itertuples()
         ],
@@ -456,7 +444,7 @@ def append_history(day: str, scenarios: dict) -> None:
                 "candidate": c["id"],
                 "poll_avg": round(c["poll_avg"], 2),
                 "p_qualify": round(c["p_qualify"], 4),
-                "p_win": round(c["p_win"], 4),
+                "p_win": None if c["p_win"] is None else round(c["p_win"], 4),
                 "n_pollsters": s["n_pollsters"],
             }
             for k, s in scenarios.items()

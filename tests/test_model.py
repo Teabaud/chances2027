@@ -103,6 +103,22 @@ def test_poll_without_link_gives_valid_json() -> None:
     json.dumps(out, allow_nan=False)
 
 
+def test_candidate_never_polled_in_r2_is_not_published() -> None:
+    """Teddy Riner entered an offered line-up with no R2 poll (2026-11-18): the run crashed on the proxy table.
+    Such a candidate must run, with no R2 figure published (« non sondé »)."""
+    major, counts = model.tested_counts(POLLS, pd.Timestamp("2026-11-17"))
+    lineup = sorted(next(m for m in counts if "riner" in m)) + [c for c in REF if c not in major]
+    (sc,) = model.build_scenarios(POLLS, REF, pd.Timestamp("2026-11-17"), NAMES, only=[lineup], bardella=False)
+    p1, p2, rn = model.load_params()
+    s = model.summarise(model.simulate_scenario(sc, p1, p2, rn, np.random.default_rng(0)), sc["avg"], NAMES)
+    by_id = {c["id"]: c for c in s["candidates"]}
+    assert by_id["riner"]["p_win"] is None and by_id["riner"]["p_win_if_qualified"] is None
+    assert by_id["le-pen"]["p_win"] is not None, "polled candidates keep their figures"
+    riner_duels = [d for d in s["duels"] if "riner" in (d["a"], d["b"])]
+    assert riner_duels and all(d["unpolled"] and d["p_a"] is None for d in riner_duels)
+    json.dumps(s, allow_nan=False)
+
+
 if __name__ == "__main__":
     for name, fn in [(n, f) for n, f in globals().items() if n.startswith("test_")]:
         fn()

@@ -57,8 +57,10 @@
   <h2>3. Le second tour</h2>
   <p>Pour chaque duel sondé, nous faisons la même moyenne pondérée. Pour un duel jamais sondé, nous donnons à chaque candidat
     une « force » de second tour, calculée à partir des duels sondés. Ces duels sont marqués « estimé » sur le site.
-    Un candidat jamais testé au second tour reçoit la force d'un candidat proche. C'est une estimation grossière, mais ces candidats
-    atteignent le second tour dans moins d'une simulation sur 100.</p>
+    Un candidat jamais testé dans un sondage de second tour n'a pas de force : nous n'affichons ni ses duels ni sa chance de victoire,
+    marqués « non sondé ». Pour que chaque simulation ait un vainqueur, nous lui donnons la force du plus faible des candidats sondés :
+    les instituts testent les duels qu'ils jugent plausibles, et un candidat jamais testé n'a donc sans doute pas plus de chances.
+    C'est une hypothèse, pas une mesure. Elle pèse sur les chances de ses adversaires dans les simulations où il atteint le second tour.</p>
   <p>Nous tenons compte d'une erreur répétée des sondages. Lors des trois seconds tours avec un candidat FN ou RN, en 2002, 2017 et 2022,
     les sondages ont surestimé ce candidat, de 3 à 5 points. Trois cas, c'est peu, donc nous ne corrigeons cette erreur qu'en partie.
     Dans un duel serré, la correction est de <span id="rnbias"></span>, avec une incertitude tirée à chaque simulation.

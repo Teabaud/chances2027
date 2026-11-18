@@ -4,6 +4,8 @@ const NEAR_CERTAIN = 0.85; // above this P(qualify), the headline is about who w
 const MIN_QUALIFY_ROW = 0.01; // duels table: both candidates must qualify at least this often
 const UNRELIABLE_QUALIFY = 0.05;
 const HISTORY_MAX = 5; // lines in the history chart: today's top candidates by chance of winning
+const NOT_POLLED = "second tour non sondé"; // p_win is null for a candidate never tested in a second-round poll
+const byWinDesc = (a, b) => (b.p_win ?? -1) - (a.p_win ?? -1);
 
 const summary = await loadSummary();
 let scen = resolveScenario(summary, getScenario());
@@ -38,7 +40,7 @@ function headline(cands) {
     el.innerHTML = `${top.name} a ${chances(top.p_qualify)} d'être au second tour, et ${chances(top.p_win)} de remporter l'élection. ` +
       `Reste à savoir qui lui fera face.`;
   } else {
-    const byWin = [...cands].sort((a, b) => b.p_win - a.p_win);
+    const byWin = [...cands].sort(byWinDesc);
     el.innerHTML = `Le mieux placé aujourd'hui est ${byWin[0].name}, avec ${chances(byWin[0].p_win)} de gagner, ` +
       `devant ${byWin[1].name}, avec ${chances(byWin[1].p_win)}. Rien n'est joué.`;
   }
@@ -58,7 +60,7 @@ function challengers(cands) {
     const y = i * rowH + 6;
     const g = svg("g");
     root.append(svg("text", { x: 0, y: y + barH - 1, class: "label" }, c.name));
-    root.append(svg("text", { x: 0, y: y + 2 * barH + 1 }, `victoire : ${pctShort(c.p_win)} sur 100`));
+    root.append(svg("text", { x: 0, y: y + 2 * barH + 1 }, c.p_win === null ? `victoire : ${NOT_POLLED}` : `victoire : ${pctShort(c.p_win)} sur 100`));
     g.append(hbar(labelW, y, c.p_qualify * barW, barH, "var(--series-1)"));
     root.append(svg("text", { x: labelW + c.p_qualify * barW + 6, y: y + barH - 2, class: "value" }, pctShort(c.p_qualify)));
     const reliable = c.p_qualify >= UNRELIABLE_QUALIFY && c.p_win_if_qualified !== null;
@@ -66,11 +68,11 @@ function challengers(cands) {
       g.append(hbar(labelW, y + barH + 2, c.p_win_if_qualified * barW, barH, "var(--series-2)"));
       root.append(svg("text", { x: labelW + c.p_win_if_qualified * barW + 6, y: y + 2 * barH, class: "value" }, pctShort(c.p_win_if_qualified)));
     } else {
-      root.append(svg("text", { x: labelW + 4, y: y + 2 * barH }, "trop rare pour estimer"));
+      root.append(svg("text", { x: labelW + 4, y: y + 2 * barH }, c.p_win === null ? NOT_POLLED : "trop rare pour estimer"));
     }
     g.append(svg("rect", { x: 0, y: y - 4, width: W, height: rowH - 4, fill: "transparent" }));
     attachTip(g, `<strong>${c.name}</strong><br>Au second tour : ${chances(c.p_qualify)}<br>` +
-      (reliable ? `Gagne en cas de qualification : ${chances(c.p_win_if_qualified)}<br>` : "") + `Victoire : ${chances(c.p_win)}`);
+      (reliable ? `Gagne en cas de qualification : ${chances(c.p_win_if_qualified)}<br>` : "") + `Victoire : ${c.p_win === null ? NOT_POLLED : chances(c.p_win)}`);
     root.append(g);
   });
   const el = document.getElementById("challengers");
@@ -79,10 +81,10 @@ function challengers(cands) {
 }
 
 function winTable(cands) {
-  const rows = [...cands].sort((a, b) => b.p_win - a.p_win || b.p_qualify - a.p_qualify);
+  const rows = [...cands].sort((a, b) => byWinDesc(a, b) || b.p_qualify - a.p_qualify);
   document.getElementById("table-win").innerHTML =
     `<thead><tr><th>Candidat</th><th class="num">Victoire</th><th class="num">Au 2nd tour</th><th class="num">Score au 1er tour</th></tr></thead><tbody>` +
-    rows.map((c) => `<tr><td>${c.name}</td><td class="num">${pctShort(c.p_win)}</td><td class="num">${pctShort(c.p_qualify)}</td>` +
+    rows.map((c) => `<tr><td>${c.name}</td><td class="num">${c.p_win === null ? "non sondé" : pctShort(c.p_win)}</td><td class="num">${pctShort(c.p_qualify)}</td>` +
       `<td class="num">${c.share_q["0.5"].toFixed(0)} %, entre ${c.share_q["0.1"].toFixed(0)} et ${c.share_q["0.9"].toFixed(0)}</td></tr>`).join("") +
     `</tbody>`;
 }
@@ -91,6 +93,9 @@ function finalsTable(sc) {
   document.getElementById("table-finals").innerHTML =
     `<thead><tr><th>Second tour</th><th class="num">Chance que ce duel ait lieu</th><th>Qui gagnerait ce duel</th></tr></thead><tbody>` +
     sc.finals.slice(0, 6).map((f) => {
+      if (f.p_a_wins === null) {
+        return `<tr><td>${nameOf(summary, scen, f.a)} – ${nameOf(summary, scen, f.b)}</td><td class="num">${pctShort(f.p)} sur 100</td><td class="muted">non sondé</td></tr>`;
+      }
       const [fav, pFav] = f.p_a_wins >= 0.5 ? [f.a, f.p_a_wins] : [f.b, 1 - f.p_a_wins];
       return `<tr><td>${nameOf(summary, scen, f.a)} – ${nameOf(summary, scen, f.b)}</td><td class="num">${pctShort(f.p)} sur 100</td>` +
         `<td>${nameOf(summary, scen, fav)}, ${chances(pFav)}${f.polled ? "" : " <span class='muted'>(estimé)</span>"}</td></tr>`;
@@ -131,7 +136,7 @@ function historyChart(cands) {
   const dates = [...new Set(history.map((r) => r.date))].sort();
   if (dates.length < 2) { el.innerHTML = "<p class='muted small'>L'historique s'affichera après quelques jours de mises à jour.</p>"; return; }
   // the HISTORY_MAX candidates with the best chance of winning today
-  const ids = [...cands].sort((a, b) => b.p_win - a.p_win).slice(0, HISTORY_MAX).map((c) => c.id);
+  const ids = cands.filter((c) => c.p_win !== null).sort(byWinDesc).slice(0, HISTORY_MAX).map((c) => c.id);
   const colors = ["var(--series-1)", "var(--series-2)", "var(--series-3)", "var(--series-4)", "var(--series-5)"];
   const W = 700, H = 320, L = 34, R = 170, T = 10, B = 26;
   const t0 = Date.parse(dates[0]), t1 = Date.parse(dates.at(-1));
@@ -188,8 +193,9 @@ function duelsTable(sc) {
   document.getElementById("table-duels").innerHTML =
     `<thead><tr><th>Duel</th><th class="num">Score prévu</th><th>Chances de gagner, sur 100</th><th>Source</th></tr></thead><tbody>` +
     duels.map((d) => `<tr><td>${nameOf(summary, scen, d.a)} contre ${nameOf(summary, scen, d.b)}</td>` +
+      (d.unpolled ? `<td class="num">–</td><td>–</td><td>non sondé</td></tr>` :
       `<td class="num">${(100 * d.share_a).toFixed(0)} à ${(100 - 100 * d.share_a).toFixed(0)}</td>` +
-      `<td>${pctShort(d.p_a)} contre ${pctShort(1 - d.p_a)}</td><td>${d.polled ? "sondé" : "estimé par le modèle"}</td></tr>`).join("") +
+      `<td>${pctShort(d.p_a)} contre ${pctShort(1 - d.p_a)}</td><td>${d.polled ? "sondé" : "estimé par le modèle"}</td></tr>`)).join("") +
     `</tbody>`;
 }
 
