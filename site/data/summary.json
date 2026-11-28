@@ -1,5 +1,5 @@
 {
- "asof": "2026-11-27",
+ "asof": "2026-11-28",
  "r1_date": "2027-04-18",
  "r2_date": "2027-05-02",
  "n_draws": 10000,
@@ -79,172 +79,172 @@
    ],
    "reference": true,
    "label": "Liste de référence",
-   "n_pollsters": 6,
+   "n_pollsters": 5,
    "delta_polls": null,
-   "d_eff": 167.22394493692454,
+   "d_eff": 166.04188748302334,
    "candidates": [
     {
      "id": "le-pen",
      "name": "Marine Le Pen",
-     "poll_avg": 34.66795197603496,
+     "poll_avg": 34.63892872482469,
      "share_q": {
-      "0.05": 19.752179508564456,
-      "0.1": 22.76334621840041,
-      "0.5": 31.957393690095838,
-      "0.9": 41.09579449483194,
-      "0.95": 44.18491356553786
+      "0.05": 19.259167545666557,
+      "0.1": 22.480950055880676,
+      "0.5": 32.227342885983326,
+      "0.9": 41.39048079711725,
+      "0.95": 44.262150729085
      },
-     "p_qualify": 0.9688,
-     "p_win": 0.8309,
-     "p_win_if_qualified": 0.8576589595375722
+     "p_qualify": 0.966,
+     "p_win": 0.8482,
+     "p_win_if_qualified": 0.8780538302277433
     },
     {
      "id": "melenchon",
      "name": "Jean-Luc Mélenchon",
-     "poll_avg": 17.184035647253207,
+     "poll_avg": 17.398420052073682,
      "share_q": {
-      "0.05": 7.927379122618359,
-      "0.1": 9.759867816211075,
-      "0.5": 15.840862920160031,
-      "0.9": 23.661302488702983,
-      "0.95": 26.462722393904738
+      "0.05": 7.956029303208341,
+      "0.1": 9.770418093347082,
+      "0.5": 16.058383707334016,
+      "0.9": 23.888112052099082,
+      "0.95": 26.91421636690653
      },
-     "p_qualify": 0.5544,
-     "p_win": 0.0295,
-     "p_win_if_qualified": 0.05321067821067821
+     "p_qualify": 0.5681,
+     "p_win": 0.0253,
+     "p_win_if_qualified": 0.044534412955465584
     },
     {
      "id": "glucksmann",
      "name": "Raphaël Glucksmann",
-     "poll_avg": 12.431683371329193,
+     "poll_avg": 12.395984980501606,
      "share_q": {
-      "0.05": 5.239585260283328,
-      "0.1": 6.558467529592758,
-      "0.5": 11.499971003789108,
-      "0.9": 18.402337258196415,
-      "0.95": 21.100714613081102
+      "0.05": 5.185674893194354,
+      "0.1": 6.511102444718807,
+      "0.5": 11.52472648384673,
+      "0.9": 18.56712291942734,
+      "0.95": 21.578163949545708
      },
-     "p_qualify": 0.1889,
-     "p_win": 0.0521,
-     "p_win_if_qualified": 0.27580730545262044
+     "p_qualify": 0.1902,
+     "p_win": 0.0543,
+     "p_win_if_qualified": 0.2854889589905363
     },
     {
      "id": "philippe",
      "name": "Édouard Philippe",
-     "poll_avg": 11.731521546393619,
+     "poll_avg": 11.714006135225636,
      "share_q": {
-      "0.05": 4.887847592966657,
-      "0.1": 6.153615059485521,
-      "0.5": 10.816111395840855,
-      "0.9": 17.789948972745677,
-      "0.95": 20.641472732832515
+      "0.05": 4.703983483187589,
+      "0.1": 5.994735554405228,
+      "0.5": 10.635858466764267,
+      "0.9": 17.54564990220532,
+      "0.95": 20.37900264748289
      },
-     "p_qualify": 0.1616,
-     "p_win": 0.0572,
-     "p_win_if_qualified": 0.353960396039604
+     "p_qualify": 0.1507,
+     "p_win": 0.0454,
+     "p_win_if_qualified": 0.30126078301260784
     },
     {
      "id": "retailleau",
      "name": "Bruno Retailleau",
-     "poll_avg": 6.397451422426832,
+     "poll_avg": 6.361786729953874,
      "share_q": {
-      "0.05": 2.0673838573672767,
-      "0.1": 2.7623366296295795,
-      "0.5": 5.969123990874963,
-      "0.9": 11.566377979999427,
-      "0.95": 14.32839785314728
+      "0.05": 2.0313092176747936,
+      "0.1": 2.7244628303881955,
+      "0.5": 5.880677621656181,
+      "0.9": 11.534190974278387,
+      "0.95": 14.058090681140934
      },
-     "p_qualify": 0.0379,
+     "p_qualify": 0.0356,
      "p_win": 0.0096,
-     "p_win_if_qualified": 0.25329815303430075
+     "p_win_if_qualified": 0.2696629213483146
     },
     {
      "id": "attal",
      "name": "Gabriel Attal",
-     "poll_avg": 5.523690136482645,
+     "poll_avg": 5.4452452817335235,
      "share_q": {
-      "0.05": 1.7322740228182278,
-      "0.1": 2.2583280352400195,
-      "0.5": 5.084507600571217,
-      "0.9": 10.514755566511482,
-      "0.95": 13.238200223901329
+      "0.05": 1.6252886493249672,
+      "0.1": 2.1997806953591255,
+      "0.5": 4.963972149425461,
+      "0.9": 10.255490218595433,
+      "0.95": 12.860945094789159
      },
-     "p_qualify": 0.0308,
-     "p_win": 0.0126,
-     "p_win_if_qualified": 0.40909090909090906
+     "p_qualify": 0.0255,
+     "p_win": 0.0104,
+     "p_win_if_qualified": 0.40784313725490196
     },
     {
      "id": "zemmour",
      "name": "Éric Zemmour",
-     "poll_avg": 3.9473867089068726,
+     "poll_avg": 3.944273405405546,
      "share_q": {
-      "0.05": 1.0230830189083022,
-      "0.1": 1.4198592502070193,
-      "0.5": 3.6817794246265265,
-      "0.9": 8.638651614862978,
-      "0.95": 11.37091682575217
+      "0.05": 0.9912937835951412,
+      "0.1": 1.3955147427973973,
+      "0.5": 3.6210589533653956,
+      "0.9": 8.662651897851614,
+      "0.95": 11.528570841150998
      },
-     "p_qualify": 0.023,
+     "p_qualify": 0.0234,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "tondelier",
      "name": "Marine Tondelier",
-     "poll_avg": 3.0107648682556483,
+     "poll_avg": 3.010226242220496,
      "share_q": {
-      "0.05": 0.6459768521234274,
-      "0.1": 0.9638687376389053,
-      "0.5": 2.764306394567204,
-      "0.9": 7.315904362053846,
-      "0.95": 9.9723182721786
+      "0.05": 0.6692170386325325,
+      "0.1": 0.9974795579430422,
+      "0.5": 2.7821181849414076,
+      "0.9": 7.405329330020806,
+      "0.95": 10.159298377494212
      },
-     "p_qualify": 0.0147,
+     "p_qualify": 0.0191,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "dupont-aignan",
      "name": "Nicolas Dupont-Aignan",
-     "poll_avg": 2.326373725170886,
+     "poll_avg": 2.348849452334789,
      "share_q": {
-      "0.05": 0.5040736778163386,
-      "0.1": 0.7385409528139354,
-      "0.5": 2.1618345014415867,
-      "0.9": 5.812409943744909,
-      "0.95": 7.88562272054482
+      "0.05": 0.494799402259002,
+      "0.1": 0.7458981607567753,
+      "0.5": 2.153725090116652,
+      "0.9": 5.72565407162998,
+      "0.95": 7.8848724947958155
      },
-     "p_qualify": 0.0096,
+     "p_qualify": 0.0118,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "roussel",
      "name": "Fabien Roussel",
-     "poll_avg": 2.1971989048914953,
+     "poll_avg": 2.154729491338903,
      "share_q": {
-      "0.05": 0.467639914071451,
-      "0.1": 0.6956590644594459,
-      "0.5": 2.020684201870062,
-      "0.9": 5.367654120424916,
-      "0.95": 7.597689270508844
+      "0.05": 0.4651289936184423,
+      "0.1": 0.682011294118122,
+      "0.5": 1.9810628444881073,
+      "0.9": 5.292686361661158,
+      "0.95": 7.34779306332599
      },
-     "p_qualify": 0.0095,
+     "p_qualify": 0.009,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "arthaud",
      "name": "Nathalie Arthaud",
-     "poll_avg": 0.5819416928546194,
+     "poll_avg": 0.5875495043872561,
      "share_q": {
-      "0.05": 0.12498700625741149,
-      "0.1": 0.18468508599128955,
-      "0.5": 0.5371798544532901,
-      "0.9": 1.4331132681647554,
-      "0.95": 2.018874529282797
+      "0.05": 0.12394121746432032,
+      "0.1": 0.18585340563768699,
+      "0.5": 0.5374480919350317,
+      "0.9": 1.4978784311696394,
+      "0.95": 2.10388449392758
      },
-     "p_qualify": 0.0008,
+     "p_qualify": 0.0006,
      "p_win": null,
      "p_win_if_qualified": null
     }
@@ -253,71 +253,71 @@
     {
      "a": "le-pen",
      "b": "melenchon",
-     "p": 0.5385,
-     "p_a_wins": 0.9498607242339833,
+     "p": 0.5499,
+     "p_a_wins": 0.9605382796872158,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "glucksmann",
-     "p": 0.1769,
-     "p_a_wins": 0.7540983606557377,
+     "p": 0.1757,
+     "p_a_wins": 0.7541263517359135,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "philippe",
-     "p": 0.1509,
-     "p_a_wins": 0.6785950960901259,
+     "p": 0.1401,
+     "p_a_wins": 0.728051391862955,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "retailleau",
-     "p": 0.034,
-     "p_a_wins": 0.788235294117647,
+     "p": 0.0304,
+     "p_a_wins": 0.805921052631579,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "attal",
-     "p": 0.0247,
-     "p_a_wins": 0.6720647773279352,
+     "p": 0.0205,
+     "p_a_wins": 0.6878048780487804,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "zemmour",
-     "p": 0.0182,
+     "p": 0.0189,
      "p_a_wins": null,
      "polled": false
     },
     {
      "a": "le-pen",
      "b": "tondelier",
-     "p": 0.011,
-     "p_a_wins": null,
-     "polled": false
-    },
-    {
-     "a": "le-pen",
-     "b": "roussel",
-     "p": 0.0074,
+     "p": 0.015,
      "p_a_wins": null,
      "polled": false
     },
     {
      "a": "le-pen",
      "b": "dupont-aignan",
-     "p": 0.0067,
+     "p": 0.0086,
+     "p_a_wins": null,
+     "polled": false
+    },
+    {
+     "a": "le-pen",
+     "b": "roussel",
+     "p": 0.0068,
      "p_a_wins": null,
      "polled": false
     },
     {
      "a": "melenchon",
      "b": "glucksmann",
-     "p": 0.0054,
-     "p_a_wins": 0.1111111111111111,
+     "p": 0.0065,
+     "p_a_wins": 0.15384615384615385,
      "polled": false
     }
    ],
@@ -325,40 +325,40 @@
     {
      "a": "le-pen",
      "b": "melenchon",
-     "p_a": 0.9511,
-     "share_a": 0.6399174694321748,
+     "p_a": 0.959,
+     "share_a": 0.645699697266475,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "glucksmann",
-     "p_a": 0.7634,
-     "share_a": 0.5532974844010423,
+     "p_a": 0.7594,
+     "share_a": 0.5520888876267876,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "philippe",
-     "p_a": 0.6693,
-     "share_a": 0.5318653232349289,
+     "p_a": 0.7199,
+     "share_a": 0.5426576116362463,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "retailleau",
-     "p_a": 0.7788,
-     "share_a": 0.555943320313245,
+     "p_a": 0.7754,
+     "share_a": 0.55572255728381,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "attal",
-     "p_a": 0.6867,
-     "share_a": 0.534157713859669,
+     "p_a": 0.681,
+     "share_a": 0.5327803767790993,
      "polled": true,
      "unpolled": false
     },
@@ -405,32 +405,32 @@
     {
      "a": "melenchon",
      "b": "glucksmann",
-     "p_a": 0.141,
-     "share_a": 0.41154619493378425,
+     "p_a": 0.1225,
+     "share_a": 0.403667096430288,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "philippe",
-     "p_a": 0.0764,
-     "share_a": 0.3907767198801525,
+     "p_a": 0.0691,
+     "share_a": 0.39055588183459733,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "retailleau",
-     "p_a": 0.1432,
-     "share_a": 0.41303717043261523,
+     "p_a": 0.1271,
+     "share_a": 0.40597799716782235,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "attal",
-     "p_a": 0.1057,
-     "share_a": 0.39290408422050077,
+     "p_a": 0.0842,
+     "share_a": 0.38592286182798075,
      "polled": false,
      "unpolled": false
     },
@@ -477,24 +477,24 @@
     {
      "a": "glucksmann",
      "b": "philippe",
-     "p_a": 0.393,
-     "share_a": 0.47785106086891505,
+     "p_a": 0.437,
+     "share_a": 0.48715679552650293,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "glucksmann",
      "b": "retailleau",
-     "p_a": 0.5185,
-     "share_a": 0.503993971339193,
+     "p_a": 0.5229,
+     "share_a": 0.5044185971823508,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "glucksmann",
      "b": "attal",
-     "p_a": 0.41,
-     "share_a": 0.481610348216815,
+     "p_a": 0.4064,
+     "share_a": 0.4806965026826854,
      "polled": false,
      "unpolled": false
     },
@@ -541,16 +541,16 @@
     {
      "a": "philippe",
      "b": "retailleau",
-     "p_a": 0.6214,
-     "share_a": 0.5250987179821616,
+     "p_a": 0.574,
+     "share_a": 0.5147087420362733,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "philippe",
      "b": "attal",
-     "p_a": 0.5068,
-     "share_a": 0.501208724719935,
+     "p_a": 0.4635,
+     "share_a": 0.4929677473083832,
      "polled": false,
      "unpolled": false
     },
@@ -597,8 +597,8 @@
     {
      "a": "retailleau",
      "b": "attal",
-     "p_a": 0.3923,
-     "share_a": 0.4782335712999333,
+     "p_a": 0.3842,
+     "share_a": 0.4767258191628515,
      "polled": false,
      "unpolled": false
     },
@@ -983,1582 +983,6 @@
     [
      9,
      10
-    ]
-   ]
-  },
-  "lu-42ed177d": {
-   "rn": "lepen",
-   "lineup": [
-    "glucksmann",
-    "le-pen",
-    "melenchon",
-    "philippe",
-    "retailleau",
-    "zemmour",
-    "arthaud",
-    "roussel",
-    "tondelier",
-    "dupont-aignan"
-   ],
-   "reference": false,
-   "label": "sans Attal",
-   "n_pollsters": 7,
-   "delta_polls": null,
-   "d_eff": 168.03229675047163,
-   "candidates": [
-    {
-     "id": "le-pen",
-     "name": "Marine Le Pen",
-     "poll_avg": 34.95954866426323,
-     "share_q": {
-      "0.05": 20.076160188881,
-      "0.1": 23.276975070194865,
-      "0.5": 32.74979125273861,
-      "0.9": 41.90341211017834,
-      "0.95": 45.12219128766807
-     },
-     "p_qualify": 0.966,
-     "p_win": 0.8073,
-     "p_win_if_qualified": 0.8357142857142857
-    },
-    {
-     "id": "melenchon",
-     "name": "Jean-Luc Mélenchon",
-     "poll_avg": 17.725132130493705,
-     "share_q": {
-      "0.05": 8.37778432513915,
-      "0.1": 10.291454155267864,
-      "0.5": 16.59590948347105,
-      "0.9": 24.376710911854964,
-      "0.95": 27.301109910941445
-     },
-     "p_qualify": 0.4967,
-     "p_win": 0.0279,
-     "p_win_if_qualified": 0.05617072679685928
-    },
-    {
-     "id": "philippe",
-     "name": "Édouard Philippe",
-     "poll_avg": 14.954662656271019,
-     "share_q": {
-      "0.05": 6.772646221581287,
-      "0.1": 8.40165045705901,
-      "0.5": 13.954177773295942,
-      "0.9": 21.52561948868087,
-      "0.95": 24.51886406632849
-     },
-     "p_qualify": 0.2756,
-     "p_win": 0.0961,
-     "p_win_if_qualified": 0.34869375907111755
-    },
-    {
-     "id": "glucksmann",
-     "name": "Raphaël Glucksmann",
-     "poll_avg": 13.032867803005065,
-     "share_q": {
-      "0.05": 5.552743864258618,
-      "0.1": 6.983003629579325,
-      "0.5": 12.096404552492956,
-      "0.9": 19.27247036828512,
-      "0.95": 21.879364178310414
-     },
-     "p_qualify": 0.1745,
-     "p_win": 0.0503,
-     "p_win_if_qualified": 0.2882521489971347
-    },
-    {
-     "id": "retailleau",
-     "name": "Bruno Retailleau",
-     "poll_avg": 7.22308961819629,
-     "share_q": {
-      "0.05": 2.5484363735401394,
-      "0.1": 3.31595209637391,
-      "0.5": 6.739448976163801,
-      "0.9": 12.652766165864598,
-      "0.95": 15.43274128182211
-     },
-     "p_qualify": 0.0385,
-     "p_win": 0.011,
-     "p_win_if_qualified": 0.2857142857142857
-    },
-    {
-     "id": "zemmour",
-     "name": "Éric Zemmour",
-     "poll_avg": 4.189961497027082,
-     "share_q": {
-      "0.05": 1.1179065109409232,
-      "0.1": 1.5946820022926604,
-      "0.5": 3.9060229653345435,
-      "0.9": 8.910230928053615,
-      "0.95": 11.495287091907445
-     },
-     "p_qualify": 0.019,
-     "p_win": null,
-     "p_win_if_qualified": null
-    },
-    {
-     "id": "tondelier",
-     "name": "Marine Tondelier",
-     "poll_avg": 2.810169198531916,
-     "share_q": {
-      "0.05": 0.6383057340192465,
-      "0.1": 0.9333513601410026,
-      "0.5": 2.6420398097176703,
-      "0.9": 6.91566255441714,
-      "0.95": 9.68748524997406
-     },
-     "p_qualify": 0.0131,
-     "p_win": null,
-     "p_win_if_qualified": null
-    },
-    {
-     "id": "dupont-aignan",
-     "name": "Nicolas Dupont-Aignan",
-     "poll_avg": 2.467172126096277,
-     "share_q": {
-      "0.05": 0.5347040791562073,
-      "0.1": 0.7698882325296564,
-      "0.5": 2.2857263912471426,
-      "0.9": 6.111654617981017,
-      "0.95": 8.228315042824882
-     },
-     "p_qualify": 0.0086,
-     "p_win": null,
-     "p_win_if_qualified": null
-    },
-    {
-     "id": "roussel",
-     "name": "Fabien Roussel",
-     "poll_avg": 1.9888835587028035,
-     "share_q": {
-      "0.05": 0.43800572322737563,
-      "0.1": 0.6525607173718148,
-      "0.5": 1.8660292830421734,
-      "0.9": 4.963741949574443,
-      "0.95": 6.856000075261871
-     },
-     "p_qualify": 0.0064,
-     "p_win": null,
-     "p_win_if_qualified": null
-    },
-    {
-     "id": "arthaud",
-     "name": "Nathalie Arthaud",
-     "poll_avg": 0.6485127474126204,
-     "share_q": {
-      "0.05": 0.14694583506393402,
-      "0.1": 0.21523158776729448,
-      "0.5": 0.6128436785401375,
-      "0.9": 1.691504953457838,
-      "0.95": 2.386012174126993
-     },
-     "p_qualify": 0.0016,
-     "p_win": null,
-     "p_win_if_qualified": null
-    }
-   ],
-   "finals": [
-    {
-     "a": "le-pen",
-     "b": "melenchon",
-     "p": 0.4765,
-     "p_a_wins": 0.9496327387198321,
-     "polled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "philippe",
-     "p": 0.2605,
-     "p_a_wins": 0.6779270633397313,
-     "polled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "glucksmann",
-     "p": 0.1619,
-     "p_a_wins": 0.7418159357628166,
-     "polled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "retailleau",
-     "p": 0.0315,
-     "p_a_wins": 0.8031746031746032,
-     "polled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "zemmour",
-     "p": 0.0141,
-     "p_a_wins": null,
-     "polled": false
-    },
-    {
-     "a": "le-pen",
-     "b": "tondelier",
-     "p": 0.0103,
-     "p_a_wins": null,
-     "polled": false
-    },
-    {
-     "a": "melenchon",
-     "b": "philippe",
-     "p": 0.0082,
-     "p_a_wins": 0.06097560975609756,
-     "polled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "dupont-aignan",
-     "p": 0.0057,
-     "p_a_wins": null,
-     "polled": false
-    },
-    {
-     "a": "melenchon",
-     "b": "glucksmann",
-     "p": 0.0057,
-     "p_a_wins": 0.19298245614035087,
-     "polled": false
-    },
-    {
-     "a": "le-pen",
-     "b": "roussel",
-     "p": 0.0047,
-     "p_a_wins": null,
-     "polled": false
-    }
-   ],
-   "duels": [
-    {
-     "a": "le-pen",
-     "b": "melenchon",
-     "p_a": 0.9496,
-     "share_a": 0.638605208619959,
-     "polled": true,
-     "unpolled": false
-    },
-    {
-     "a": "le-pen",
-     "b": "philippe",
-     "p_a": 0.6681,
-     "share_a": 0.5313069772318852,
-     "polled": true,
-     "unpolled": false
-    },
-    {
-     "a": "le-pen",
-     "b": "glucksmann",
-     "p_a": 0.7566,
-     "share_a": 0.5519067486544237,
-     "polled": true,
-     "unpolled": false
-    },
-    {
-     "a": "le-pen",
-     "b": "retailleau",
-     "p_a": 0.7722,
-     "share_a": 0.5561539141486052,
-     "polled": true,
-     "unpolled": false
-    },
-    {
-     "a": "le-pen",
-     "b": "zemmour",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "tondelier",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "dupont-aignan",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "roussel",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "melenchon",
-     "b": "philippe",
-     "p_a": 0.0712,
-     "share_a": 0.39006950454193545,
-     "polled": true,
-     "unpolled": false
-    },
-    {
-     "a": "melenchon",
-     "b": "glucksmann",
-     "p_a": 0.1395,
-     "share_a": 0.4109383748157792,
-     "polled": false,
-     "unpolled": false
-    },
-    {
-     "a": "melenchon",
-     "b": "retailleau",
-     "p_a": 0.1475,
-     "share_a": 0.41309679926123855,
-     "polled": false,
-     "unpolled": false
-    },
-    {
-     "a": "melenchon",
-     "b": "zemmour",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "melenchon",
-     "b": "tondelier",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "melenchon",
-     "b": "dupont-aignan",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "melenchon",
-     "b": "roussel",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "melenchon",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "philippe",
-     "b": "glucksmann",
-     "p_a": 0.604,
-     "share_a": 0.5210495560515314,
-     "polled": false,
-     "unpolled": false
-    },
-    {
-     "a": "philippe",
-     "b": "retailleau",
-     "p_a": 0.6213,
-     "share_a": 0.5241808136854695,
-     "polled": false,
-     "unpolled": false
-    },
-    {
-     "a": "philippe",
-     "b": "zemmour",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "philippe",
-     "b": "tondelier",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "philippe",
-     "b": "dupont-aignan",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "philippe",
-     "b": "roussel",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "philippe",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "glucksmann",
-     "b": "retailleau",
-     "p_a": 0.5248,
-     "share_a": 0.5046928226911989,
-     "polled": false,
-     "unpolled": false
-    },
-    {
-     "a": "glucksmann",
-     "b": "zemmour",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "glucksmann",
-     "b": "tondelier",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "glucksmann",
-     "b": "dupont-aignan",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "glucksmann",
-     "b": "roussel",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "glucksmann",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "retailleau",
-     "b": "zemmour",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "retailleau",
-     "b": "tondelier",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "retailleau",
-     "b": "dupont-aignan",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "retailleau",
-     "b": "roussel",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "retailleau",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "zemmour",
-     "b": "tondelier",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "zemmour",
-     "b": "dupont-aignan",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "zemmour",
-     "b": "roussel",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "zemmour",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "tondelier",
-     "b": "dupont-aignan",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "tondelier",
-     "b": "roussel",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "tondelier",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "dupont-aignan",
-     "b": "roussel",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "dupont-aignan",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "roussel",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    }
-   ],
-   "pairs": [
-    [
-     0,
-     1
-    ],
-    [
-     0,
-     2
-    ],
-    [
-     0,
-     3
-    ],
-    [
-     0,
-     4
-    ],
-    [
-     0,
-     5
-    ],
-    [
-     0,
-     6
-    ],
-    [
-     0,
-     7
-    ],
-    [
-     0,
-     8
-    ],
-    [
-     0,
-     9
-    ],
-    [
-     1,
-     2
-    ],
-    [
-     1,
-     3
-    ],
-    [
-     1,
-     4
-    ],
-    [
-     1,
-     5
-    ],
-    [
-     1,
-     6
-    ],
-    [
-     1,
-     7
-    ],
-    [
-     1,
-     8
-    ],
-    [
-     1,
-     9
-    ],
-    [
-     2,
-     3
-    ],
-    [
-     2,
-     4
-    ],
-    [
-     2,
-     5
-    ],
-    [
-     2,
-     6
-    ],
-    [
-     2,
-     7
-    ],
-    [
-     2,
-     8
-    ],
-    [
-     2,
-     9
-    ],
-    [
-     3,
-     4
-    ],
-    [
-     3,
-     5
-    ],
-    [
-     3,
-     6
-    ],
-    [
-     3,
-     7
-    ],
-    [
-     3,
-     8
-    ],
-    [
-     3,
-     9
-    ],
-    [
-     4,
-     5
-    ],
-    [
-     4,
-     6
-    ],
-    [
-     4,
-     7
-    ],
-    [
-     4,
-     8
-    ],
-    [
-     4,
-     9
-    ],
-    [
-     5,
-     6
-    ],
-    [
-     5,
-     7
-    ],
-    [
-     5,
-     8
-    ],
-    [
-     5,
-     9
-    ],
-    [
-     6,
-     7
-    ],
-    [
-     6,
-     8
-    ],
-    [
-     6,
-     9
-    ],
-    [
-     7,
-     8
-    ],
-    [
-     7,
-     9
-    ],
-    [
-     8,
-     9
-    ]
-   ]
-  },
-  "lu-d84beaf0": {
-   "rn": "lepen",
-   "lineup": [
-    "attal",
-    "glucksmann",
-    "le-pen",
-    "melenchon",
-    "retailleau",
-    "zemmour",
-    "arthaud",
-    "roussel",
-    "tondelier",
-    "dupont-aignan"
-   ],
-   "reference": false,
-   "label": "sans Philippe",
-   "n_pollsters": 7,
-   "delta_polls": null,
-   "d_eff": 168.7308862217698,
-   "candidates": [
-    {
-     "id": "le-pen",
-     "name": "Marine Le Pen",
-     "poll_avg": 35.05210230992218,
-     "share_q": {
-      "0.05": 20.348773399825042,
-      "0.1": 23.433820273237142,
-      "0.5": 32.77607888628129,
-      "0.9": 41.83483129038729,
-      "0.95": 44.83491608215389
-     },
-     "p_qualify": 0.9666,
-     "p_win": 0.8281,
-     "p_win_if_qualified": 0.8567142561555968
-    },
-    {
-     "id": "melenchon",
-     "name": "Jean-Luc Mélenchon",
-     "poll_avg": 17.899432118338456,
-     "share_q": {
-      "0.05": 8.518623584425884,
-      "0.1": 10.296339152522622,
-      "0.5": 16.690262380818062,
-      "0.9": 24.489449419363687,
-      "0.95": 27.50134606078137
-     },
-     "p_qualify": 0.5428,
-     "p_win": 0.0293,
-     "p_win_if_qualified": 0.053979366249078856
-    },
-    {
-     "id": "glucksmann",
-     "name": "Raphaël Glucksmann",
-     "poll_avg": 14.340271126806602,
-     "share_q": {
-      "0.05": 6.354664314677404,
-      "0.1": 7.872978931709072,
-      "0.5": 13.299446769000944,
-      "0.9": 20.707420928424717,
-      "0.95": 23.3449216786157
-     },
-     "p_qualify": 0.2563,
-     "p_win": 0.0722,
-     "p_win_if_qualified": 0.28170113148653925
-    },
-    {
-     "id": "attal",
-     "name": "Gabriel Attal",
-     "poll_avg": 10.630987711438378,
-     "share_q": {
-      "0.05": 4.309441443000414,
-      "0.1": 5.468447054076623,
-      "0.5": 9.88037747408599,
-      "0.9": 16.833589541025507,
-      "0.95": 19.683090193277373
-     },
-     "p_qualify": 0.1023,
-     "p_win": 0.0421,
-     "p_win_if_qualified": 0.41153470185728247
-    },
-    {
-     "id": "retailleau",
-     "name": "Bruno Retailleau",
-     "poll_avg": 9.51331828537578,
-     "share_q": {
-      "0.05": 3.7006601102502805,
-      "0.1": 4.67027971597175,
-      "0.5": 8.830909943987129,
-      "0.9": 15.452732438054406,
-      "0.95": 18.172580867889895
-     },
-     "p_qualify": 0.075,
-     "p_win": 0.0214,
-     "p_win_if_qualified": 0.2853333333333333
-    },
-    {
-     "id": "zemmour",
-     "name": "Éric Zemmour",
-     "poll_avg": 4.157949076142884,
-     "share_q": {
-      "0.05": 1.115024958455479,
-      "0.1": 1.5597915624089744,
-      "0.5": 3.887364139943906,
-      "0.9": 8.975759015984082,
-      "0.95": 11.748405981872043
-     },
-     "p_qualify": 0.0196,
-     "p_win": null,
-     "p_win_if_qualified": null
-    },
-    {
-     "id": "tondelier",
-     "name": "Marine Tondelier",
-     "poll_avg": 3.0404167219540867,
-     "share_q": {
-      "0.05": 0.70002248127835,
-      "0.1": 1.0015949130146815,
-      "0.5": 2.8276515072516335,
-      "0.9": 7.372867267023997,
-      "0.95": 10.267613343704628
-     },
-     "p_qualify": 0.0189,
-     "p_win": null,
-     "p_win_if_qualified": null
-    },
-    {
-     "id": "dupont-aignan",
-     "name": "Nicolas Dupont-Aignan",
-     "poll_avg": 2.335363129686043,
-     "share_q": {
-      "0.05": 0.5173293563856093,
-      "0.1": 0.7587603624558464,
-      "0.5": 2.1834266012057415,
-      "0.9": 5.726115113505408,
-      "0.95": 7.951590105490405
-     },
-     "p_qualify": 0.0096,
-     "p_win": null,
-     "p_win_if_qualified": null
-    },
-    {
-     "id": "roussel",
-     "name": "Fabien Roussel",
-     "poll_avg": 2.2791666741027425,
-     "share_q": {
-      "0.05": 0.4741493479927289,
-      "0.1": 0.6985740592576083,
-      "0.5": 2.0800339044057004,
-      "0.9": 5.525434488733351,
-      "0.95": 7.714850217904301
-     },
-     "p_qualify": 0.0082,
-     "p_win": null,
-     "p_win_if_qualified": null
-    },
-    {
-     "id": "arthaud",
-     "name": "Nathalie Arthaud",
-     "poll_avg": 0.750992846232851,
-     "share_q": {
-      "0.05": 0.1598490980442314,
-      "0.1": 0.23709115462993918,
-      "0.5": 0.6925972667975064,
-      "0.9": 1.8865827326537559,
-      "0.95": 2.6090147049161785
-     },
-     "p_qualify": 0.0007,
-     "p_win": null,
-     "p_win_if_qualified": null
-    }
-   ],
-   "finals": [
-    {
-     "a": "le-pen",
-     "b": "melenchon",
-     "p": 0.5238,
-     "p_a_wins": 0.953799159984727,
-     "polled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "glucksmann",
-     "p": 0.2408,
-     "p_a_wins": 0.7479235880398671,
-     "polled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "attal",
-     "p": 0.0918,
-     "p_a_wins": 0.6328976034858388,
-     "polled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "retailleau",
-     "p": 0.0675,
-     "p_a_wins": 0.7496296296296296,
-     "polled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "zemmour",
-     "p": 0.0149,
-     "p_a_wins": null,
-     "polled": false
-    },
-    {
-     "a": "le-pen",
-     "b": "tondelier",
-     "p": 0.0145,
-     "p_a_wins": null,
-     "polled": false
-    },
-    {
-     "a": "melenchon",
-     "b": "glucksmann",
-     "p": 0.0074,
-     "p_a_wins": 0.13513513513513514,
-     "polled": false
-    },
-    {
-     "a": "le-pen",
-     "b": "dupont-aignan",
-     "p": 0.0069,
-     "p_a_wins": null,
-     "polled": false
-    },
-    {
-     "a": "le-pen",
-     "b": "roussel",
-     "p": 0.006,
-     "p_a_wins": null,
-     "polled": false
-    },
-    {
-     "a": "melenchon",
-     "b": "attal",
-     "p": 0.0041,
-     "p_a_wins": 0.21951219512195122,
-     "polled": false
-    }
-   ],
-   "duels": [
-    {
-     "a": "le-pen",
-     "b": "melenchon",
-     "p_a": 0.9546,
-     "share_a": 0.6380231849599671,
-     "polled": true,
-     "unpolled": false
-    },
-    {
-     "a": "le-pen",
-     "b": "glucksmann",
-     "p_a": 0.7505,
-     "share_a": 0.5513525557730045,
-     "polled": true,
-     "unpolled": false
-    },
-    {
-     "a": "le-pen",
-     "b": "attal",
-     "p_a": 0.6723,
-     "share_a": 0.5334275189752749,
-     "polled": true,
-     "unpolled": false
-    },
-    {
-     "a": "le-pen",
-     "b": "retailleau",
-     "p_a": 0.775,
-     "share_a": 0.5563711152130917,
-     "polled": true,
-     "unpolled": false
-    },
-    {
-     "a": "le-pen",
-     "b": "zemmour",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "tondelier",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "dupont-aignan",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "roussel",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "melenchon",
-     "b": "glucksmann",
-     "p_a": 0.1326,
-     "share_a": 0.40891205427624683,
-     "polled": false,
-     "unpolled": false
-    },
-    {
-     "a": "melenchon",
-     "b": "attal",
-     "p_a": 0.1032,
-     "share_a": 0.39346992294772515,
-     "polled": false,
-     "unpolled": false
-    },
-    {
-     "a": "melenchon",
-     "b": "retailleau",
-     "p_a": 0.1493,
-     "share_a": 0.41320371586779525,
-     "polled": false,
-     "unpolled": false
-    },
-    {
-     "a": "melenchon",
-     "b": "zemmour",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "melenchon",
-     "b": "tondelier",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "melenchon",
-     "b": "dupont-aignan",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "melenchon",
-     "b": "roussel",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "melenchon",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "glucksmann",
-     "b": "attal",
-     "p_a": 0.4052,
-     "share_a": 0.48111548719760283,
-     "polled": false,
-     "unpolled": false
-    },
-    {
-     "a": "glucksmann",
-     "b": "retailleau",
-     "p_a": 0.5306,
-     "share_a": 0.5058522554046511,
-     "polled": false,
-     "unpolled": false
-    },
-    {
-     "a": "glucksmann",
-     "b": "zemmour",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "glucksmann",
-     "b": "tondelier",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "glucksmann",
-     "b": "dupont-aignan",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "glucksmann",
-     "b": "roussel",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "glucksmann",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "attal",
-     "b": "retailleau",
-     "p_a": 0.6124,
-     "share_a": 0.5231183151686284,
-     "polled": false,
-     "unpolled": false
-    },
-    {
-     "a": "attal",
-     "b": "zemmour",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "attal",
-     "b": "tondelier",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "attal",
-     "b": "dupont-aignan",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "attal",
-     "b": "roussel",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "attal",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "retailleau",
-     "b": "zemmour",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "retailleau",
-     "b": "tondelier",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "retailleau",
-     "b": "dupont-aignan",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "retailleau",
-     "b": "roussel",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "retailleau",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "zemmour",
-     "b": "tondelier",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "zemmour",
-     "b": "dupont-aignan",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "zemmour",
-     "b": "roussel",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "zemmour",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "tondelier",
-     "b": "dupont-aignan",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "tondelier",
-     "b": "roussel",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "tondelier",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "dupont-aignan",
-     "b": "roussel",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "dupont-aignan",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    },
-    {
-     "a": "roussel",
-     "b": "arthaud",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
-    }
-   ],
-   "pairs": [
-    [
-     0,
-     1
-    ],
-    [
-     0,
-     2
-    ],
-    [
-     0,
-     3
-    ],
-    [
-     0,
-     4
-    ],
-    [
-     0,
-     5
-    ],
-    [
-     0,
-     6
-    ],
-    [
-     0,
-     7
-    ],
-    [
-     0,
-     8
-    ],
-    [
-     0,
-     9
-    ],
-    [
-     1,
-     2
-    ],
-    [
-     1,
-     3
-    ],
-    [
-     1,
-     4
-    ],
-    [
-     1,
-     5
-    ],
-    [
-     1,
-     6
-    ],
-    [
-     1,
-     7
-    ],
-    [
-     1,
-     8
-    ],
-    [
-     1,
-     9
-    ],
-    [
-     2,
-     3
-    ],
-    [
-     2,
-     4
-    ],
-    [
-     2,
-     5
-    ],
-    [
-     2,
-     6
-    ],
-    [
-     2,
-     7
-    ],
-    [
-     2,
-     8
-    ],
-    [
-     2,
-     9
-    ],
-    [
-     3,
-     4
-    ],
-    [
-     3,
-     5
-    ],
-    [
-     3,
-     6
-    ],
-    [
-     3,
-     7
-    ],
-    [
-     3,
-     8
-    ],
-    [
-     3,
-     9
-    ],
-    [
-     4,
-     5
-    ],
-    [
-     4,
-     6
-    ],
-    [
-     4,
-     7
-    ],
-    [
-     4,
-     8
-    ],
-    [
-     4,
-     9
-    ],
-    [
-     5,
-     6
-    ],
-    [
-     5,
-     7
-    ],
-    [
-     5,
-     8
-    ],
-    [
-     5,
-     9
-    ],
-    [
-     6,
-     7
-    ],
-    [
-     6,
-     8
-    ],
-    [
-     6,
-     9
-    ],
-    [
-     7,
-     8
-    ],
-    [
-     7,
-     9
-    ],
-    [
-     8,
-     9
     ]
    ]
   },
@@ -2581,170 +1005,170 @@
    "label": "avec Lisnard, sans Attal",
    "n_pollsters": 7,
    "delta_polls": null,
-   "d_eff": 158.34876849143853,
+   "d_eff": 158.33524393343512,
    "candidates": [
     {
      "id": "le-pen",
      "name": "Marine Le Pen",
-     "poll_avg": 33.34039351155003,
+     "poll_avg": 33.34055019736386,
      "share_q": {
-      "0.05": 19.060079049239246,
-      "0.1": 21.870787785070103,
-      "0.5": 31.1238894382888,
-      "0.9": 39.82165967432722,
-      "0.95": 42.93228499867097
+      "0.05": 19.17700643116192,
+      "0.1": 22.157783902368948,
+      "0.5": 31.101280074425635,
+      "0.9": 39.62700789601218,
+      "0.95": 42.43121026501796
      },
-     "p_qualify": 0.9631,
-     "p_win": 0.8612,
-     "p_win_if_qualified": 0.8941958259786107
+     "p_qualify": 0.9649,
+     "p_win": 0.847,
+     "p_win_if_qualified": 0.8778111721421908
     },
     {
      "id": "melenchon",
      "name": "Jean-Luc Mélenchon",
-     "poll_avg": 18.733876465563856,
+     "poll_avg": 18.73453368183231,
      "share_q": {
-      "0.05": 8.999971595951079,
-      "0.1": 10.818498342389741,
-      "0.5": 17.439639993682228,
-      "0.9": 25.161465268832732,
-      "0.95": 28.288841969106553
+      "0.05": 9.146912606536876,
+      "0.1": 11.089455225185924,
+      "0.5": 17.44203440228564,
+      "0.9": 25.255209474955404,
+      "0.95": 28.17745720270532
      },
-     "p_qualify": 0.6452,
-     "p_win": 0.0331,
-     "p_win_if_qualified": 0.051301921884686914
+     "p_qualify": 0.6367,
+     "p_win": 0.0302,
+     "p_win_if_qualified": 0.04743207161928695
     },
     {
      "id": "philippe",
      "name": "Édouard Philippe",
-     "poll_avg": 11.94756937075886,
+     "poll_avg": 11.945749210222589,
      "share_q": {
-      "0.05": 5.034911438418937,
-      "0.1": 6.3203625713377205,
-      "0.5": 11.089629179954317,
-      "0.9": 17.79117677843019,
-      "0.95": 20.546581561741288
+      "0.05": 5.013079819538624,
+      "0.1": 6.319124443646601,
+      "0.5": 11.130915992664919,
+      "0.9": 17.94801583442994,
+      "0.95": 20.64398878126366
      },
-     "p_qualify": 0.1409,
-     "p_win": 0.0509,
-     "p_win_if_qualified": 0.3612491128459901
+     "p_qualify": 0.1429,
+     "p_win": 0.0452,
+     "p_win_if_qualified": 0.31630510846745974
     },
     {
      "id": "glucksmann",
      "name": "Raphaël Glucksmann",
-     "poll_avg": 11.263318103823554,
+     "poll_avg": 11.262000662051797,
      "share_q": {
-      "0.05": 4.643708451764474,
-      "0.1": 5.883254470081848,
-      "0.5": 10.437734226763745,
-      "0.9": 17.02273365023283,
-      "0.95": 19.983847560647682
+      "0.05": 4.635615610422563,
+      "0.1": 5.836525614564837,
+      "0.5": 10.474547634075305,
+      "0.9": 17.02618331160064,
+      "0.95": 19.947211056788586
      },
-     "p_qualify": 0.1149,
-     "p_win": 0.0332,
-     "p_win_if_qualified": 0.288946910356832
+     "p_qualify": 0.1185,
+     "p_win": 0.0364,
+     "p_win_if_qualified": 0.30717299578059076
     },
     {
      "id": "lisnard",
      "name": "David Lisnard",
-     "poll_avg": 9.623735389660645,
+     "poll_avg": 9.625378857044337,
      "share_q": {
-      "0.05": 3.831042535638931,
-      "0.1": 4.73436462919647,
-      "0.5": 8.867179215784093,
-      "0.9": 15.194586263798351,
-      "0.95": 18.09341149811574
+      "0.05": 3.7327197214044894,
+      "0.1": 4.786867140683402,
+      "0.5": 8.881356222924266,
+      "0.9": 15.301369655165336,
+      "0.95": 18.181945960994792
      },
-     "p_qualify": 0.0711,
-     "p_win": null,
-     "p_win_if_qualified": null
+     "p_qualify": 0.0767,
+     "p_win": 0.0299,
+     "p_win_if_qualified": 0.38983050847457623
     },
     {
      "id": "retailleau",
      "name": "Bruno Retailleau",
-     "poll_avg": 4.75354366008302,
+     "poll_avg": 4.75318846366418,
      "share_q": {
-      "0.05": 1.4052532243186917,
-      "0.1": 1.9251745275196148,
-      "0.5": 4.401319583235059,
-      "0.9": 9.647573809397732,
-      "0.95": 12.400811990207949
+      "0.05": 1.4055080375185491,
+      "0.1": 1.9125590093743126,
+      "0.5": 4.419849402929127,
+      "0.9": 9.582401896239437,
+      "0.95": 11.949734683811899
      },
-     "p_qualify": 0.0223,
-     "p_win": 0.0073,
-     "p_win_if_qualified": 0.3273542600896861
+     "p_qualify": 0.02,
+     "p_win": 0.0075,
+     "p_win_if_qualified": 0.375
     },
     {
      "id": "zemmour",
      "name": "Éric Zemmour",
-     "poll_avg": 3.142780998586386,
+     "poll_avg": 3.1424426665834995,
      "share_q": {
-      "0.05": 0.728342205446096,
-      "0.1": 1.065273859868316,
-      "0.5": 2.928267764451985,
-      "0.9": 7.53374798392893,
-      "0.95": 9.910893749773212
+      "0.05": 0.7130379791906154,
+      "0.1": 1.051125760207918,
+      "0.5": 2.9341663748561086,
+      "0.9": 7.334329549671287,
+      "0.95": 9.614889600921993
      },
-     "p_qualify": 0.0163,
+     "p_qualify": 0.0158,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "tondelier",
      "name": "Marine Tondelier",
-     "poll_avg": 2.5631141894604133,
+     "poll_avg": 2.563359591116002,
      "share_q": {
-      "0.05": 0.5833475131894835,
-      "0.1": 0.8511211044684321,
-      "0.5": 2.412206588590502,
-      "0.9": 6.314222027209378,
-      "0.95": 8.398649216745822
+      "0.05": 0.567110166006653,
+      "0.1": 0.8456851516926169,
+      "0.5": 2.3734035704558716,
+      "0.9": 6.112185519259188,
+      "0.95": 8.299002133686752
      },
-     "p_qualify": 0.0104,
+     "p_qualify": 0.0105,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "roussel",
      "name": "Fabien Roussel",
-     "poll_avg": 2.158705834318672,
+     "poll_avg": 2.1595203179792737,
      "share_q": {
-      "0.05": 0.4683706716836851,
-      "0.1": 0.7041594746457592,
-      "0.5": 2.0259073368060996,
-      "0.9": 5.321287111200783,
-      "0.95": 7.293550415958429
+      "0.05": 0.46326887268069084,
+      "0.1": 0.6868676997201009,
+      "0.5": 1.9896876072993397,
+      "0.9": 5.165346492773317,
+      "0.95": 7.113322993242136
      },
-     "p_qualify": 0.0088,
+     "p_qualify": 0.007,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "dupont-aignan",
      "name": "Nicolas Dupont-Aignan",
-     "poll_avg": 1.9218545762440984,
+     "poll_avg": 1.9224100290079664,
      "share_q": {
-      "0.05": 0.4314368867807837,
-      "0.1": 0.6292042909153011,
-      "0.5": 1.8030949321807888,
-      "0.9": 4.590988023886038,
-      "0.95": 6.1846537813904865
+      "0.05": 0.4258745221278234,
+      "0.1": 0.6257914739533705,
+      "0.5": 1.777494358289459,
+      "0.9": 4.654987131282964,
+      "0.95": 6.437752202760273
      },
-     "p_qualify": 0.0059,
+     "p_qualify": 0.0066,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "arthaud",
      "name": "Nathalie Arthaud",
-     "poll_avg": 0.5511078999504568,
+     "poll_avg": 0.5508663231341768,
      "share_q": {
-      "0.05": 0.11987876573988424,
-      "0.1": 0.17341625118624887,
-      "0.5": 0.5063808090245031,
-      "0.9": 1.4001992144563165,
-      "0.95": 1.9316810724271043
+      "0.05": 0.11981018188236911,
+      "0.1": 0.1781635676008362,
+      "0.5": 0.4998207920866773,
+      "0.9": 1.378022779510827,
+      "0.95": 1.87586674084844
      },
-     "p_qualify": 0.0011,
+     "p_qualify": 0.0004,
      "p_win": null,
      "p_win_if_qualified": null
     }
@@ -2753,71 +1177,71 @@
     {
      "a": "le-pen",
      "b": "melenchon",
-     "p": 0.6237,
-     "p_a_wins": 0.9538239538239538,
+     "p": 0.6133,
+     "p_a_wins": 0.9567911299527149,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "philippe",
-     "p": 0.128,
-     "p_a_wins": 0.6859375,
+     "p": 0.1302,
+     "p_a_wins": 0.7311827956989247,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "glucksmann",
-     "p": 0.1013,
-     "p_a_wins": 0.7690029615004936,
+     "p": 0.109,
+     "p_a_wins": 0.7293577981651376,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "lisnard",
-     "p": 0.0616,
-     "p_a_wins": null,
-     "polled": false
+     "p": 0.0675,
+     "p_a_wins": 0.6681481481481482,
+     "polled": true
     },
     {
      "a": "le-pen",
      "b": "retailleau",
-     "p": 0.0181,
-     "p_a_wins": 0.7845303867403315,
+     "p": 0.0149,
+     "p_a_wins": 0.738255033557047,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "zemmour",
-     "p": 0.012,
+     "p": 0.0123,
      "p_a_wins": null,
      "polled": false
     },
     {
      "a": "le-pen",
      "b": "tondelier",
-     "p": 0.0073,
+     "p": 0.0079,
      "p_a_wins": null,
      "polled": false
     },
     {
      "a": "melenchon",
      "b": "philippe",
-     "p": 0.0068,
-     "p_a_wins": 0.08823529411764706,
+     "p": 0.0075,
+     "p_a_wins": 0.08,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "roussel",
-     "p": 0.0063,
+     "p": 0.0048,
      "p_a_wins": null,
      "polled": false
     },
     {
-     "a": "melenchon",
-     "b": "glucksmann",
-     "p": 0.0052,
-     "p_a_wins": 0.09615384615384616,
+     "a": "le-pen",
+     "b": "dupont-aignan",
+     "p": 0.0048,
+     "p_a_wins": null,
      "polled": false
     }
    ],
@@ -2825,40 +1249,40 @@
     {
      "a": "le-pen",
      "b": "melenchon",
-     "p_a": 0.9535,
-     "share_a": 0.6411918762886684,
+     "p_a": 0.9575,
+     "share_a": 0.6444033285100998,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "philippe",
-     "p_a": 0.6708,
-     "share_a": 0.5323560085291217,
+     "p_a": 0.7152,
+     "share_a": 0.541828102843719,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "glucksmann",
-     "p_a": 0.7542,
-     "share_a": 0.5512966512911845,
+     "p_a": 0.7536,
+     "share_a": 0.5518817727451185,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "lisnard",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
+     "p_a": 0.6306,
+     "share_a": 0.5252989281605689,
+     "polled": true,
+     "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "retailleau",
-     "p_a": 0.7767,
-     "share_a": 0.5565386949326774,
+     "p_a": 0.7733,
+     "share_a": 0.5546302554838267,
      "polled": true,
      "unpolled": false
     },
@@ -2905,32 +1329,32 @@
     {
      "a": "melenchon",
      "b": "philippe",
-     "p_a": 0.0708,
-     "share_a": 0.38961803184658006,
+     "p_a": 0.0675,
+     "share_a": 0.39030020250188086,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "glucksmann",
-     "p_a": 0.1378,
-     "share_a": 0.4084142054312726,
+     "p_a": 0.1181,
+     "share_a": 0.4029792592045673,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "lisnard",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.0747,
+     "share_a": 0.3768694242395403,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "retailleau",
-     "p_a": 0.1483,
-     "share_a": 0.4139493557525892,
+     "p_a": 0.1329,
+     "share_a": 0.40659480019201877,
      "polled": false,
      "unpolled": false
     },
@@ -2977,24 +1401,24 @@
     {
      "a": "philippe",
      "b": "glucksmann",
-     "p_a": 0.5962,
-     "share_a": 0.5209406424734442,
+     "p_a": 0.5651,
+     "share_a": 0.5135759745730281,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "philippe",
      "b": "lisnard",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.4205,
+     "share_a": 0.4843997382072416,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "philippe",
      "b": "retailleau",
-     "p_a": 0.625,
-     "share_a": 0.5251092300941094,
+     "p_a": 0.5814,
+     "share_a": 0.5157967378226468,
      "polled": false,
      "unpolled": false
     },
@@ -3041,16 +1465,16 @@
     {
      "a": "glucksmann",
      "b": "lisnard",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.3673,
+     "share_a": 0.47253837645261987,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "glucksmann",
      "b": "retailleau",
-     "p_a": 0.5231,
-     "share_a": 0.504326070468551,
+     "p_a": 0.5182,
+     "share_a": 0.5037640718899262,
      "polled": false,
      "unpolled": false
     },
@@ -3097,10 +1521,10 @@
     {
      "a": "lisnard",
      "b": "retailleau",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.6421,
+     "share_a": 0.5295926717511947,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "lisnard",
@@ -3486,6 +1910,1582 @@
     ]
    ]
   },
+  "lu-d84beaf0": {
+   "rn": "lepen",
+   "lineup": [
+    "attal",
+    "glucksmann",
+    "le-pen",
+    "melenchon",
+    "retailleau",
+    "zemmour",
+    "arthaud",
+    "roussel",
+    "tondelier",
+    "dupont-aignan"
+   ],
+   "reference": false,
+   "label": "sans Philippe",
+   "n_pollsters": 6,
+   "delta_polls": null,
+   "d_eff": 167.77926161939038,
+   "candidates": [
+    {
+     "id": "le-pen",
+     "name": "Marine Le Pen",
+     "poll_avg": 34.941040201458314,
+     "share_q": {
+      "0.05": 20.11257255716247,
+      "0.1": 23.272074520675297,
+      "0.5": 32.546084365578295,
+      "0.9": 41.730009707406765,
+      "0.95": 44.80988876414874
+     },
+     "p_qualify": 0.9689,
+     "p_win": 0.8441,
+     "p_win_if_qualified": 0.8711941376819073
+    },
+    {
+     "id": "melenchon",
+     "name": "Jean-Luc Mélenchon",
+     "poll_avg": 18.063111437276604,
+     "share_q": {
+      "0.05": 8.554090056586935,
+      "0.1": 10.370905641537103,
+      "0.5": 16.80780278315493,
+      "0.9": 24.74047775030283,
+      "0.95": 27.68865479950261
+     },
+     "p_qualify": 0.5458,
+     "p_win": 0.0249,
+     "p_win_if_qualified": 0.04562110663246611
+    },
+    {
+     "id": "glucksmann",
+     "name": "Raphaël Glucksmann",
+     "poll_avg": 14.25271876732003,
+     "share_q": {
+      "0.05": 6.313135546687243,
+      "0.1": 7.7616227466406045,
+      "0.5": 13.312946018374078,
+      "0.9": 20.56831037443772,
+      "0.95": 23.493953966189345
+     },
+     "p_qualify": 0.2501,
+     "p_win": 0.0689,
+     "p_win_if_qualified": 0.27548980407836865
+    },
+    {
+     "id": "attal",
+     "name": "Gabriel Attal",
+     "poll_avg": 10.606946741583146,
+     "share_q": {
+      "0.05": 4.319129187145673,
+      "0.1": 5.342705036333004,
+      "0.5": 9.838832475141182,
+      "0.9": 16.722028943288475,
+      "0.95": 19.484272469368555
+     },
+     "p_qualify": 0.1015,
+     "p_win": 0.0363,
+     "p_win_if_qualified": 0.35763546798029555
+    },
+    {
+     "id": "retailleau",
+     "name": "Bruno Retailleau",
+     "poll_avg": 9.53871413373258,
+     "share_q": {
+      "0.05": 3.5754375710999735,
+      "0.1": 4.702172595791126,
+      "0.5": 8.91213075263815,
+      "0.9": 15.474503781590323,
+      "0.95": 18.32365190261885
+     },
+     "p_qualify": 0.0772,
+     "p_win": 0.019,
+     "p_win_if_qualified": 0.24611398963730569
+    },
+    {
+     "id": "zemmour",
+     "name": "Éric Zemmour",
+     "poll_avg": 4.166628439207735,
+     "share_q": {
+      "0.05": 1.1116376461721036,
+      "0.1": 1.5419877332952305,
+      "0.5": 3.8988999107146047,
+      "0.9": 8.874518761654462,
+      "0.95": 11.453657469750297
+     },
+     "p_qualify": 0.0184,
+     "p_win": null,
+     "p_win_if_qualified": null
+    },
+    {
+     "id": "tondelier",
+     "name": "Marine Tondelier",
+     "poll_avg": 3.0415168543214115,
+     "share_q": {
+      "0.05": 0.6521707104082907,
+      "0.1": 0.9553308132294009,
+      "0.5": 2.8382101163496367,
+      "0.9": 7.5204349316708345,
+      "0.95": 10.311016909215203
+     },
+     "p_qualify": 0.0173,
+     "p_win": null,
+     "p_win_if_qualified": null
+    },
+    {
+     "id": "dupont-aignan",
+     "name": "Nicolas Dupont-Aignan",
+     "poll_avg": 2.3539041950634876,
+     "share_q": {
+      "0.05": 0.5262296152206354,
+      "0.1": 0.7683833910197042,
+      "0.5": 2.1762637615196723,
+      "0.9": 5.841790130253641,
+      "0.95": 8.153858499369703
+     },
+     "p_qualify": 0.0101,
+     "p_win": null,
+     "p_win_if_qualified": null
+    },
+    {
+     "id": "roussel",
+     "name": "Fabien Roussel",
+     "poll_avg": 2.2945375522939213,
+     "share_q": {
+      "0.05": 0.5033153778813519,
+      "0.1": 0.7254840713727873,
+      "0.5": 2.0897205977246003,
+      "0.9": 5.655198179738744,
+      "0.95": 7.792999684303507
+     },
+     "p_qualify": 0.0099,
+     "p_win": null,
+     "p_win_if_qualified": null
+    },
+    {
+     "id": "arthaud",
+     "name": "Nathalie Arthaud",
+     "poll_avg": 0.740881677742785,
+     "share_q": {
+      "0.05": 0.155538837872994,
+      "0.1": 0.23572379502143898,
+      "0.5": 0.7062325566000202,
+      "0.9": 1.898659237160954,
+      "0.95": 2.677586825359577
+     },
+     "p_qualify": 0.0008,
+     "p_win": null,
+     "p_win_if_qualified": null
+    }
+   ],
+   "finals": [
+    {
+     "a": "le-pen",
+     "b": "melenchon",
+     "p": 0.5274,
+     "p_a_wins": 0.9588547591960561,
+     "polled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "glucksmann",
+     "p": 0.2343,
+     "p_a_wins": 0.7567221510883483,
+     "polled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "attal",
+     "p": 0.0924,
+     "p_a_wins": 0.685064935064935,
+     "polled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "retailleau",
+     "p": 0.0708,
+     "p_a_wins": 0.7923728813559322,
+     "polled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "tondelier",
+     "p": 0.0147,
+     "p_a_wins": null,
+     "polled": false
+    },
+    {
+     "a": "le-pen",
+     "b": "zemmour",
+     "p": 0.014,
+     "p_a_wins": null,
+     "polled": false
+    },
+    {
+     "a": "melenchon",
+     "b": "glucksmann",
+     "p": 0.0087,
+     "p_a_wins": 0.19540229885057472,
+     "polled": false
+    },
+    {
+     "a": "le-pen",
+     "b": "dupont-aignan",
+     "p": 0.0077,
+     "p_a_wins": null,
+     "polled": false
+    },
+    {
+     "a": "le-pen",
+     "b": "roussel",
+     "p": 0.0071,
+     "p_a_wins": null,
+     "polled": false
+    },
+    {
+     "a": "melenchon",
+     "b": "attal",
+     "p": 0.0043,
+     "p_a_wins": 0.046511627906976744,
+     "polled": false
+    }
+   ],
+   "duels": [
+    {
+     "a": "le-pen",
+     "b": "melenchon",
+     "p_a": 0.9604,
+     "share_a": 0.6452176106008775,
+     "polled": true,
+     "unpolled": false
+    },
+    {
+     "a": "le-pen",
+     "b": "glucksmann",
+     "p_a": 0.758,
+     "share_a": 0.5527202453444255,
+     "polled": true,
+     "unpolled": false
+    },
+    {
+     "a": "le-pen",
+     "b": "attal",
+     "p_a": 0.6754,
+     "share_a": 0.5326784204661551,
+     "polled": true,
+     "unpolled": false
+    },
+    {
+     "a": "le-pen",
+     "b": "retailleau",
+     "p_a": 0.7811,
+     "share_a": 0.5566821235128768,
+     "polled": true,
+     "unpolled": false
+    },
+    {
+     "a": "le-pen",
+     "b": "zemmour",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "tondelier",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "dupont-aignan",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "roussel",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "melenchon",
+     "b": "glucksmann",
+     "p_a": 0.1202,
+     "share_a": 0.40336954659517704,
+     "polled": false,
+     "unpolled": false
+    },
+    {
+     "a": "melenchon",
+     "b": "attal",
+     "p_a": 0.0843,
+     "share_a": 0.3850250587604348,
+     "polled": false,
+     "unpolled": false
+    },
+    {
+     "a": "melenchon",
+     "b": "retailleau",
+     "p_a": 0.1359,
+     "share_a": 0.40860508217678804,
+     "polled": false,
+     "unpolled": false
+    },
+    {
+     "a": "melenchon",
+     "b": "zemmour",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "melenchon",
+     "b": "tondelier",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "melenchon",
+     "b": "dupont-aignan",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "melenchon",
+     "b": "roussel",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "melenchon",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "glucksmann",
+     "b": "attal",
+     "p_a": 0.4064,
+     "share_a": 0.48074131438378137,
+     "polled": false,
+     "unpolled": false
+    },
+    {
+     "a": "glucksmann",
+     "b": "retailleau",
+     "p_a": 0.5069,
+     "share_a": 0.5012914731700248,
+     "polled": false,
+     "unpolled": false
+    },
+    {
+     "a": "glucksmann",
+     "b": "zemmour",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "glucksmann",
+     "b": "tondelier",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "glucksmann",
+     "b": "dupont-aignan",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "glucksmann",
+     "b": "roussel",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "glucksmann",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "attal",
+     "b": "retailleau",
+     "p_a": 0.6002,
+     "share_a": 0.5207444645884552,
+     "polled": false,
+     "unpolled": false
+    },
+    {
+     "a": "attal",
+     "b": "zemmour",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "attal",
+     "b": "tondelier",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "attal",
+     "b": "dupont-aignan",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "attal",
+     "b": "roussel",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "attal",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "retailleau",
+     "b": "zemmour",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "retailleau",
+     "b": "tondelier",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "retailleau",
+     "b": "dupont-aignan",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "retailleau",
+     "b": "roussel",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "retailleau",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "zemmour",
+     "b": "tondelier",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "zemmour",
+     "b": "dupont-aignan",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "zemmour",
+     "b": "roussel",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "zemmour",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "tondelier",
+     "b": "dupont-aignan",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "tondelier",
+     "b": "roussel",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "tondelier",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "dupont-aignan",
+     "b": "roussel",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "dupont-aignan",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "roussel",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    }
+   ],
+   "pairs": [
+    [
+     0,
+     1
+    ],
+    [
+     0,
+     2
+    ],
+    [
+     0,
+     3
+    ],
+    [
+     0,
+     4
+    ],
+    [
+     0,
+     5
+    ],
+    [
+     0,
+     6
+    ],
+    [
+     0,
+     7
+    ],
+    [
+     0,
+     8
+    ],
+    [
+     0,
+     9
+    ],
+    [
+     1,
+     2
+    ],
+    [
+     1,
+     3
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     1,
+     7
+    ],
+    [
+     1,
+     8
+    ],
+    [
+     1,
+     9
+    ],
+    [
+     2,
+     3
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     2,
+     5
+    ],
+    [
+     2,
+     6
+    ],
+    [
+     2,
+     7
+    ],
+    [
+     2,
+     8
+    ],
+    [
+     2,
+     9
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     3,
+     5
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     3,
+     7
+    ],
+    [
+     3,
+     8
+    ],
+    [
+     3,
+     9
+    ],
+    [
+     4,
+     5
+    ],
+    [
+     4,
+     6
+    ],
+    [
+     4,
+     7
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     4,
+     9
+    ],
+    [
+     5,
+     6
+    ],
+    [
+     5,
+     7
+    ],
+    [
+     5,
+     8
+    ],
+    [
+     5,
+     9
+    ],
+    [
+     6,
+     7
+    ],
+    [
+     6,
+     8
+    ],
+    [
+     6,
+     9
+    ],
+    [
+     7,
+     8
+    ],
+    [
+     7,
+     9
+    ],
+    [
+     8,
+     9
+    ]
+   ]
+  },
+  "lu-42ed177d": {
+   "rn": "lepen",
+   "lineup": [
+    "glucksmann",
+    "le-pen",
+    "melenchon",
+    "philippe",
+    "retailleau",
+    "zemmour",
+    "arthaud",
+    "roussel",
+    "tondelier",
+    "dupont-aignan"
+   ],
+   "reference": false,
+   "label": "sans Attal",
+   "n_pollsters": 6,
+   "delta_polls": null,
+   "d_eff": 167.100593823616,
+   "candidates": [
+    {
+     "id": "le-pen",
+     "name": "Marine Le Pen",
+     "poll_avg": 34.94671243989422,
+     "share_q": {
+      "0.05": 19.94361284072864,
+      "0.1": 23.335990611857994,
+      "0.5": 32.73909751392814,
+      "0.9": 41.922816196122035,
+      "0.95": 44.831208075875274
+     },
+     "p_qualify": 0.9655,
+     "p_win": 0.8247,
+     "p_win_if_qualified": 0.8541688244432936
+    },
+    {
+     "id": "melenchon",
+     "name": "Jean-Luc Mélenchon",
+     "poll_avg": 17.86870273652921,
+     "share_q": {
+      "0.05": 8.641319660465337,
+      "0.1": 10.332607227227632,
+      "0.5": 16.673413375852974,
+      "0.9": 24.47734804141999,
+      "0.95": 27.545193823354147
+     },
+     "p_qualify": 0.5029,
+     "p_win": 0.0237,
+     "p_win_if_qualified": 0.04712666534102207
+    },
+    {
+     "id": "philippe",
+     "name": "Édouard Philippe",
+     "poll_avg": 14.9486020432381,
+     "share_q": {
+      "0.05": 6.865470795032927,
+      "0.1": 8.324493905145658,
+      "0.5": 13.932634529404522,
+      "0.9": 21.392789469330086,
+      "0.95": 24.92231683876154
+     },
+     "p_qualify": 0.2723,
+     "p_win": 0.0867,
+     "p_win_if_qualified": 0.31839882482556003
+    },
+    {
+     "id": "glucksmann",
+     "name": "Raphaël Glucksmann",
+     "poll_avg": 12.939191158923904,
+     "share_q": {
+      "0.05": 5.655147497903269,
+      "0.1": 7.037010047255531,
+      "0.5": 12.072772648538695,
+      "0.9": 19.51514895940389,
+      "0.95": 22.28164578004586
+     },
+     "p_qualify": 0.1711,
+     "p_win": 0.0485,
+     "p_win_if_qualified": 0.28345996493278786
+    },
+    {
+     "id": "retailleau",
+     "name": "Bruno Retailleau",
+     "poll_avg": 7.182202692271656,
+     "share_q": {
+      "0.05": 2.4957244164049652,
+      "0.1": 3.2374172550411626,
+      "0.5": 6.642662489735182,
+      "0.9": 12.662558366716436,
+      "0.95": 15.371465944483678
+     },
+     "p_qualify": 0.0389,
+     "p_win": 0.0116,
+     "p_win_if_qualified": 0.2982005141388175
+    },
+    {
+     "id": "zemmour",
+     "name": "Éric Zemmour",
+     "poll_avg": 4.199567015995731,
+     "share_q": {
+      "0.05": 1.1440018846488675,
+      "0.1": 1.5774988602545705,
+      "0.5": 3.8906143142502043,
+      "0.9": 8.810732632310923,
+      "0.95": 11.472892228200097
+     },
+     "p_qualify": 0.0178,
+     "p_win": null,
+     "p_win_if_qualified": null
+    },
+    {
+     "id": "tondelier",
+     "name": "Marine Tondelier",
+     "poll_avg": 2.7997075016877657,
+     "share_q": {
+      "0.05": 0.5994553486158118,
+      "0.1": 0.908291988127123,
+      "0.5": 2.61049358142496,
+      "0.9": 6.982084812216144,
+      "0.95": 9.735270326836334
+     },
+     "p_qualify": 0.0136,
+     "p_win": null,
+     "p_win_if_qualified": null
+    },
+    {
+     "id": "dupont-aignan",
+     "name": "Nicolas Dupont-Aignan",
+     "poll_avg": 2.492929654619723,
+     "share_q": {
+      "0.05": 0.5232570369396182,
+      "0.1": 0.7787396820484489,
+      "0.5": 2.2789554465119397,
+      "0.9": 6.104532377463421,
+      "0.95": 8.308025489763828
+     },
+     "p_qualify": 0.0094,
+     "p_win": null,
+     "p_win_if_qualified": null
+    },
+    {
+     "id": "roussel",
+     "name": "Fabien Roussel",
+     "poll_avg": 1.987662827458504,
+     "share_q": {
+      "0.05": 0.4192534143370895,
+      "0.1": 0.6314577122039542,
+      "0.5": 1.8602864315645866,
+      "0.9": 5.055029047908104,
+      "0.95": 7.1368704506254685
+     },
+     "p_qualify": 0.0068,
+     "p_win": null,
+     "p_win_if_qualified": null
+    },
+    {
+     "id": "arthaud",
+     "name": "Nathalie Arthaud",
+     "poll_avg": 0.6347219293811985,
+     "share_q": {
+      "0.05": 0.13836159414236768,
+      "0.1": 0.20508624088392352,
+      "0.5": 0.5863552372693833,
+      "0.9": 1.6349120993144106,
+      "0.95": 2.3304440844364254
+     },
+     "p_qualify": 0.0017,
+     "p_win": null,
+     "p_win_if_qualified": null
+    }
+   ],
+   "finals": [
+    {
+     "a": "le-pen",
+     "b": "melenchon",
+     "p": 0.4828,
+     "p_a_wins": 0.9562966031483016,
+     "polled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "philippe",
+     "p": 0.2553,
+     "p_a_wins": 0.7148452800626713,
+     "polled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "glucksmann",
+     "p": 0.158,
+     "p_a_wins": 0.7563291139240507,
+     "polled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "retailleau",
+     "p": 0.0325,
+     "p_a_wins": 0.7876923076923077,
+     "polled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "zemmour",
+     "p": 0.0138,
+     "p_a_wins": null,
+     "polled": false
+    },
+    {
+     "a": "le-pen",
+     "b": "tondelier",
+     "p": 0.01,
+     "p_a_wins": null,
+     "polled": false
+    },
+    {
+     "a": "melenchon",
+     "b": "philippe",
+     "p": 0.0088,
+     "p_a_wins": 0.022727272727272728,
+     "polled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "dupont-aignan",
+     "p": 0.0072,
+     "p_a_wins": null,
+     "polled": false
+    },
+    {
+     "a": "melenchon",
+     "b": "glucksmann",
+     "p": 0.0055,
+     "p_a_wins": 0.09090909090909091,
+     "polled": false
+    },
+    {
+     "a": "le-pen",
+     "b": "roussel",
+     "p": 0.0047,
+     "p_a_wins": null,
+     "polled": false
+    }
+   ],
+   "duels": [
+    {
+     "a": "le-pen",
+     "b": "melenchon",
+     "p_a": 0.9584,
+     "share_a": 0.6451742402366931,
+     "polled": true,
+     "unpolled": false
+    },
+    {
+     "a": "le-pen",
+     "b": "philippe",
+     "p_a": 0.7149,
+     "share_a": 0.5425554578225131,
+     "polled": true,
+     "unpolled": false
+    },
+    {
+     "a": "le-pen",
+     "b": "glucksmann",
+     "p_a": 0.7623,
+     "share_a": 0.5531503538217553,
+     "polled": true,
+     "unpolled": false
+    },
+    {
+     "a": "le-pen",
+     "b": "retailleau",
+     "p_a": 0.7793,
+     "share_a": 0.5574698520651415,
+     "polled": true,
+     "unpolled": false
+    },
+    {
+     "a": "le-pen",
+     "b": "zemmour",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "tondelier",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "dupont-aignan",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "roussel",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "melenchon",
+     "b": "philippe",
+     "p_a": 0.0688,
+     "share_a": 0.3902127864958251,
+     "polled": true,
+     "unpolled": false
+    },
+    {
+     "a": "melenchon",
+     "b": "glucksmann",
+     "p_a": 0.1185,
+     "share_a": 0.40234760294390126,
+     "polled": false,
+     "unpolled": false
+    },
+    {
+     "a": "melenchon",
+     "b": "retailleau",
+     "p_a": 0.1245,
+     "share_a": 0.40615058412069016,
+     "polled": false,
+     "unpolled": false
+    },
+    {
+     "a": "melenchon",
+     "b": "zemmour",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "melenchon",
+     "b": "tondelier",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "melenchon",
+     "b": "dupont-aignan",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "melenchon",
+     "b": "roussel",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "melenchon",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "philippe",
+     "b": "glucksmann",
+     "p_a": 0.5668,
+     "share_a": 0.514119083015316,
+     "polled": false,
+     "unpolled": false
+    },
+    {
+     "a": "philippe",
+     "b": "retailleau",
+     "p_a": 0.5768,
+     "share_a": 0.5145475748411008,
+     "polled": false,
+     "unpolled": false
+    },
+    {
+     "a": "philippe",
+     "b": "zemmour",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "philippe",
+     "b": "tondelier",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "philippe",
+     "b": "dupont-aignan",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "philippe",
+     "b": "roussel",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "philippe",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "glucksmann",
+     "b": "retailleau",
+     "p_a": 0.5199,
+     "share_a": 0.5040601626974395,
+     "polled": false,
+     "unpolled": false
+    },
+    {
+     "a": "glucksmann",
+     "b": "zemmour",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "glucksmann",
+     "b": "tondelier",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "glucksmann",
+     "b": "dupont-aignan",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "glucksmann",
+     "b": "roussel",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "glucksmann",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "retailleau",
+     "b": "zemmour",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "retailleau",
+     "b": "tondelier",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "retailleau",
+     "b": "dupont-aignan",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "retailleau",
+     "b": "roussel",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "retailleau",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "zemmour",
+     "b": "tondelier",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "zemmour",
+     "b": "dupont-aignan",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "zemmour",
+     "b": "roussel",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "zemmour",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "tondelier",
+     "b": "dupont-aignan",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "tondelier",
+     "b": "roussel",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "tondelier",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "dupont-aignan",
+     "b": "roussel",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "dupont-aignan",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    },
+    {
+     "a": "roussel",
+     "b": "arthaud",
+     "p_a": null,
+     "share_a": null,
+     "polled": false,
+     "unpolled": true
+    }
+   ],
+   "pairs": [
+    [
+     0,
+     1
+    ],
+    [
+     0,
+     2
+    ],
+    [
+     0,
+     3
+    ],
+    [
+     0,
+     4
+    ],
+    [
+     0,
+     5
+    ],
+    [
+     0,
+     6
+    ],
+    [
+     0,
+     7
+    ],
+    [
+     0,
+     8
+    ],
+    [
+     0,
+     9
+    ],
+    [
+     1,
+     2
+    ],
+    [
+     1,
+     3
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     1,
+     7
+    ],
+    [
+     1,
+     8
+    ],
+    [
+     1,
+     9
+    ],
+    [
+     2,
+     3
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     2,
+     5
+    ],
+    [
+     2,
+     6
+    ],
+    [
+     2,
+     7
+    ],
+    [
+     2,
+     8
+    ],
+    [
+     2,
+     9
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     3,
+     5
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     3,
+     7
+    ],
+    [
+     3,
+     8
+    ],
+    [
+     3,
+     9
+    ],
+    [
+     4,
+     5
+    ],
+    [
+     4,
+     6
+    ],
+    [
+     4,
+     7
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     4,
+     9
+    ],
+    [
+     5,
+     6
+    ],
+    [
+     5,
+     7
+    ],
+    [
+     5,
+     8
+    ],
+    [
+     5,
+     9
+    ],
+    [
+     6,
+     7
+    ],
+    [
+     6,
+     8
+    ],
+    [
+     6,
+     9
+    ],
+    [
+     7,
+     8
+    ],
+    [
+     7,
+     9
+    ],
+    [
+     8,
+     9
+    ]
+   ]
+  },
   "lu-28a9ed64": {
    "rn": "lepen",
    "lineup": [
@@ -3505,170 +3505,170 @@
    "label": "avec Lisnard, sans Philippe",
    "n_pollsters": 6,
    "delta_polls": null,
-   "d_eff": 157.29364956304073,
+   "d_eff": 157.2880994360297,
    "candidates": [
     {
      "id": "le-pen",
      "name": "Marine Le Pen",
-     "poll_avg": 33.90290411387691,
+     "poll_avg": 33.90248825709929,
      "share_q": {
-      "0.05": 19.435785241905453,
-      "0.1": 22.503267701540356,
-      "0.5": 31.51530751974594,
-      "0.9": 40.304762627811606,
-      "0.95": 43.26130879934815
+      "0.05": 19.0499101208917,
+      "0.1": 22.27656278089102,
+      "0.5": 31.505397073248396,
+      "0.9": 40.476100224129056,
+      "0.95": 43.57335905490408
      },
-     "p_qualify": 0.9669,
-     "p_win": 0.8707,
-     "p_win_if_qualified": 0.9005067742269108
+     "p_qualify": 0.9647,
+     "p_win": 0.8528,
+     "p_win_if_qualified": 0.8840053902767699
     },
     {
      "id": "melenchon",
      "name": "Jean-Luc Mélenchon",
-     "poll_avg": 18.702260063606634,
+     "poll_avg": 18.702042694535923,
      "share_q": {
-      "0.05": 9.183252160095009,
-      "0.1": 11.071058783572289,
-      "0.5": 17.431417053372115,
-      "0.9": 25.32293602202066,
-      "0.95": 28.300596217037295
+      "0.05": 9.325387301139692,
+      "0.1": 11.153629965752192,
+      "0.5": 17.522530643283584,
+      "0.9": 25.26261663087994,
+      "0.95": 28.2396480499984
      },
-     "p_qualify": 0.6523,
-     "p_win": 0.0366,
-     "p_win_if_qualified": 0.05610915223056876
+     "p_qualify": 0.6635,
+     "p_win": 0.0295,
+     "p_win_if_qualified": 0.044461190655614165
     },
     {
      "id": "glucksmann",
      "name": "Raphaël Glucksmann",
-     "poll_avg": 11.908692262186873,
+     "poll_avg": 11.90789317314293,
      "share_q": {
-      "0.05": 5.054772382366844,
-      "0.1": 6.316205463949273,
-      "0.5": 11.024903657516852,
-      "0.9": 18.03183724018903,
-      "0.95": 20.685368043245226
+      "0.05": 5.09885983954161,
+      "0.1": 6.2828294825324456,
+      "0.5": 11.079195361305375,
+      "0.9": 17.9313842466073,
+      "0.95": 20.89433352080824
      },
-     "p_qualify": 0.1431,
-     "p_win": 0.0464,
-     "p_win_if_qualified": 0.3242487770789657
+     "p_qualify": 0.1397,
+     "p_win": 0.0414,
+     "p_win_if_qualified": 0.2963493199713672
     },
     {
      "id": "lisnard",
      "name": "David Lisnard",
-     "poll_avg": 10.51435267316203,
+     "poll_avg": 10.514898809466812,
      "share_q": {
-      "0.05": 4.298931774261132,
-      "0.1": 5.359849423227061,
-      "0.5": 9.76142975165066,
-      "0.9": 16.38609811344214,
-      "0.95": 18.980310234706575
+      "0.05": 4.153944156593691,
+      "0.1": 5.271713660084526,
+      "0.5": 9.632903569650304,
+      "0.9": 16.07806949948453,
+      "0.95": 18.825093480355964
      },
-     "p_qualify": 0.0996,
-     "p_win": null,
-     "p_win_if_qualified": null
+     "p_qualify": 0.0934,
+     "p_win": 0.0369,
+     "p_win_if_qualified": 0.39507494646680946
     },
     {
      "id": "attal",
      "name": "Gabriel Attal",
-     "poll_avg": 8.992308453951127,
+     "poll_avg": 8.991385656452897,
      "share_q": {
-      "0.05": 3.47010877521595,
-      "0.1": 4.41753691631212,
-      "0.5": 8.30294533825677,
-      "0.9": 14.506264281678252,
-      "0.95": 17.253010962504604
+      "0.05": 3.4340478475086216,
+      "0.1": 4.396141377692399,
+      "0.5": 8.255239114225096,
+      "0.9": 14.493719896305624,
+      "0.95": 17.246160206364667
      },
-     "p_qualify": 0.0672,
-     "p_win": 0.0225,
-     "p_win_if_qualified": 0.3348214285714286
+     "p_qualify": 0.0657,
+     "p_win": 0.0235,
+     "p_win_if_qualified": 0.35768645357686457
     },
     {
      "id": "retailleau",
      "name": "Bruno Retailleau",
-     "poll_avg": 6.112325514032259,
+     "poll_avg": 6.112317697100184,
      "share_q": {
-      "0.05": 2.058268039344928,
-      "0.1": 2.7173186095212856,
-      "0.5": 5.702869507406367,
-      "0.9": 11.230992551798103,
-      "0.95": 13.969149904991166
+      "0.05": 1.9900037069678693,
+      "0.1": 2.698005609475056,
+      "0.5": 5.720925570783475,
+      "0.9": 11.13572225628018,
+      "0.95": 14.199326259287911
      },
-     "p_qualify": 0.0315,
-     "p_win": 0.0094,
-     "p_win_if_qualified": 0.2984126984126984
+     "p_qualify": 0.031,
+     "p_win": 0.0101,
+     "p_win_if_qualified": 0.3258064516129032
     },
     {
      "id": "zemmour",
      "name": "Éric Zemmour",
-     "poll_avg": 3.1987029612814046,
+     "poll_avg": 3.1987542417522046,
      "share_q": {
-      "0.05": 0.7474870383533038,
-      "0.1": 1.0851940211056434,
-      "0.5": 2.959702329906213,
-      "0.9": 7.531533321981858,
-      "0.95": 10.071799856507928
+      "0.05": 0.7475083179347793,
+      "0.1": 1.0817800423673793,
+      "0.5": 2.966910018339112,
+      "0.9": 7.509344595133549,
+      "0.95": 10.183630457334782
      },
-     "p_qualify": 0.0161,
+     "p_qualify": 0.0175,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "tondelier",
      "name": "Marine Tondelier",
-     "poll_avg": 2.7512262014391293,
+     "poll_avg": 2.752333112128508,
      "share_q": {
-      "0.05": 0.6447980852453363,
-      "0.1": 0.9265888520700156,
-      "0.5": 2.573140183241154,
-      "0.9": 6.790037613952555,
-      "0.95": 9.485444887201211
+      "0.05": 0.6393525956184388,
+      "0.1": 0.9098018682406256,
+      "0.5": 2.571256666835322,
+      "0.9": 6.714900302715321,
+      "0.95": 9.171625670472004
      },
-     "p_qualify": 0.0132,
+     "p_qualify": 0.0134,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "dupont-aignan",
      "name": "Nicolas Dupont-Aignan",
-     "poll_avg": 1.6418881841124324,
+     "poll_avg": 1.6421804307334893,
      "share_q": {
-      "0.05": 0.36037673699003114,
-      "0.1": 0.5243949855486646,
-      "0.5": 1.5316688528306168,
-      "0.9": 4.051000901034636,
-      "0.95": 5.515475043504846
+      "0.05": 0.36718342001293025,
+      "0.1": 0.537817041704184,
+      "0.5": 1.5261500675596635,
+      "0.9": 4.134521588170649,
+      "0.95": 5.673950837472937
      },
-     "p_qualify": 0.0046,
+     "p_qualify": 0.0056,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "roussel",
      "name": "Fabien Roussel",
-     "poll_avg": 1.5881308742079685,
+     "poll_avg": 1.5886477492158066,
      "share_q": {
-      "0.05": 0.36278018589631317,
-      "0.1": 0.5202934378397583,
-      "0.5": 1.48799275197928,
-      "0.9": 3.9034845021041242,
-      "0.95": 5.244216527111482
+      "0.05": 0.3569743634822604,
+      "0.1": 0.5147154922951568,
+      "0.5": 1.498374094294589,
+      "0.9": 3.9200242664296066,
+      "0.95": 5.531015049958234
      },
-     "p_qualify": 0.0046,
+     "p_qualify": 0.0049,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "arthaud",
      "name": "Nathalie Arthaud",
-     "poll_avg": 0.6872086981432495,
+     "poll_avg": 0.68705817837195,
      "share_q": {
-      "0.05": 0.14760247218158823,
-      "0.1": 0.21875598406323177,
-      "0.5": 0.632976622553538,
-      "0.9": 1.6870861933016679,
-      "0.95": 2.318233433419523
+      "0.05": 0.14574656078460357,
+      "0.1": 0.21543723368748346,
+      "0.5": 0.6188901782243708,
+      "0.9": 1.6874130186129044,
+      "0.95": 2.331623195581346
      },
-     "p_qualify": 0.0009,
+     "p_qualify": 0.0006,
      "p_win": null,
      "p_win_if_qualified": null
     }
@@ -3677,42 +3677,42 @@
     {
      "a": "le-pen",
      "b": "melenchon",
-     "p": 0.631,
-     "p_a_wins": 0.9513470681458003,
+     "p": 0.6405,
+     "p_a_wins": 0.9595628415300547,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "glucksmann",
-     "p": 0.1304,
-     "p_a_wins": 0.718558282208589,
+     "p": 0.1252,
+     "p_a_wins": 0.7579872204472844,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "lisnard",
-     "p": 0.0902,
-     "p_a_wins": null,
-     "polled": false
+     "p": 0.0854,
+     "p_a_wins": 0.6463700234192038,
+     "polled": true
     },
     {
      "a": "le-pen",
      "b": "attal",
-     "p": 0.0606,
-     "p_a_wins": 0.7194719471947195,
+     "p": 0.0574,
+     "p_a_wins": 0.7003484320557491,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "retailleau",
-     "p": 0.0264,
-     "p_a_wins": 0.7954545454545454,
+     "p": 0.0241,
+     "p_a_wins": 0.7800829875518672,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "zemmour",
-     "p": 0.0122,
+     "p": 0.0134,
      "p_a_wins": null,
      "polled": false
     },
@@ -3726,22 +3726,22 @@
     {
      "a": "melenchon",
      "b": "glucksmann",
-     "p": 0.0063,
-     "p_a_wins": 0.1111111111111111,
+     "p": 0.0085,
+     "p_a_wins": 0.09411764705882353,
      "polled": false
     },
     {
-     "a": "melenchon",
-     "b": "lisnard",
-     "p": 0.0052,
+     "a": "le-pen",
+     "b": "dupont-aignan",
+     "p": 0.0045,
      "p_a_wins": null,
      "polled": false
     },
     {
      "a": "melenchon",
      "b": "attal",
-     "p": 0.0029,
-     "p_a_wins": 0.06896551724137931,
+     "p": 0.0043,
+     "p_a_wins": 0.09302325581395349,
      "polled": false
     }
    ],
@@ -3749,40 +3749,40 @@
     {
      "a": "le-pen",
      "b": "melenchon",
-     "p_a": 0.9512,
-     "share_a": 0.6386476842505757,
+     "p_a": 0.9604,
+     "share_a": 0.6451690320235945,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "glucksmann",
-     "p_a": 0.7514,
-     "share_a": 0.5514435677072423,
+     "p_a": 0.7617,
+     "share_a": 0.5523500572721436,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "lisnard",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
+     "p_a": 0.6404,
+     "share_a": 0.5250867896702524,
+     "polled": true,
+     "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "attal",
-     "p_a": 0.6789,
-     "share_a": 0.5342094670139443,
+     "p_a": 0.6862,
+     "share_a": 0.5342622071487162,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "retailleau",
-     "p_a": 0.7786,
-     "share_a": 0.5567963404601189,
+     "p_a": 0.7745,
+     "share_a": 0.5556566972242969,
      "polled": true,
      "unpolled": false
     },
@@ -3829,32 +3829,32 @@
     {
      "a": "melenchon",
      "b": "glucksmann",
-     "p_a": 0.1433,
-     "share_a": 0.40971208592197894,
+     "p_a": 0.1192,
+     "share_a": 0.4016076137232562,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "lisnard",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.0719,
+     "share_a": 0.3762099952479917,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "attal",
-     "p_a": 0.0993,
-     "share_a": 0.3929444867452151,
+     "p_a": 0.0837,
+     "share_a": 0.3837281651884048,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "retailleau",
-     "p_a": 0.1453,
-     "share_a": 0.4147110941987644,
+     "p_a": 0.1273,
+     "share_a": 0.4058348711522676,
      "polled": false,
      "unpolled": false
     },
@@ -3901,24 +3901,24 @@
     {
      "a": "glucksmann",
      "b": "lisnard",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.3658,
+     "share_a": 0.47382739839721005,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "glucksmann",
      "b": "attal",
-     "p_a": 0.4108,
-     "share_a": 0.4823698245732728,
+     "p_a": 0.409,
+     "share_a": 0.4822919723485691,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "glucksmann",
      "b": "retailleau",
-     "p_a": 0.5185,
-     "share_a": 0.5041305693548606,
+     "p_a": 0.5133,
+     "share_a": 0.5025848405581168,
      "polled": false,
      "unpolled": false
     },
@@ -3965,18 +3965,18 @@
     {
      "a": "lisnard",
      "b": "attal",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.5407,
+     "share_a": 0.5086651324819449,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "lisnard",
      "b": "retailleau",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.6539,
+     "share_a": 0.5299940775055219,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "lisnard",
@@ -4021,8 +4021,8 @@
     {
      "a": "attal",
      "b": "retailleau",
-     "p_a": 0.6008,
-     "share_a": 0.5202713973574595,
+     "p_a": 0.6178,
+     "share_a": 0.522394538725304,
      "polled": false,
      "unpolled": false
     },
@@ -4431,200 +4431,200 @@
    "label": "avec Lisnard, avec Riner",
    "n_pollsters": 5,
    "delta_polls": null,
-   "d_eff": 150.50271986419892,
+   "d_eff": 150.49366030796782,
    "candidates": [
     {
      "id": "le-pen",
      "name": "Marine Le Pen",
-     "poll_avg": 32.7605863477257,
+     "poll_avg": 32.76154219851667,
      "share_q": {
-      "0.05": 18.391156470575744,
-      "0.1": 21.2837578030989,
-      "0.5": 30.116951039681016,
-      "0.9": 38.66859559349343,
-      "0.95": 41.48593806361334
+      "0.05": 18.34235117843146,
+      "0.1": 21.070935553198883,
+      "0.5": 30.20781266282603,
+      "0.9": 38.869779689049615,
+      "0.95": 41.80542017298335
      },
-     "p_qualify": 0.9657,
-     "p_win": 0.8749,
-     "p_win_if_qualified": 0.9059749404576991
+     "p_qualify": 0.9677,
+     "p_win": 0.8505,
+     "p_win_if_qualified": 0.8788880851503565
     },
     {
      "id": "melenchon",
      "name": "Jean-Luc Mélenchon",
-     "poll_avg": 17.511964678199973,
+     "poll_avg": 17.511183388793675,
      "share_q": {
-      "0.05": 8.209355427525747,
-      "0.1": 10.059314999076294,
-      "0.5": 16.082755476692295,
-      "0.9": 23.58737578346387,
-      "0.95": 26.438300131613218
+      "0.05": 8.248107722478718,
+      "0.1": 10.043706881994458,
+      "0.5": 16.14902916157111,
+      "0.9": 23.5695573702411,
+      "0.95": 26.544405646271407
      },
-     "p_qualify": 0.6494,
-     "p_win": 0.033,
-     "p_win_if_qualified": 0.05081613797351402
+     "p_qualify": 0.6497,
+     "p_win": 0.03,
+     "p_win_if_qualified": 0.046175157765122356
     },
     {
      "id": "lisnard",
      "name": "David Lisnard",
-     "poll_avg": 10.091270295889801,
+     "poll_avg": 10.094221837196827,
      "share_q": {
-      "0.05": 4.05014113771752,
-      "0.1": 5.09979152588772,
-      "0.5": 9.422469000788954,
-      "0.9": 15.540689176850902,
-      "0.95": 18.077812703391167
+      "0.05": 3.9372674007495165,
+      "0.1": 5.0412856616322514,
+      "0.5": 9.2550169226606,
+      "0.9": 15.495564714158613,
+      "0.95": 18.000273667181883
      },
-     "p_qualify": 0.1107,
-     "p_win": null,
-     "p_win_if_qualified": null
+     "p_qualify": 0.1042,
+     "p_win": 0.0417,
+     "p_win_if_qualified": 0.4001919385796545
     },
     {
      "id": "glucksmann",
      "name": "Raphaël Glucksmann",
-     "poll_avg": 10.054700396032867,
+     "poll_avg": 10.0553617490325,
      "share_q": {
-      "0.05": 4.0918953194507806,
-      "0.1": 5.034479928445535,
-      "0.5": 9.234745147248253,
-      "0.9": 15.421882158927778,
-      "0.95": 18.279324631496547
+      "0.05": 3.9854943782676027,
+      "0.1": 5.068908307252943,
+      "0.5": 9.18159615444306,
+      "0.9": 15.273106065680892,
+      "0.95": 17.862829567504736
      },
-     "p_qualify": 0.1073,
-     "p_win": 0.0326,
-     "p_win_if_qualified": 0.30382106244175205
+     "p_qualify": 0.1031,
+     "p_win": 0.0291,
+     "p_win_if_qualified": 0.2822502424830262
     },
     {
      "id": "philippe",
      "name": "Édouard Philippe",
-     "poll_avg": 8.933827974655612,
+     "poll_avg": 8.933057210970926,
      "share_q": {
-      "0.05": 3.27315567220308,
-      "0.1": 4.3444909483772465,
-      "0.5": 8.183631023646337,
-      "0.9": 14.207553230419279,
-      "0.95": 16.705674801520797
+      "0.05": 3.357074857204903,
+      "0.1": 4.268863467987546,
+      "0.5": 8.180292080069307,
+      "0.9": 14.27568134769,
+      "0.95": 16.94093170145231
      },
-     "p_qualify": 0.079,
-     "p_win": 0.0292,
-     "p_win_if_qualified": 0.369620253164557
+     "p_qualify": 0.0778,
+     "p_win": 0.0255,
+     "p_win_if_qualified": 0.3277634961439589
     },
     {
      "id": "retailleau",
      "name": "Bruno Retailleau",
-     "poll_avg": 4.3622830974830125,
+     "poll_avg": 4.361921374233166,
      "share_q": {
-      "0.05": 1.211640336316489,
-      "0.1": 1.669950181251971,
-      "0.5": 4.012040049311677,
-      "0.9": 8.850408067773786,
-      "0.95": 11.494048321329332
+      "0.05": 1.160750765030344,
+      "0.1": 1.6476737627692133,
+      "0.5": 3.9631973764082464,
+      "0.9": 8.715726256854616,
+      "0.95": 11.046513569423984
      },
-     "p_qualify": 0.0225,
-     "p_win": 0.006,
-     "p_win_if_qualified": 0.26666666666666666
+     "p_qualify": 0.0213,
+     "p_win": 0.0086,
+     "p_win_if_qualified": 0.40375586854460094
     },
     {
      "id": "attal",
      "name": "Gabriel Attal",
-     "poll_avg": 4.211264977591223,
+     "poll_avg": 4.211123221317393,
      "share_q": {
-      "0.05": 1.1289826722501948,
-      "0.1": 1.5932514132396598,
-      "0.5": 3.8579111469857095,
-      "0.9": 8.390110258427782,
-      "0.95": 10.962660022485956
+      "0.05": 1.1266202343998917,
+      "0.1": 1.5564657948371037,
+      "0.5": 3.8593559950468928,
+      "0.9": 8.66436013768055,
+      "0.95": 11.43401990840378
      },
-     "p_qualify": 0.0199,
-     "p_win": 0.0078,
-     "p_win_if_qualified": 0.39195979899497485
+     "p_qualify": 0.0234,
+     "p_win": 0.0089,
+     "p_win_if_qualified": 0.3803418803418803
     },
     {
      "id": "riner",
      "name": "Teddy Riner",
-     "poll_avg": 3.3910643017318924,
+     "poll_avg": 3.3893683602346054,
      "share_q": {
-      "0.05": 0.8177163149090712,
-      "0.1": 1.1658016966482398,
-      "0.5": 3.1321563066183398,
-      "0.9": 7.6183877373561355,
-      "0.95": 9.972221130073766
+      "0.05": 0.7976179543546753,
+      "0.1": 1.1484712551751772,
+      "0.5": 3.1011934515327857,
+      "0.9": 7.629678805390651,
+      "0.95": 10.106774804208964
      },
-     "p_qualify": 0.0174,
+     "p_qualify": 0.0177,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "zemmour",
      "name": "Éric Zemmour",
-     "poll_avg": 3.089127249007779,
+     "poll_avg": 3.089119117702151,
      "share_q": {
-      "0.05": 0.659373051425937,
-      "0.1": 1.0200981571431647,
-      "0.5": 2.827947735698706,
-      "0.9": 7.047013663548444,
-      "0.95": 9.516215885192658
+      "0.05": 0.7044019104572552,
+      "0.1": 1.0263357956663495,
+      "0.5": 2.7968184690477846,
+      "0.9": 7.157597965321785,
+      "0.95": 9.593168256370419
      },
-     "p_qualify": 0.0144,
+     "p_qualify": 0.0189,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "tondelier",
      "name": "Marine Tondelier",
-     "poll_avg": 1.742944139157753,
+     "poll_avg": 1.7414243876962374,
      "share_q": {
-      "0.05": 0.3839812162055671,
-      "0.1": 0.5530976975314853,
-      "0.5": 1.6062046539402006,
-      "0.9": 4.134083128367112,
-      "0.95": 5.609756295796314
+      "0.05": 0.3813330222170287,
+      "0.1": 0.56132051552592,
+      "0.5": 1.5804805000803557,
+      "0.9": 4.153459232105023,
+      "0.95": 5.7418825307375005
      },
-     "p_qualify": 0.0052,
+     "p_qualify": 0.0054,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "dupont-aignan",
      "name": "Nicolas Dupont-Aignan",
-     "poll_avg": 1.6182638315594238,
+     "poll_avg": 1.6183220189013554,
      "share_q": {
-      "0.05": 0.3544859207279052,
-      "0.1": 0.5262306981070022,
-      "0.5": 1.4654088105221132,
-      "0.9": 3.8648418251383543,
-      "0.95": 5.268515694886365
+      "0.05": 0.3434476497176907,
+      "0.1": 0.511955129989176,
+      "0.5": 1.4651161357776856,
+      "0.9": 3.9573011942171354,
+      "0.95": 5.3849252896592725
      },
-     "p_qualify": 0.0041,
+     "p_qualify": 0.0042,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "roussel",
      "name": "Fabien Roussel",
-     "poll_avg": 1.548713843468058,
+     "poll_avg": 1.5489189368392406,
      "share_q": {
-      "0.05": 0.34951010247520425,
-      "0.1": 0.5030432663083049,
-      "0.5": 1.424443210685903,
-      "0.9": 3.7503120365657594,
-      "0.95": 5.091738958685027
+      "0.05": 0.3302074628832286,
+      "0.1": 0.4801291638211266,
+      "0.5": 1.3982816002884764,
+      "0.9": 3.648133846650703,
+      "0.95": 4.969932241349782
      },
-     "p_qualify": 0.0038,
+     "p_qualify": 0.0059,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "arthaud",
      "name": "Nathalie Arthaud",
-     "poll_avg": 0.6839888674969014,
+     "poll_avg": 0.68443619856526,
      "share_q": {
-      "0.05": 0.14811285154199666,
-      "0.1": 0.21991955125795884,
-      "0.5": 0.6183404151283006,
-      "0.9": 1.6475501062765623,
-      "0.95": 2.272946275319565
+      "0.05": 0.1541774411273798,
+      "0.1": 0.21990248973203685,
+      "0.5": 0.6232868654353235,
+      "0.9": 1.6510588204707102,
+      "0.95": 2.2969550714686946
      },
-     "p_qualify": 0.0006,
+     "p_qualify": 0.0007,
      "p_win": null,
      "p_win_if_qualified": null
     }
@@ -4633,70 +4633,70 @@
     {
      "a": "le-pen",
      "b": "melenchon",
-     "p": 0.6291,
-     "p_a_wins": 0.9550151009378477,
+     "p": 0.6296,
+     "p_a_wins": 0.9575921219822109,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "lisnard",
-     "p": 0.1016,
-     "p_a_wins": null,
-     "polled": false
+     "p": 0.0965,
+     "p_a_wins": 0.6373056994818653,
+     "polled": true
     },
     {
      "a": "le-pen",
      "b": "glucksmann",
-     "p": 0.097,
-     "p_a_wins": 0.7474226804123711,
+     "p": 0.0958,
+     "p_a_wins": 0.7484342379958246,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "philippe",
-     "p": 0.0704,
-     "p_a_wins": 0.6846590909090909,
-     "polled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "retailleau",
-     "p": 0.0187,
-     "p_a_wins": 0.8288770053475936,
+     "p": 0.0697,
+     "p_a_wins": 0.7245337159253945,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "attal",
-     "p": 0.0153,
-     "p_a_wins": 0.738562091503268,
+     "p": 0.0194,
+     "p_a_wins": 0.7061855670103093,
      "polled": true
     },
     {
      "a": "le-pen",
-     "b": "riner",
-     "p": 0.0135,
+     "b": "retailleau",
+     "p": 0.0167,
+     "p_a_wins": 0.7065868263473054,
+     "polled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "zemmour",
+     "p": 0.0148,
      "p_a_wins": null,
      "polled": false
     },
     {
      "a": "le-pen",
-     "b": "zemmour",
-     "p": 0.0108,
+     "b": "riner",
+     "p": 0.0142,
      "p_a_wins": null,
-     "polled": false
-    },
-    {
-     "a": "melenchon",
-     "b": "glucksmann",
-     "p": 0.0048,
-     "p_a_wins": 0.14583333333333334,
      "polled": false
     },
     {
      "a": "melenchon",
      "b": "lisnard",
-     "p": 0.0044,
+     "p": 0.0046,
+     "p_a_wins": 0.043478260869565216,
+     "polled": false
+    },
+    {
+     "a": "le-pen",
+     "b": "tondelier",
+     "p": 0.0042,
      "p_a_wins": null,
      "polled": false
     }
@@ -4705,48 +4705,48 @@
     {
      "a": "le-pen",
      "b": "melenchon",
-     "p_a": 0.9547,
-     "share_a": 0.6393296405803168,
+     "p_a": 0.9567,
+     "share_a": 0.6451697796297393,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "lisnard",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
+     "p_a": 0.644,
+     "share_a": 0.5261042433698255,
+     "polled": true,
+     "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "glucksmann",
-     "p_a": 0.763,
-     "share_a": 0.5516789821668948,
+     "p_a": 0.7622,
+     "share_a": 0.5522502591780318,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "philippe",
-     "p_a": 0.6657,
-     "share_a": 0.5325574252173144,
+     "p_a": 0.7191,
+     "share_a": 0.5413332452478509,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "retailleau",
-     "p_a": 0.7782,
-     "share_a": 0.5551739132533546,
+     "p_a": 0.7783,
+     "share_a": 0.5580673315656931,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "attal",
-     "p_a": 0.6821,
-     "share_a": 0.5332529757696749,
+     "p_a": 0.679,
+     "share_a": 0.533565894081123,
      "polled": true,
      "unpolled": false
     },
@@ -4801,40 +4801,40 @@
     {
      "a": "melenchon",
      "b": "lisnard",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.0755,
+     "share_a": 0.3768178406193151,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "glucksmann",
-     "p_a": 0.1389,
-     "share_a": 0.40987549090105446,
+     "p_a": 0.1263,
+     "share_a": 0.40319355401636164,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "philippe",
-     "p_a": 0.0684,
-     "share_a": 0.38980335095567215,
+     "p_a": 0.0657,
+     "share_a": 0.38975996144254477,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "retailleau",
-     "p_a": 0.1456,
-     "share_a": 0.413700296169944,
+     "p_a": 0.1273,
+     "share_a": 0.40705538472236436,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "attal",
-     "p_a": 0.0977,
-     "share_a": 0.39280597116994986,
+     "p_a": 0.0858,
+     "share_a": 0.3851240353943426,
      "polled": false,
      "unpolled": false
     },
@@ -4889,34 +4889,34 @@
     {
      "a": "lisnard",
      "b": "glucksmann",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.6276,
+     "share_a": 0.5270931260268,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "lisnard",
      "b": "philippe",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.5771,
+     "share_a": 0.5148708451881612,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "lisnard",
      "b": "retailleau",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.6469,
+     "share_a": 0.5295195162792743,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "lisnard",
      "b": "attal",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.5326,
+     "share_a": 0.5061643698185989,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "lisnard",
@@ -4969,24 +4969,24 @@
     {
      "a": "glucksmann",
      "b": "philippe",
+     "p_a": 0.4423,
+     "share_a": 0.48859102558687173,
+     "polled": false,
+     "unpolled": false
+    },
+    {
+     "a": "glucksmann",
+     "b": "retailleau",
+     "p_a": 0.519,
+     "share_a": 0.5037744655473657,
+     "polled": false,
+     "unpolled": false
+    },
+    {
+     "a": "glucksmann",
+     "b": "attal",
      "p_a": 0.3997,
-     "share_a": 0.4801557871061043,
-     "polled": false,
-     "unpolled": false
-    },
-    {
-     "a": "glucksmann",
-     "b": "retailleau",
-     "p_a": 0.5288,
-     "share_a": 0.5058919095870499,
-     "polled": false,
-     "unpolled": false
-    },
-    {
-     "a": "glucksmann",
-     "b": "attal",
-     "p_a": 0.4026,
-     "share_a": 0.4820003717583744,
+     "share_a": 0.4797660686811984,
      "polled": false,
      "unpolled": false
     },
@@ -5041,16 +5041,16 @@
     {
      "a": "philippe",
      "b": "retailleau",
-     "p_a": 0.6262,
-     "share_a": 0.5253388567451236,
+     "p_a": 0.5759,
+     "share_a": 0.5143035013108868,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "philippe",
      "b": "attal",
-     "p_a": 0.5154,
-     "share_a": 0.5027560010910901,
+     "p_a": 0.4618,
+     "share_a": 0.4925799899618034,
      "polled": false,
      "unpolled": false
     },
@@ -5105,8 +5105,8 @@
     {
      "a": "retailleau",
      "b": "attal",
-     "p_a": 0.3848,
-     "share_a": 0.4781353109907506,
+     "p_a": 0.3872,
+     "share_a": 0.4762827855071823,
      "polled": false,
      "unpolled": false
     },
@@ -5659,140 +5659,140 @@
    "label": "sans Attal, sans Retailleau",
    "n_pollsters": 3,
    "delta_polls": null,
-   "d_eff": 161.61051829758085,
+   "d_eff": 161.57331346321826,
    "candidates": [
     {
      "id": "le-pen",
      "name": "Marine Le Pen",
-     "poll_avg": 37.97642858926495,
+     "poll_avg": 37.98045570830876,
      "share_q": {
-      "0.05": 23.182706920619577,
-      "0.1": 26.388248962645505,
-      "0.5": 35.8960598590656,
-      "0.9": 45.12219039765111,
-      "0.95": 48.33156873239833
+      "0.05": 22.97206637640908,
+      "0.1": 26.277951938729586,
+      "0.5": 35.989577942906294,
+      "0.9": 45.23203515291653,
+      "0.95": 48.30930236783422
      },
-     "p_qualify": 0.976,
-     "p_win": 0.8232,
-     "p_win_if_qualified": 0.8434426229508197
+     "p_qualify": 0.9707,
+     "p_win": 0.8358,
+     "p_win_if_qualified": 0.8610281240342021
     },
     {
      "id": "melenchon",
      "name": "Jean-Luc Mélenchon",
-     "poll_avg": 20.005435983341265,
+     "poll_avg": 20.008706384533376,
      "share_q": {
-      "0.05": 10.069517835143756,
-      "0.1": 12.140327397555719,
-      "0.5": 18.85538051640508,
-      "0.9": 26.83431529288176,
-      "0.95": 29.707966091507377
+      "0.05": 10.220242008632368,
+      "0.1": 12.075915981313653,
+      "0.5": 18.74933199801281,
+      "0.9": 26.83139935852551,
+      "0.95": 29.696256139575215
      },
-     "p_qualify": 0.5525,
-     "p_win": 0.0298,
-     "p_win_if_qualified": 0.05393665158371041
+     "p_qualify": 0.5399,
+     "p_win": 0.0256,
+     "p_win_if_qualified": 0.04741618818299685
     },
     {
      "id": "philippe",
      "name": "Édouard Philippe",
-     "poll_avg": 17.258310343018483,
+     "poll_avg": 17.25172548979047,
      "share_q": {
-      "0.05": 8.481764408199005,
-      "0.1": 10.183330800258515,
-      "0.5": 16.21619410621829,
-      "0.9": 24.074245883084238,
-      "0.95": 26.953756785648263
+      "0.05": 8.298834412531878,
+      "0.1": 10.047143936017008,
+      "0.5": 16.329392374186018,
+      "0.9": 24.197008727523777,
+      "0.95": 27.03921458333398
      },
-     "p_qualify": 0.3189,
-     "p_win": 0.1106,
-     "p_win_if_qualified": 0.3468171840702414
+     "p_qualify": 0.3322,
+     "p_win": 0.1029,
+     "p_win_if_qualified": 0.30975316074653825
     },
     {
      "id": "glucksmann",
      "name": "Raphaël Glucksmann",
-     "poll_avg": 12.229041032641597,
+     "poll_avg": 12.227692679607099,
      "share_q": {
-      "0.05": 5.2222850726829355,
-      "0.1": 6.570931311194303,
-      "0.5": 11.510121865025038,
-      "0.9": 18.725935708953564,
-      "0.95": 21.86827368367992
+      "0.05": 5.328227971315921,
+      "0.1": 6.554845235636507,
+      "0.5": 11.502811517183654,
+      "0.9": 18.652672361628692,
+      "0.95": 21.50733047618705
      },
      "p_qualify": 0.1067,
-     "p_win": 0.0306,
-     "p_win_if_qualified": 0.2867853795688847
+     "p_win": 0.0295,
+     "p_win_if_qualified": 0.27647610121836924
     },
     {
      "id": "zemmour",
      "name": "Éric Zemmour",
-     "poll_avg": 4.397552374106075,
+     "poll_avg": 4.395727150594502,
      "share_q": {
-      "0.05": 1.2572364911292413,
-      "0.1": 1.7285087873023894,
-      "0.5": 4.137443769892283,
-      "0.9": 9.168476961166464,
-      "0.95": 11.979365418767543
+      "0.05": 1.2271322547129715,
+      "0.1": 1.69831336977267,
+      "0.5": 4.117505326209572,
+      "0.9": 9.136331278698764,
+      "0.95": 11.833501285423763
      },
-     "p_qualify": 0.0149,
+     "p_qualify": 0.0155,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "roussel",
      "name": "Fabien Roussel",
-     "poll_avg": 2.847779940066874,
+     "poll_avg": 2.8487087358436134,
      "share_q": {
-      "0.05": 0.6482885583011797,
-      "0.1": 0.9528157380020201,
-      "0.5": 2.6759668178730127,
-      "0.9": 7.027954738445211,
-      "0.95": 9.686714161730064
+      "0.05": 0.6652753851785551,
+      "0.1": 0.9623054173914363,
+      "0.5": 2.69765293193269,
+      "0.9": 7.138622388407664,
+      "0.95": 10.210668289400566
      },
-     "p_qualify": 0.0141,
+     "p_qualify": 0.0161,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "tondelier",
      "name": "Marine Tondelier",
-     "poll_avg": 2.719904162890128,
+     "poll_avg": 2.7211570528994518,
      "share_q": {
-      "0.05": 0.6074738902612166,
-      "0.1": 0.8922206656381564,
-      "0.5": 2.5660173894077336,
-      "0.9": 6.8145671582529665,
-      "0.95": 9.433891291248015
+      "0.05": 0.5941905276302277,
+      "0.1": 0.8891233817746119,
+      "0.5": 2.5401329409238054,
+      "0.9": 6.865186273125399,
+      "0.95": 9.471213849798534
      },
-     "p_qualify": 0.0111,
+     "p_qualify": 0.0115,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "dupont-aignan",
      "name": "Nicolas Dupont-Aignan",
-     "poll_avg": 1.852890874397129,
+     "poll_avg": 1.8524202999944943,
      "share_q": {
-      "0.05": 0.4156588452484812,
-      "0.1": 0.606680466457443,
-      "0.5": 1.7430654717765799,
-      "0.9": 4.6580337243141745,
-      "0.95": 6.46677091886091
+      "0.05": 0.4190194869180264,
+      "0.1": 0.6138015460583186,
+      "0.5": 1.75989145036614,
+      "0.9": 4.855919096230049,
+      "0.95": 6.620084765130726
      },
-     "p_qualify": 0.0049,
+     "p_qualify": 0.006,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "arthaud",
      "name": "Nathalie Arthaud",
-     "poll_avg": 0.7126567002735084,
+     "poll_avg": 0.7134064984282362,
      "share_q": {
-      "0.05": 0.16404809153764238,
-      "0.1": 0.23680802580746066,
-      "0.5": 0.6738420307141361,
-      "0.9": 1.8421679810710307,
-      "0.95": 2.5996857346506457
+      "0.05": 0.15580435000170412,
+      "0.1": 0.22997511478180052,
+      "0.5": 0.66021518278673,
+      "0.9": 1.8093789389895174,
+      "0.95": 2.6091359676700185
      },
-     "p_qualify": 0.0009,
+     "p_qualify": 0.0014,
      "p_win": null,
      "p_win_if_qualified": null
     }
@@ -5801,22 +5801,22 @@
     {
      "a": "le-pen",
      "b": "melenchon",
-     "p": 0.5355,
-     "p_a_wins": 0.9493930905695611,
+     "p": 0.5215,
+     "p_a_wins": 0.9568552253116012,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "philippe",
-     "p": 0.3054,
-     "p_a_wins": 0.677472167648985,
+     "p": 0.3147,
+     "p_a_wins": 0.7203686050206546,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "glucksmann",
-     "p": 0.0991,
-     "p_a_wins": 0.7497477295660948,
+     "p": 0.0978,
+     "p_a_wins": 0.7617586912065439,
      "polled": true
     },
     {
@@ -5829,15 +5829,15 @@
     {
      "a": "le-pen",
      "b": "roussel",
-     "p": 0.0107,
+     "p": 0.0116,
      "p_a_wins": null,
      "polled": false
     },
     {
      "a": "melenchon",
      "b": "philippe",
-     "p": 0.0091,
-     "p_a_wins": 0.06593406593406594,
+     "p": 0.0102,
+     "p_a_wins": 0.058823529411764705,
      "polled": true
     },
     {
@@ -5848,24 +5848,24 @@
      "polled": false
     },
     {
+     "a": "philippe",
+     "b": "glucksmann",
+     "p": 0.0036,
+     "p_a_wins": 0.5,
+     "polled": false
+    },
+    {
      "a": "melenchon",
      "b": "glucksmann",
-     "p": 0.0043,
-     "p_a_wins": 0.13953488372093023,
+     "p": 0.0032,
+     "p_a_wins": 0.125,
      "polled": false
     },
     {
      "a": "le-pen",
      "b": "dupont-aignan",
-     "p": 0.0038,
+     "p": 0.003,
      "p_a_wins": null,
-     "polled": false
-    },
-    {
-     "a": "philippe",
-     "b": "glucksmann",
-     "p": 0.0017,
-     "p_a_wins": 0.5294117647058824,
      "polled": false
     }
    ],
@@ -5873,24 +5873,24 @@
     {
      "a": "le-pen",
      "b": "melenchon",
-     "p_a": 0.9523,
-     "share_a": 0.6400990553925137,
+     "p_a": 0.9592,
+     "share_a": 0.6440790226186115,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "philippe",
-     "p_a": 0.6688,
-     "share_a": 0.5324639031799872,
+     "p_a": 0.7186,
+     "share_a": 0.5418659296576949,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "glucksmann",
-     "p_a": 0.7572,
-     "share_a": 0.5534699922158779,
+     "p_a": 0.7615,
+     "share_a": 0.5526074796897643,
      "polled": true,
      "unpolled": false
     },
@@ -5937,16 +5937,16 @@
     {
      "a": "melenchon",
      "b": "philippe",
-     "p_a": 0.0745,
-     "share_a": 0.39148175242187583,
+     "p_a": 0.0756,
+     "share_a": 0.391095658700722,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "glucksmann",
-     "p_a": 0.1417,
-     "share_a": 0.41027576802746957,
+     "p_a": 0.1207,
+     "share_a": 0.4036180903176001,
      "polled": false,
      "unpolled": false
     },
@@ -5993,8 +5993,8 @@
     {
      "a": "philippe",
      "b": "glucksmann",
-     "p_a": 0.601,
-     "share_a": 0.5189217218700415,
+     "p_a": 0.5622,
+     "share_a": 0.5119781391824114,
      "polled": false,
      "unpolled": false
     },
@@ -6326,185 +6326,185 @@
    "label": "avec Lisnard",
    "n_pollsters": 3,
    "delta_polls": null,
-   "d_eff": 155.00974426901115,
+   "d_eff": 155.00853831606221,
    "candidates": [
     {
      "id": "le-pen",
      "name": "Marine Le Pen",
-     "poll_avg": 33.10481926847358,
+     "poll_avg": 33.10504804567619,
      "share_q": {
-      "0.05": 18.62992044214073,
-      "0.1": 21.678857493240073,
-      "0.5": 30.684429794072045,
-      "0.9": 39.38457270088003,
-      "0.95": 42.26301319449127
+      "0.05": 18.417391755436906,
+      "0.1": 21.53986113601716,
+      "0.5": 30.600492001689606,
+      "0.9": 39.14366618540464,
+      "0.95": 41.780823591655434
      },
-     "p_qualify": 0.9661,
-     "p_win": 0.8712,
-     "p_win_if_qualified": 0.9017700031052687
+     "p_qualify": 0.9633,
+     "p_win": 0.8514,
+     "p_win_if_qualified": 0.883836810962317
     },
     {
      "id": "melenchon",
      "name": "Jean-Luc Mélenchon",
-     "poll_avg": 18.340794636715867,
+     "poll_avg": 18.341680281654718,
      "share_q": {
-      "0.05": 8.557984756052228,
-      "0.1": 10.391265135698374,
-      "0.5": 16.804161139227926,
-      "0.9": 24.523390143954728,
-      "0.95": 27.49883481612439
+      "0.05": 8.860775417607465,
+      "0.1": 10.676162133640126,
+      "0.5": 16.99455494087283,
+      "0.9": 24.552734212271258,
+      "0.95": 27.581613561263097
      },
-     "p_qualify": 0.6675,
-     "p_win": 0.037,
-     "p_win_if_qualified": 0.05543071161048689
+     "p_qualify": 0.6776,
+     "p_win": 0.032,
+     "p_win_if_qualified": 0.047225501770956316
     },
     {
      "id": "philippe",
      "name": "Édouard Philippe",
-     "poll_avg": 10.234588504701538,
+     "poll_avg": 10.233862324838697,
      "share_q": {
-      "0.05": 3.9702350698152746,
-      "0.1": 5.1203830005826925,
-      "0.5": 9.298052132028937,
-      "0.9": 15.562790568679565,
-      "0.95": 18.10452114201989
+      "0.05": 4.057284897244236,
+      "0.1": 5.090311458281926,
+      "0.5": 9.448197116519122,
+      "0.9": 15.838907867554347,
+      "0.95": 18.38471253365125
      },
-     "p_qualify": 0.0961,
-     "p_win": 0.036,
-     "p_win_if_qualified": 0.3746097814776274
+     "p_qualify": 0.1017,
+     "p_win": 0.0351,
+     "p_win_if_qualified": 0.34513274336283184
     },
     {
      "id": "glucksmann",
      "name": "Raphaël Glucksmann",
-     "poll_avg": 9.983324328550465,
+     "poll_avg": 9.982866209653904,
      "share_q": {
-      "0.05": 3.88128729767627,
-      "0.1": 4.963328164006523,
-      "0.5": 9.151763154696773,
-      "0.9": 15.45492601514749,
-      "0.95": 18.374615662662762
+      "0.05": 3.8550588706413493,
+      "0.1": 5.009886226939661,
+      "0.5": 9.272130322057247,
+      "0.9": 15.497772700229245,
+      "0.95": 18.531918276111853
      },
-     "p_qualify": 0.0975,
-     "p_win": 0.0251,
-     "p_win_if_qualified": 0.25743589743589745
+     "p_qualify": 0.0959,
+     "p_win": 0.0273,
+     "p_win_if_qualified": 0.28467153284671537
     },
     {
      "id": "lisnard",
      "name": "David Lisnard",
-     "poll_avg": 9.317472392146104,
+     "poll_avg": 9.317143596463099,
      "share_q": {
-      "0.05": 3.5502396052971736,
-      "0.1": 4.516665018498968,
-      "0.5": 8.503350273173172,
-      "0.9": 14.768760605056281,
-      "0.95": 17.51167028476503
+      "0.05": 3.475491502609381,
+      "0.1": 4.505550023227551,
+      "0.5": 8.566503627451011,
+      "0.9": 14.569866325779119,
+      "0.95": 17.36114552697189
      },
-     "p_qualify": 0.081,
-     "p_win": null,
-     "p_win_if_qualified": null
+     "p_qualify": 0.0728,
+     "p_win": 0.0322,
+     "p_win_if_qualified": 0.4423076923076923
     },
     {
      "id": "retailleau",
      "name": "Bruno Retailleau",
-     "poll_avg": 4.858663556947712,
+     "poll_avg": 4.858574437259627,
      "share_q": {
-      "0.05": 1.3602497224885521,
-      "0.1": 1.901870560607075,
-      "0.5": 4.515286183052503,
-      "0.9": 9.500670483374488,
-      "0.95": 12.194484473800827
+      "0.05": 1.418230588505787,
+      "0.1": 1.9374701209673921,
+      "0.5": 4.470956095979524,
+      "0.9": 9.44534819020219,
+      "0.95": 12.086718043494784
      },
-     "p_qualify": 0.025,
-     "p_win": 0.0082,
-     "p_win_if_qualified": 0.328
+     "p_qualify": 0.0232,
+     "p_win": 0.0073,
+     "p_win_if_qualified": 0.31465517241379315
     },
     {
      "id": "attal",
      "name": "Gabriel Attal",
-     "poll_avg": 4.331642581123573,
+     "poll_avg": 4.331752368183163,
      "share_q": {
-      "0.05": 1.1508183675899386,
-      "0.1": 1.6392085483651446,
-      "0.5": 4.00229045869835,
-      "0.9": 8.86674337625209,
-      "0.95": 11.568959574792013
+      "0.05": 1.1941743180476183,
+      "0.1": 1.6573151427843553,
+      "0.5": 4.018101434878398,
+      "0.9": 8.795172381742473,
+      "0.95": 11.238631814220895
      },
-     "p_qualify": 0.0221,
+     "p_qualify": 0.0213,
      "p_win": 0.0085,
-     "p_win_if_qualified": 0.38461538461538464
+     "p_win_if_qualified": 0.3990610328638498
     },
     {
      "id": "tondelier",
      "name": "Marine Tondelier",
-     "poll_avg": 3.068406019066752,
+     "poll_avg": 3.068413120308868,
      "share_q": {
-      "0.05": 0.6634381450552788,
-      "0.1": 1.0131657401185459,
-      "0.5": 2.8467318108967246,
-      "0.9": 7.498631533110485,
-      "0.95": 10.35100453047412
+      "0.05": 0.6908184065435606,
+      "0.1": 1.0273297891225093,
+      "0.5": 2.806496910261946,
+      "0.9": 7.1799931278886735,
+      "0.95": 9.926616668190125
      },
-     "p_qualify": 0.0181,
+     "p_qualify": 0.0166,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "zemmour",
      "name": "Éric Zemmour",
-     "poll_avg": 2.730072837304997,
+     "poll_avg": 2.7303969686551444,
      "share_q": {
-      "0.05": 0.5973332967650248,
-      "0.1": 0.8798813920108698,
-      "0.5": 2.5277451766055217,
-      "0.9": 6.573468180047044,
-      "0.95": 9.012100022949209
+      "0.05": 0.592139716576547,
+      "0.1": 0.8946640154658856,
+      "0.5": 2.5727525518842373,
+      "0.9": 6.497879973123342,
+      "0.95": 8.940929247612061
      },
-     "p_qualify": 0.0133,
+     "p_qualify": 0.0146,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "dupont-aignan",
      "name": "Nicolas Dupont-Aignan",
-     "poll_avg": 1.783258436197067,
+     "poll_avg": 1.7831638579496747,
      "share_q": {
-      "0.05": 0.3762629743151093,
-      "0.1": 0.5683182077050769,
-      "0.5": 1.6570307014850887,
-      "0.9": 4.353778497357719,
-      "0.95": 5.977121622088712
+      "0.05": 0.388633630545501,
+      "0.1": 0.5673491923160652,
+      "0.5": 1.6119125276099662,
+      "0.9": 4.306211373942932,
+      "0.95": 6.058327899206529
      },
-     "p_qualify": 0.0064,
+     "p_qualify": 0.0065,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "roussel",
      "name": "Fabien Roussel",
-     "poll_avg": 1.4970057174106195,
+     "poll_avg": 1.49723917502605,
      "share_q": {
-      "0.05": 0.3348893287399923,
-      "0.1": 0.48713923357832417,
-      "0.5": 1.4053896221597335,
-      "0.9": 3.76917945367774,
-      "0.95": 5.1591001172010875
+      "0.05": 0.3148128289318583,
+      "0.1": 0.47891468301486123,
+      "0.5": 1.3550616574236372,
+      "0.9": 3.6181894441533626,
+      "0.95": 4.952870493465888
      },
-     "p_qualify": 0.0061,
+     "p_qualify": 0.0045,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "arthaud",
      "name": "Nathalie Arthaud",
-     "poll_avg": 0.7499517213617236,
+     "poll_avg": 0.7498596143308793,
      "share_q": {
-      "0.05": 0.15986873782452393,
-      "0.1": 0.2361999670198368,
-      "0.5": 0.6829176965672629,
-      "0.9": 1.8318277801973764,
-      "0.95": 2.5712197599746465
+      "0.05": 0.17515619969680926,
+      "0.1": 0.244017989158277,
+      "0.5": 0.6858093863924694,
+      "0.9": 1.8684900437603222,
+      "0.95": 2.5429201925337126
      },
-     "p_qualify": 0.0008,
+     "p_qualify": 0.002,
      "p_win": null,
      "p_win_if_qualified": null
     }
@@ -6513,49 +6513,49 @@
     {
      "a": "le-pen",
      "b": "melenchon",
-     "p": 0.6469,
-     "p_a_wins": 0.9520791466996444,
-     "polled": true
-    },
-    {
-     "a": "le-pen",
-     "b": "glucksmann",
-     "p": 0.0893,
-     "p_a_wins": 0.780515117581187,
+     "p": 0.6552,
+     "p_a_wins": 0.9568070818070818,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "philippe",
-     "p": 0.0866,
-     "p_a_wins": 0.6789838337182448,
+     "p": 0.0906,
+     "p_a_wins": 0.7030905077262694,
+     "polled": true
+    },
+    {
+     "a": "le-pen",
+     "b": "glucksmann",
+     "p": 0.0867,
+     "p_a_wins": 0.7600922722029988,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "lisnard",
-     "p": 0.0721,
-     "p_a_wins": null,
-     "polled": false
+     "p": 0.0655,
+     "p_a_wins": 0.601526717557252,
+     "polled": true
     },
     {
      "a": "le-pen",
      "b": "retailleau",
-     "p": 0.0205,
-     "p_a_wins": 0.7707317073170732,
+     "p": 0.0182,
+     "p_a_wins": 0.8021978021978022,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "attal",
-     "p": 0.0182,
-     "p_a_wins": 0.7087912087912088,
+     "p": 0.016,
+     "p_a_wins": 0.73125,
      "polled": true
     },
     {
      "a": "le-pen",
      "b": "tondelier",
-     "p": 0.0137,
+     "p": 0.0125,
      "p_a_wins": null,
      "polled": false
     },
@@ -6567,17 +6567,17 @@
      "polled": false
     },
     {
-     "a": "le-pen",
-     "b": "dupont-aignan",
-     "p": 0.0047,
-     "p_a_wins": null,
-     "polled": false
+     "a": "melenchon",
+     "b": "philippe",
+     "p": 0.0058,
+     "p_a_wins": 0.05172413793103448,
+     "polled": true
     },
     {
      "a": "melenchon",
-     "b": "lisnard",
-     "p": 0.0043,
-     "p_a_wins": null,
+     "b": "glucksmann",
+     "p": 0.005,
+     "p_a_wins": 0.12,
      "polled": false
     }
    ],
@@ -6585,48 +6585,48 @@
     {
      "a": "le-pen",
      "b": "melenchon",
-     "p_a": 0.9533,
-     "share_a": 0.6396732322637928,
+     "p_a": 0.9567,
+     "share_a": 0.6436658782178926,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "philippe",
-     "p_a": 0.6743,
-     "share_a": 0.5322939042331818,
+     "p_a": 0.7198,
+     "share_a": 0.5432030635328804,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "glucksmann",
-     "p_a": 0.7644,
-     "share_a": 0.553917924591116,
+     "p_a": 0.7596,
+     "share_a": 0.5515742652349744,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "lisnard",
-     "p_a": null,
-     "share_a": null,
-     "polled": false,
-     "unpolled": true
+     "p_a": 0.6316,
+     "share_a": 0.5243569963009904,
+     "polled": true,
+     "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "retailleau",
-     "p_a": 0.7831,
-     "share_a": 0.5566334739052079,
+     "p_a": 0.7736,
+     "share_a": 0.5556275090163788,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "le-pen",
      "b": "attal",
-     "p_a": 0.6804,
-     "share_a": 0.5343903377206036,
+     "p_a": 0.6812,
+     "share_a": 0.533863389927068,
      "polled": true,
      "unpolled": false
     },
@@ -6673,40 +6673,40 @@
     {
      "a": "melenchon",
      "b": "philippe",
-     "p_a": 0.0714,
-     "share_a": 0.39003167917587794,
+     "p_a": 0.0703,
+     "share_a": 0.39215570340869177,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "glucksmann",
-     "p_a": 0.1309,
-     "share_a": 0.40830796189874047,
+     "p_a": 0.1202,
+     "share_a": 0.40402816614120096,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "lisnard",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.0782,
+     "share_a": 0.3771316402196054,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "retailleau",
-     "p_a": 0.1439,
-     "share_a": 0.4137368253051154,
+     "p_a": 0.1307,
+     "share_a": 0.40723082963285206,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "attal",
-     "p_a": 0.0949,
-     "share_a": 0.3913268242628164,
+     "p_a": 0.0868,
+     "share_a": 0.38701701042542197,
      "polled": false,
      "unpolled": false
     },
@@ -6753,32 +6753,32 @@
     {
      "a": "philippe",
      "b": "glucksmann",
-     "p_a": 0.5994,
-     "share_a": 0.5199008405956342,
+     "p_a": 0.5538,
+     "share_a": 0.5115487146510023,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "philippe",
      "b": "lisnard",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.4211,
+     "share_a": 0.4843890187491823,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "philippe",
      "b": "retailleau",
-     "p_a": 0.626,
-     "share_a": 0.5257884007105876,
+     "p_a": 0.5711,
+     "share_a": 0.5148858935108676,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "philippe",
      "b": "attal",
-     "p_a": 0.5101,
-     "share_a": 0.5018588312121149,
+     "p_a": 0.4589,
+     "share_a": 0.49135663097244364,
      "polled": false,
      "unpolled": false
     },
@@ -6825,24 +6825,24 @@
     {
      "a": "glucksmann",
      "b": "lisnard",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.364,
+     "share_a": 0.4724362365806014,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "glucksmann",
      "b": "retailleau",
-     "p_a": 0.5249,
-     "share_a": 0.5044551292940054,
+     "p_a": 0.5105,
+     "share_a": 0.5017276189369092,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "glucksmann",
      "b": "attal",
-     "p_a": 0.4124,
-     "share_a": 0.4823732403702248,
+     "p_a": 0.4149,
+     "share_a": 0.4823179107973424,
      "polled": false,
      "unpolled": false
     },
@@ -6889,18 +6889,18 @@
     {
      "a": "lisnard",
      "b": "retailleau",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.655,
+     "share_a": 0.5300919649670894,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "lisnard",
      "b": "attal",
-     "p_a": null,
-     "share_a": null,
+     "p_a": 0.5436,
+     "share_a": 0.5094461967464474,
      "polled": false,
-     "unpolled": true
+     "unpolled": false
     },
     {
      "a": "lisnard",
@@ -6945,8 +6945,8 @@
     {
      "a": "retailleau",
      "b": "attal",
-     "p_a": 0.3832,
-     "share_a": 0.4752991488054199,
+     "p_a": 0.3874,
+     "share_a": 0.47741574623733524,
      "polled": false,
      "unpolled": false
     },
@@ -7397,170 +7397,170 @@
    "label": "Liste de référence",
    "n_pollsters": null,
    "delta_polls": 24,
-   "d_eff": 167.22394493692454,
+   "d_eff": 166.04188748302334,
    "candidates": [
     {
      "id": "bardella",
      "name": "Jordan Bardella",
-     "poll_avg": 35.73217154571102,
+     "poll_avg": 35.7022279168104,
      "share_q": {
-      "0.05": 19.886054697085775,
-      "0.1": 23.30483653841318,
-      "0.5": 32.996410379255494,
-      "0.9": 42.097350313906205,
-      "0.95": 44.936491354468224
+      "0.05": 20.42581885399322,
+      "0.1": 23.687877245533283,
+      "0.5": 32.97109849713273,
+      "0.9": 42.116939447416414,
+      "0.95": 45.146823089969786
      },
-     "p_qualify": 0.9719,
-     "p_win": 0.8667,
-     "p_win_if_qualified": 0.8917584113591934
+     "p_qualify": 0.9751,
+     "p_win": 0.8836,
+     "p_win_if_qualified": 0.906163470413291
     },
     {
      "id": "melenchon",
      "name": "Jean-Luc Mélenchon",
-     "poll_avg": 17.22852488331794,
+     "poll_avg": 17.443449944412134,
      "share_q": {
-      "0.05": 8.194282835201305,
-      "0.1": 9.885884361695348,
-      "0.5": 15.938935115143996,
-      "0.9": 23.459500825667774,
-      "0.95": 26.38839136072907
+      "0.05": 8.26114890501867,
+      "0.1": 9.935366002978922,
+      "0.5": 16.223625834626556,
+      "0.9": 23.816950135706858,
+      "0.95": 27.12877913622411
      },
-     "p_qualify": 0.5661,
-     "p_win": 0.0198,
-     "p_win_if_qualified": 0.034976152623211444
+     "p_qualify": 0.5842,
+     "p_win": 0.0208,
+     "p_win_if_qualified": 0.03560424512153371
     },
     {
      "id": "glucksmann",
      "name": "Raphaël Glucksmann",
-     "poll_avg": 12.287876731289574,
+     "poll_avg": 12.252581188419093,
      "share_q": {
-      "0.05": 5.137875603262041,
-      "0.1": 6.449725087685021,
-      "0.5": 11.40383455593076,
-      "0.9": 18.56294498079202,
-      "0.95": 21.41352682257797
+      "0.05": 5.119374081606305,
+      "0.1": 6.502622690060615,
+      "0.5": 11.39299500613184,
+      "0.9": 18.382455570888318,
+      "0.95": 21.13621039944995
      },
-     "p_qualify": 0.1915,
-     "p_win": 0.0433,
-     "p_win_if_qualified": 0.2261096605744125
+     "p_qualify": 0.1837,
+     "p_win": 0.0383,
+     "p_win_if_qualified": 0.2084921066956995
     },
     {
      "id": "philippe",
      "name": "Édouard Philippe",
-     "poll_avg": 11.389170413487921,
+     "poll_avg": 11.372156763545533,
      "share_q": {
-      "0.05": 4.602435341757785,
-      "0.1": 5.818650969670693,
-      "0.5": 10.4973953289989,
-      "0.9": 17.21760754315852,
-      "0.95": 20.109429097487126
+      "0.05": 4.640063794982899,
+      "0.1": 5.773722412796374,
+      "0.5": 10.46247799136825,
+      "0.9": 17.184983233872767,
+      "0.95": 20.10704384387494
      },
-     "p_qualify": 0.1482,
-     "p_win": 0.0458,
-     "p_win_if_qualified": 0.30904183535762486
+     "p_qualify": 0.143,
+     "p_win": 0.0343,
+     "p_win_if_qualified": 0.23986013986013985
     },
     {
      "id": "retailleau",
      "name": "Bruno Retailleau",
-     "poll_avg": 6.098850163715982,
+     "poll_avg": 6.064845121514801,
      "share_q": {
-      "0.05": 1.98327222052475,
-      "0.1": 2.6381713622407843,
-      "0.5": 5.715904401417244,
-      "0.9": 11.308214318586167,
-      "0.95": 14.08132186092072
+      "0.05": 1.9138986070591995,
+      "0.1": 2.5729265524252787,
+      "0.5": 5.589570193654484,
+      "0.9": 11.202111138002705,
+      "0.95": 13.998599381739622
      },
-     "p_qualify": 0.0353,
-     "p_win": 0.009,
-     "p_win_if_qualified": 0.254957507082153
+     "p_qualify": 0.0333,
+     "p_win": 0.0084,
+     "p_win_if_qualified": 0.25225225225225223
     },
     {
      "id": "attal",
      "name": "Gabriel Attal",
-     "poll_avg": 5.524351139089877,
+     "poll_avg": 5.445892406975945,
      "share_q": {
-      "0.05": 1.676578240985485,
-      "0.1": 2.284942979597494,
-      "0.5": 5.1217694229142925,
-      "0.9": 10.624191548645403,
-      "0.95": 13.237212749477312
+      "0.05": 1.635696708412837,
+      "0.1": 2.2230025849053052,
+      "0.5": 5.0119100061361905,
+      "0.9": 10.617083800812846,
+      "0.95": 13.230611557528283
      },
-     "p_qualify": 0.0289,
-     "p_win": 0.0091,
-     "p_win_if_qualified": 0.31487889273356406
+     "p_qualify": 0.0287,
+     "p_win": 0.0097,
+     "p_win_if_qualified": 0.33797909407665505
     },
     {
      "id": "zemmour",
      "name": "Éric Zemmour",
-     "poll_avg": 3.740436725333013,
+     "poll_avg": 3.7374835617230544,
      "share_q": {
-      "0.05": 0.9320941348673226,
-      "0.1": 1.3250157341381261,
-      "0.5": 3.4488181408800984,
-      "0.9": 8.38727639882794,
-      "0.95": 11.276283390390205
+      "0.05": 0.9245928513910321,
+      "0.1": 1.315536693891691,
+      "0.5": 3.4245239226184303,
+      "0.9": 8.114344535093473,
+      "0.95": 10.608219379294178
      },
-     "p_qualify": 0.0213,
+     "p_qualify": 0.0169,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "tondelier",
      "name": "Marine Tondelier",
-     "poll_avg": 3.059852400162803,
+     "poll_avg": 3.0593024699825495,
      "share_q": {
-      "0.05": 0.6906924936344635,
-      "0.1": 1.0107296159832138,
-      "0.5": 2.8384190688048845,
-      "0.9": 7.503918297999684,
-      "0.95": 10.116728124702135
+      "0.05": 0.6691722283361378,
+      "0.1": 0.9895797120262568,
+      "0.5": 2.819971264553525,
+      "0.9": 7.373256645673037,
+      "0.95": 9.946706744748731
      },
-     "p_qualify": 0.0181,
+     "p_qualify": 0.0163,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "roussel",
      "name": "Fabien Roussel",
-     "poll_avg": 2.2215135377476396,
+     "poll_avg": 2.1785723531336103,
      "share_q": {
-      "0.05": 0.484997422979473,
-      "0.1": 0.7020732807304869,
-      "0.5": 2.024704878933517,
-      "0.9": 5.381043940888956,
-      "0.95": 7.4829031109917885
+      "0.05": 0.4604898540470723,
+      "0.1": 0.6846825230833553,
+      "0.5": 2.000284299733188,
+      "0.9": 5.293354378606181,
+      "0.95": 7.386782343332296
      },
-     "p_qualify": 0.0085,
+     "p_qualify": 0.0092,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "dupont-aignan",
      "name": "Nicolas Dupont-Aignan",
-     "poll_avg": 2.1532959973162886,
+     "poll_avg": 2.174097781100856,
      "share_q": {
-      "0.05": 0.47154288102756536,
-      "0.1": 0.6912054950643999,
-      "0.5": 2.0062712991515084,
-      "0.9": 5.433323283696525,
-      "0.95": 7.602363467463266
+      "0.05": 0.4876345539139219,
+      "0.1": 0.6894919508898931,
+      "0.5": 1.9873501632256123,
+      "0.9": 5.49985026716902,
+      "0.95": 7.651954267067432
      },
-     "p_qualify": 0.0099,
+     "p_qualify": 0.0092,
      "p_win": null,
      "p_win_if_qualified": null
     },
     {
      "id": "arthaud",
      "name": "Nathalie Arthaud",
-     "poll_avg": 0.5639564628279384,
+     "poll_avg": 0.5693904923820247,
      "share_q": {
-      "0.05": 0.1204679045174532,
-      "0.1": 0.18020911121199906,
-      "0.5": 0.5224250937986838,
-      "0.9": 1.4199276199734883,
-      "0.95": 2.0169371800148523
+      "0.05": 0.12106082809331972,
+      "0.1": 0.17644638088807732,
+      "0.5": 0.5239124189656776,
+      "0.9": 1.4660626958969984,
+      "0.95": 2.0168480201547005
      },
-     "p_qualify": 0.0003,
+     "p_qualify": 0.0004,
      "p_win": null,
      "p_win_if_qualified": null
     }
@@ -7569,71 +7569,71 @@
     {
      "a": "bardella",
      "b": "melenchon",
-     "p": 0.5492,
-     "p_a_wins": 0.9712308812818645,
+     "p": 0.5694,
+     "p_a_wins": 0.9696171408500176,
      "polled": false
     },
     {
      "a": "bardella",
      "b": "glucksmann",
-     "p": 0.1813,
-     "p_a_wins": 0.8019856591285163,
+     "p": 0.1747,
+     "p_a_wins": 0.8196908986834573,
      "polled": false
     },
     {
      "a": "bardella",
      "b": "philippe",
-     "p": 0.14,
-     "p_a_wins": 0.7192857142857143,
+     "p": 0.1353,
+     "p_a_wins": 0.7923133776792314,
      "polled": false
     },
     {
      "a": "bardella",
      "b": "retailleau",
-     "p": 0.0308,
-     "p_a_wins": 0.8246753246753247,
+     "p": 0.0293,
+     "p_a_wins": 0.7952218430034129,
      "polled": false
     },
     {
      "a": "bardella",
      "b": "attal",
-     "p": 0.0256,
-     "p_a_wins": 0.7421875,
+     "p": 0.0248,
+     "p_a_wins": 0.7379032258064516,
      "polled": false
     },
     {
      "a": "bardella",
      "b": "zemmour",
-     "p": 0.017,
+     "p": 0.0143,
      "p_a_wins": null,
      "polled": false
     },
     {
      "a": "bardella",
      "b": "tondelier",
-     "p": 0.014,
-     "p_a_wins": null,
-     "polled": false
-    },
-    {
-     "a": "bardella",
-     "b": "dupont-aignan",
-     "p": 0.0074,
+     "p": 0.0132,
      "p_a_wins": null,
      "polled": false
     },
     {
      "a": "bardella",
      "b": "roussel",
-     "p": 0.0065,
+     "p": 0.0071,
+     "p_a_wins": null,
+     "polled": false
+    },
+    {
+     "a": "bardella",
+     "b": "dupont-aignan",
+     "p": 0.0069,
      "p_a_wins": null,
      "polled": false
     },
     {
      "a": "melenchon",
      "b": "glucksmann",
-     "p": 0.0048,
-     "p_a_wins": 0.20833333333333334,
+     "p": 0.005,
+     "p_a_wins": 0.1,
      "polled": false
     }
    ],
@@ -7641,40 +7641,40 @@
     {
      "a": "bardella",
      "b": "melenchon",
-     "p_a": 0.9684,
-     "share_a": 0.6527247110573897,
+     "p_a": 0.9676,
+     "share_a": 0.659028495670217,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "bardella",
      "b": "glucksmann",
-     "p_a": 0.8147,
-     "share_a": 0.5670058287062063,
+     "p_a": 0.8144,
+     "share_a": 0.5687324611959839,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "bardella",
      "b": "philippe",
-     "p_a": 0.7347,
-     "share_a": 0.5467618883765859,
+     "p_a": 0.7807,
+     "share_a": 0.5572183774984427,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "bardella",
      "b": "retailleau",
-     "p_a": 0.8301,
-     "share_a": 0.5714376107566562,
+     "p_a": 0.8151,
+     "share_a": 0.571493203345117,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "bardella",
      "b": "attal",
-     "p_a": 0.7423,
-     "share_a": 0.5486087971771391,
+     "p_a": 0.7439,
+     "share_a": 0.5498171435423634,
      "polled": false,
      "unpolled": false
     },
@@ -7721,32 +7721,32 @@
     {
      "a": "melenchon",
      "b": "glucksmann",
-     "p_a": 0.1403,
-     "share_a": 0.40807492054744765,
+     "p_a": 0.1204,
+     "share_a": 0.40279545476544537,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "philippe",
-     "p_a": 0.07,
-     "share_a": 0.3904234565409883,
+     "p_a": 0.0712,
+     "share_a": 0.3904368501352312,
      "polled": true,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "retailleau",
-     "p_a": 0.1493,
-     "share_a": 0.41603074263866957,
+     "p_a": 0.1291,
+     "share_a": 0.4058073641280394,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "melenchon",
      "b": "attal",
-     "p_a": 0.1021,
-     "share_a": 0.39173034023816466,
+     "p_a": 0.0855,
+     "share_a": 0.38300148588682326,
      "polled": false,
      "unpolled": false
     },
@@ -7793,24 +7793,24 @@
     {
      "a": "glucksmann",
      "b": "philippe",
-     "p_a": 0.3918,
-     "share_a": 0.4790003062304958,
+     "p_a": 0.4371,
+     "share_a": 0.4879079991675392,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "glucksmann",
      "b": "retailleau",
-     "p_a": 0.5237,
-     "share_a": 0.5047076355053673,
+     "p_a": 0.519,
+     "share_a": 0.5035980927101114,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "glucksmann",
      "b": "attal",
-     "p_a": 0.3931,
-     "share_a": 0.4791431402687573,
+     "p_a": 0.4043,
+     "share_a": 0.48044667182045353,
      "polled": false,
      "unpolled": false
     },
@@ -7857,16 +7857,16 @@
     {
      "a": "philippe",
      "b": "retailleau",
-     "p_a": 0.6241,
-     "share_a": 0.5247998194306284,
+     "p_a": 0.5809,
+     "share_a": 0.5161609864031493,
      "polled": false,
      "unpolled": false
     },
     {
      "a": "philippe",
      "b": "attal",
-     "p_a": 0.5072,
-     "share_a": 0.5015375808509094,
+     "p_a": 0.4591,
+     "share_a": 0.4915694411499507,
      "polled": false,
      "unpolled": false
     },
@@ -7913,8 +7913,8 @@
     {
      "a": "retailleau",
      "b": "attal",
-     "p_a": 0.3836,
-     "share_a": 0.4773160647319654,
+     "p_a": 0.3904,
+     "share_a": 0.47794700761660375,
      "polled": false,
      "unpolled": false
     },
@@ -8305,14 +8305,6 @@
  },
  "polls_used": [
   {
-   "pollster": "opinionway",
-   "start": "2026-10-13",
-   "end": "2026-10-14",
-   "n": 1001,
-   "sponsor": "Les Echos, Radio Classique",
-   "ref": "https://www.commission-des-sondages.fr/notices/medias/fichiers/add/2378"
-  },
-  {
    "pollster": "yougov",
    "start": "2026-10-12",
    "end": "2026-10-15",
@@ -8337,20 +8329,20 @@
    "ref": "https://www.commission-des-sondages.fr/notices/medias/fichiers/add/2343"
   },
   {
-   "pollster": "ipsos",
-   "start": "2026-10-21",
-   "end": "2026-10-22",
-   "n": 1500,
-   "sponsor": "Le Parisien",
-   "ref": "https://www.commission-des-sondages.fr/notices/medias/fichiers/add/2357"
-  },
-  {
    "pollster": "cluster17",
    "start": "2026-10-19",
    "end": "2026-10-22",
    "n": 3000,
    "sponsor": "Politico",
    "ref": "https://www.commission-des-sondages.fr/notices/medias/fichiers/add/2361"
+  },
+  {
+   "pollster": "ipsos",
+   "start": "2026-10-21",
+   "end": "2026-10-22",
+   "n": 1500,
+   "sponsor": "Le Parisien",
+   "ref": "https://www.commission-des-sondages.fr/notices/medias/fichiers/add/2357"
   },
   {
    "pollster": "ifop",
@@ -8377,20 +8369,20 @@
    "ref": "https://www.commission-des-sondages.fr/notices/medias/fichiers/add/2381"
   },
   {
-   "pollster": "cluster17",
-   "start": "2026-11-09",
-   "end": "2026-11-10",
-   "n": 1242,
-   "sponsor": "Politico",
-   "ref": "https://www.commission-des-sondages.fr/notices/medias/fichiers/add/2387"
-  },
-  {
    "pollster": "opinionway",
    "start": "2026-11-09",
    "end": "2026-11-10",
    "n": 1017,
    "sponsor": "Les Echos, Radio Classique",
    "ref": "https://www.commission-des-sondages.fr/notices/medias/fichiers/add/2396"
+  },
+  {
+   "pollster": "cluster17",
+   "start": "2026-11-09",
+   "end": "2026-11-10",
+   "n": 1242,
+   "sponsor": "Politico",
+   "ref": "https://www.commission-des-sondages.fr/notices/medias/fichiers/add/2387"
   },
   {
    "pollster": "opinionway",
@@ -8445,51 +8437,61 @@
   {
    "a": "attal",
    "b": "le-pen",
-   "logit_a": -0.23205277541003386,
-   "n_eff": 1.8300807334822875,
+   "logit_a": -0.23184148236951063,
+   "n_eff": 1.82029354204483,
    "n_polls": 5,
    "last": "2026-11-17",
-   "d_eff": 179.21093021780712,
+   "d_eff": 179.08304398147592,
    "extra_sd": 0.0
   },
   {
    "a": "glucksmann",
    "b": "le-pen",
-   "logit_a": -0.3046297331279634,
-   "n_eff": 4.54146004939555,
+   "logit_a": -0.3077329545136591,
+   "n_eff": 4.2242514511260865,
    "n_polls": 5,
-   "last": "2026-11-17",
-   "d_eff": 173.9637270624862,
+   "last": "2026-11-26",
+   "d_eff": 168.58213728221463,
    "extra_sd": 0.0
   },
   {
    "a": "hollande",
    "b": "le-pen",
-   "logit_a": -0.3033336155987192,
-   "n_eff": 1.87572928435701,
+   "logit_a": -0.30338405401191193,
+   "n_eff": 1.875169333140486,
    "n_polls": 2,
    "last": "2026-10-19",
-   "d_eff": 197.48521093171928,
+   "d_eff": 197.4839754128976,
+   "extra_sd": 0.0
+  },
+  {
+   "a": "le-pen",
+   "b": "lisnard",
+   "logit_a": 0.20067069546215127,
+   "n_eff": 1.0,
+   "n_polls": 1,
+   "last": "2026-11-26",
+   "d_eff": 157.0,
    "extra_sd": 0.0
   },
   {
    "a": "le-pen",
    "b": "melenchon",
-   "logit_a": 0.6687360857522399,
-   "n_eff": 4.295881560327389,
+   "logit_a": 0.6931123858868763,
+   "n_eff": 4.368675040061499,
    "n_polls": 6,
-   "last": "2026-11-19",
-   "d_eff": 170.85590090059205,
+   "last": "2026-11-26",
+   "d_eff": 166.91360412225893,
    "extra_sd": 0.0
   },
   {
    "a": "le-pen",
    "b": "philippe",
-   "logit_a": 0.22383530390909318,
-   "n_eff": 4.8869438730912975,
+   "logit_a": 0.26651541424207675,
+   "n_eff": 4.492650480150259,
    "n_polls": 6,
-   "last": "2026-11-17",
-   "d_eff": 175.5141956001383,
+   "last": "2026-11-26",
+   "d_eff": 170.03267424533493,
    "extra_sd": 0.0
   },
   {
